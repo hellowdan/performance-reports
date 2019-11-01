@@ -3,13 +3,14 @@ package org.benchmarks.reports.util;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class JsonLoader {
 
-    public static JSONArray getParsedData(FileReader reader) {
+    public static JSONArray getParsedData(Reader reader) {
         org.json.simple.parser.JSONParser jsonParser = new org.json.simple.parser.JSONParser();
         JSONArray jsonArray = new JSONArray();
 
@@ -28,13 +29,25 @@ public class JsonLoader {
         return jsonArray;
     }
 
-    public static JSONArray getDataFromJson(String filename) {
+    public static JSONArray getDataFromJson(String jsonFile) {
         JSONArray jsonArray = null;
+        boolean isWeb = jsonFile.trim().toLowerCase().startsWith("http://") || jsonFile.trim().toLowerCase().startsWith("https://");
+        Reader input = null;
 
         try {
-            FileReader reader = new FileReader(filename);
-            jsonArray = getParsedData(reader);
-        } catch (FileNotFoundException e) {
+            if (isWeb) {
+                URL urlCSV = new URL(jsonFile);
+                URLConnection urlConn = urlCSV.openConnection();
+                InputStreamReader inputCSV = new InputStreamReader((urlConn).getInputStream());
+                input = new BufferedReader(inputCSV);
+            } else {
+                input = new FileReader(jsonFile);
+            }
+            jsonArray = getParsedData(input);
+
+        } catch (FileNotFoundException | MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

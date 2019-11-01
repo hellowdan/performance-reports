@@ -47,7 +47,7 @@ public class DroolsProperties extends ReportProperties {
         this.folderTitle = this.properties.getProperty("folder_title");
         this.buildtimeResults = this.properties.getProperty("buildtime_results");
         this.runtimeResults = this.properties.getProperty("runtime_results");
-        this.useCsv = this.properties.getProperty("use_csv") == "true";
+        this.useCsv = this.properties.getProperty("use_csv").equals("true");
         this.googleApiKeyFile = this.properties.getProperty("google_api_key_file");
     }
 
