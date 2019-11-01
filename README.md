@@ -16,6 +16,13 @@ There is a **.properties file** in the * *drools.reports.resources folder* *. It
 - folder ID to place the generated report
 - csv as alternative
 
+## Google Auth
+If you want to run the app, it's necessary to create a Google API Key. 
+1. Follow the instructions: https://developers.google.com/maps/documentation/javascript/get-api-key
+2. Download the Google API Key File (Json format)
+3. Rename the file to "client_secret.json"
+4. Place the file on this folder: src/main/java/org/benchmarks/reports/resources/client_secret.json
+
 ## TO-DO
 1. draw chats and place them in the document
 2. do the authentication process automated
