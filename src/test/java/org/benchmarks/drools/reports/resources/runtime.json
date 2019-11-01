@@ -1,0 +1,232 @@
+[
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.AdvOperators2ExpertBenchmark.timeFactsInsertionAndRulesFiring",
+    "Mode": "avgt",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 414.543258,
+    "Score Error (99.9%)": 16.985221,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.AdvOperators3ExpertBenchmark.timeFactsInsertionAndRulesFiring",
+    "Mode": "avgt",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 266.793379,
+    "Score Error (99.9%)": 1.914867,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.AdvOperators4ExpertBenchmark.timeFactsInsertionAndRulesFiring",
+    "Mode": "avgt",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 204.154609,
+    "Score Error (99.9%)": 1.30984,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.AdvOperatorsExpertBenchmark.timeFactsInsertionAndRulesFiring",
+    "Mode": "avgt",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 618.8833,
+    "Score Error (99.9%)": 14.673503,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.AfterBeforeFusionBenchmark.timeEventsInsertionAndRulesFiring",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 1035.814029,
+    "Score Error (99.9%)": 13.648537,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.CoincidesDuringFusionBenchmark.timeEventsInsertionAndRulesFiring",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 676.428962,
+    "Score Error (99.9%)": 11.952845,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.FinishesFinishedbyFusionBenchmark.timeEventsInsertionAndRulesFiring",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 628.515259,
+    "Score Error (99.9%)": 15.115031,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.InsertFactsIntoWmExpertBenchmark.timeFactsInsertionAndRulesFiring",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 2593.383016,
+    "Score Error (99.9%)": 40.939369,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.InsertLogicalFactsIntoWmExpertBenchmark.timeFactsInsertionAndRulesFiring",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 1404.059975,
+    "Score Error (99.9%)": 19.344622,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.MeetsMetbyFusionBenchmark.timeEventsInsertionAndRulesFiring",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 662.723353,
+    "Score Error (99.9%)": 12.542456,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.OverlapsOverlappedbyFusionBenchmark.timeEventsInsertionAndRulesFiring",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 1051.9946,
+    "Score Error (99.9%)": 19.550076,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.RetractFactsFromWmExpertBenchmark.timeFactsInsertionAndRulesFiring",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 1521.778099,
+    "Score Error (99.9%)": 61.767978,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.SimpleDummyFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiring",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 297.090481,
+    "Score Error (99.9%)": 13.568476,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateful",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 654.427567,
+    "Score Error (99.9%)": 20.963298,
+    "Unit": "ms/op",
+    "Param: matchRatio": 0
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateful",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 1296.125945,
+    "Score Error (99.9%)": 20.598029,
+    "Unit": "ms/op",
+    "Param: matchRatio": 0.5
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateful",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 1587.244696,
+    "Score Error (99.9%)": 25.532179,
+    "Unit": "ms/op",
+    "Param: matchRatio": 1
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateless",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 660.853689,
+    "Score Error (99.9%)": 18.555457,
+    "Unit": "ms/op",
+    "Param: matchRatio": 0
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateless",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 1302.049241,
+    "Score Error (99.9%)": 22.020835,
+    "Unit": "ms/op",
+    "Param: matchRatio": 0.5
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateless",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 1610.987282,
+    "Score Error (99.9%)": 37.518552,
+    "Unit": "ms/op",
+    "Param: matchRatio": 1
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.StandardOperatorsExpertBenchmark.timeFactsInsertionAndRulesFiring",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 541.150483,
+    "Score Error (99.9%)": 5.247449,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.StartsStartedbyFusionBenchmark.timeEventsInsertionAndRulesFiring",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 537.184801,
+    "Score Error (99.9%)": 7.016345,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.UpdateFactsInWmExpertBenchmark.timeFactsInsertionAndRulesFiring",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 519.487285,
+    "Score Error (99.9%)": 13.631441,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  },
+  {
+    "Benchmark": "org.drools.benchmarks.turtle.runtime.WmManipulationExpertBenchmark.timeFactsInsertionAndRulesFiring",
+    "Mode": "ss",
+    "Threads": 1,
+    "Samples": 100,
+    "Score": 3492.571613,
+    "Score Error (99.9%)": 10.726533,
+    "Unit": "ms/op",
+    "Param: matchRatio": ""
+  }
+]
