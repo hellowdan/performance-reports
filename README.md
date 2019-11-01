@@ -1,7 +1,6 @@
 README
 
-Overview
-This project follows this flow:
+This project follows the flow:
 1. reads tests results data from Jenkins output (json or csv)
 2. creates a new folder to place the genarated files
 3. creates a spreadsheet from a template in a Google Drive folder [2]
