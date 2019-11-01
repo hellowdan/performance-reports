@@ -25,6 +25,12 @@ public class DroolsReport extends Report {
         this.reportProperties = reportProperties;
     }
 
+    public void generateReport() throws IOException, ParseException {
+        createNewDir();
+        createSpreadSheet();
+        createDoc();
+    }
+
     private void createNewDir() throws IOException {
         File body = new File();
         body.setName(this.reportProperties.getFolderTitle());
@@ -34,12 +40,6 @@ public class DroolsReport extends Report {
         this.folderNewId = file.getId();
     }
 
-    public void generateReport() throws IOException, ParseException {
-        createNewDir();
-        createSpreadSheet();
-        createDoc();
-    }
-
     private void createSpreadSheet() throws IOException, ParseException {
         this.spreadSheetNewId = copyFile(this.reportProperties.getTemplateSheetID());
         DroolsFileSpreadSheet droolsFileSpreadSheet = new DroolsFileSpreadSheet(this.spreadSheetNewId,
@@ -47,8 +47,6 @@ public class DroolsReport extends Report {
         droolsFileSpreadSheet.updateFile();
         moveFile(this.spreadSheetNewId);
     };
-
-
 
     protected void createDoc() throws IOException{
         this.docNewId = copyFile(this.reportProperties.getTemplateDocID());

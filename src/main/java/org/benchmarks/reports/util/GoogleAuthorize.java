@@ -10,6 +10,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.MemoryDataStoreFactory;
 import com.google.api.services.docs.v1.DocsScopes;
 import com.google.api.services.sheets.v4.SheetsScopes;
+import org.benchmarks.drools.reports.data.DroolsProperties;
 
 import java.io.*;
 import java.security.GeneralSecurityException;
@@ -20,7 +21,7 @@ import java.util.List;
 public class GoogleAuthorize {
     public static Credential authorize() throws IOException, GeneralSecurityException {
 
-        InputStream in = new FileInputStream("/home/drosa/Documents/Workspace/performance-reports/src/main/java/org/benchmarks/reports/resources/client_secret.json");
+        InputStream in = new FileInputStream(DroolsProperties.getInstance().getGoogleApiKeyFile());
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JacksonFactory.getDefaultInstance(), new InputStreamReader(in));
         List<String> scopes = Arrays.asList(SheetsScopes.SPREADSHEETS, DocsScopes.DOCUMENTS, SheetsScopes.DRIVE);
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), clientSecrets, scopes).setDataStoreFactory(new MemoryDataStoreFactory())
