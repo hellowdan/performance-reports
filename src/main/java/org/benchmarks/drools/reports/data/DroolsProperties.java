@@ -26,6 +26,7 @@ public class DroolsProperties extends ReportProperties {
     private String runtimeResults;
     private Boolean useCsv;
     private String googleApiKeyFile;
+    private String googleAppApiKeyFile;
 
     public DroolsProperties(String filename) throws IOException {
         super(filename);
@@ -49,6 +50,7 @@ public class DroolsProperties extends ReportProperties {
         this.runtimeResults = this.properties.getProperty("runtime_results");
         this.useCsv = this.properties.getProperty("use_csv").equals("true");
         this.googleApiKeyFile = this.properties.getProperty("google_api_key_file");
+        this.googleAppApiKeyFile = this.properties.getProperty("google_app_api_key_file");
     }
 
     /*singleton instance to be used anytime avoiding I/O*/
@@ -134,4 +136,8 @@ public class DroolsProperties extends ReportProperties {
     public String getGoogleApiKeyFile() {return googleApiKeyFile;}
 
     public void setGoogleApiKeyFile(String googleApiKeyFile) {this.googleApiKeyFile = googleApiKeyFile;}
+
+    public String getGoogleAppApiKeyFile() {return googleAppApiKeyFile;}
+
+    public void setGoogleAppApiKeyFile(String googleAppApiKeyFile) {this.googleAppApiKeyFile = googleAppApiKeyFile;}
 }

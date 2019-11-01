@@ -17,7 +17,7 @@ import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
 
-/*Still working on an automated app auth. It still requires user's authentication via browser*/
+/*Still working on an automated app auth. It still requires user's authentication via browser (it can be removed later)*/
 public class GoogleAuthorize {
     public static Credential authorize() throws IOException, GeneralSecurityException {
 
