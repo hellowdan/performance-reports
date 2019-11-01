@@ -2,6 +2,12 @@ package org.benchmarks.drools.reports.builder;
 
 public class DroolsReportTest {
 
-    /*still working on an automated auth or mocking Google API objects (refactoring needed)*/
+    /*
+    *
+    * TO-DO: the automated auth is done, so now I can write tests for google api methods
+    *
+    * */
+
+
 
 }
