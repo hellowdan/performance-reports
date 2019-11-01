@@ -47,5 +47,5 @@ There is a **.properties file** in the * *drools.reports.resources folder* *. It
 2. auth as service (no user intervention) - will work on that (Google cloud API)
 3. files and folders must be placed in public (company) dir - will work on that later
 
-[1] https://developers.google.com/maps/documentation/javascript/get-api-key
-[2] https://developers.google.com/identity/protocols/OAuth2ServiceAccount
+* [1] https://developers.google.com/maps/documentation/javascript/get-api-key
+* [2] https://developers.google.com/identity/protocols/OAuth2ServiceAccount
