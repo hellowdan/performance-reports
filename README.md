@@ -34,13 +34,13 @@ There is a **.properties file** in the * *drools.reports.resources folder* *. It
 9. Call GoogleCredencialAuthorize.authorize() on GoogleService() constructor.
 
 ## TO-DO
-1. **{Critical}** ... draw chats and place them in the document
-2. **{DONE}** ....... do the authentication process automated
-3. **{DONE}** ....... set the output of the project in a shared space in Google Docs
-4. **{Major}** ...... integrate it with the Jenkins jobs to have reports more often (once a day/night?)
-5. **{Optional}** ... improvements in the code
-6. **{Optional}** ... improvements in the templates
-7. **{Optional}** ... suggestions and feedbacks are welcome
+1. **Critical** | draw chats and place them in the document
+2. **DONE** | do the authentication process automated
+3. **DONE** | set the output of the project in a shared space in Google Docs
+4. **Major** | integrate it with the Jenkins jobs to have reports more often (once a day/night?)
+5. **Optional** | improvements in the code
+6. **Optional** | improvements in the templates
+7. **Optional** | suggestions and feedbacks are welcome
 
 ## Links
 * [1] https://developers.google.com/maps/documentation/javascript/get-api-key
