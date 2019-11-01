@@ -85,12 +85,12 @@ public class DroolsResultRow extends ResultRow {
     public int getHashCode() {
         int hashCode = 0;
 
-        if (name != null ) hashCode = 31 * name.hashCode();
-        if (numberOfRules != null ) hashCode = 31 * hashCode + numberOfRules.hashCode();
-        if (nrOfRules != null ) hashCode = 31 * hashCode + nrOfRules.hashCode();
-        if (useCanonicalModel != null ) hashCode = 31 * hashCode + useCanonicalModel.hashCode();
-        if (rulesProviderId != null ) hashCode = 31 * hashCode + rulesProviderId.hashCode();
-        if (matchRatio != null ) hashCode = 31 * hashCode + matchRatio.hashCode();
+        if (this.name != null ) hashCode = 31 * this.name.hashCode();
+        if (this.numberOfRules != null ) hashCode = 31 * hashCode + this.numberOfRules.hashCode();
+        if (this.nrOfRules != null ) hashCode = 31 * hashCode + this.nrOfRules.hashCode();
+        if (this.useCanonicalModel != null ) hashCode = 31 * hashCode + this.useCanonicalModel.hashCode();
+        if (this.rulesProviderId != null ) hashCode = 31 * hashCode + this.rulesProviderId.hashCode();
+        if (this.matchRatio != null ) hashCode = 31 * hashCode + this.matchRatio.hashCode();
 
         return hashCode;
     }

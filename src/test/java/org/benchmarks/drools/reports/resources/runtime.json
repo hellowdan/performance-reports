@@ -137,7 +137,7 @@
     "Score": 654.427567,
     "Score Error (99.9%)": 20.963298,
     "Unit": "ms/op",
-    "Param: matchRatio": 0
+    "Param: matchRatio": 0.0
   },
   {
     "Benchmark": "org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateful",
@@ -157,7 +157,7 @@
     "Score": 1587.244696,
     "Score Error (99.9%)": 25.532179,
     "Unit": "ms/op",
-    "Param: matchRatio": 1
+    "Param: matchRatio": 1.0
   },
   {
     "Benchmark": "org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateless",
@@ -167,7 +167,7 @@
     "Score": 660.853689,
     "Score Error (99.9%)": 18.555457,
     "Unit": "ms/op",
-    "Param: matchRatio": 0
+    "Param: matchRatio": 0.0
   },
   {
     "Benchmark": "org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateless",
@@ -187,7 +187,7 @@
     "Score": 1610.987282,
     "Score Error (99.9%)": 37.518552,
     "Unit": "ms/op",
-    "Param: matchRatio": 1
+    "Param: matchRatio": 1.0
   },
   {
     "Benchmark": "org.drools.benchmarks.turtle.runtime.StandardOperatorsExpertBenchmark.timeFactsInsertionAndRulesFiring",
