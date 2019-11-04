@@ -44,7 +44,8 @@ public class DroolsReport extends Report {
         this.spreadSheetNewId = copyFile(this.reportProperties.getTemplateSheetID());
         DroolsFileSpreadSheet droolsFileSpreadSheet = new DroolsFileSpreadSheet(this.spreadSheetNewId,
                 this.reportProperties, this.getSheetService());
-        droolsFileSpreadSheet.updateFile();
+        droolsFileSpreadSheet.updateSpreadSheetInfo();
+        droolsFileSpreadSheet.updateSpreadSheetValues();
         moveFile(this.spreadSheetNewId);
     };
 
@@ -52,7 +53,7 @@ public class DroolsReport extends Report {
         this.docNewId = copyFile(this.reportProperties.getTemplateDocID());
         DroolsFileDoc droolsFileDoc = new DroolsFileDoc(this.docNewId,
                 this.reportProperties, this.getDocsService());
-        droolsFileDoc.updateFile();
+        droolsFileDoc.requestUpdates();
         moveFile(this.docNewId);
     };
 

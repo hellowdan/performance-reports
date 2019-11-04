@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class GoogleCredencialAuthorize {
+public class GoogleAuthorizeAsService {
 
     public static GoogleCredential authorize() throws IOException {
         List<String> scopes = Arrays.asList(SheetsScopes.SPREADSHEETS, DocsScopes.DOCUMENTS, SheetsScopes.DRIVE);
