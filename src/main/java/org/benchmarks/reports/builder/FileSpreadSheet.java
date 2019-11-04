@@ -14,7 +14,7 @@ public abstract class FileSpreadSheet {
     protected DroolsProperties reportProperties;
     protected Sheets sheetService;
 
-    public FileSpreadSheet(String spreadSheetNewId, DroolsProperties reportProperties, Sheets sheetService){
+    public FileSpreadSheet(String spreadSheetNewId, DroolsProperties reportProperties, Sheets sheetService) {
         this.spreadSheetNewId = spreadSheetNewId;
         this.reportProperties = reportProperties;
         this.sheetService = sheetService;
@@ -28,28 +28,23 @@ public abstract class FileSpreadSheet {
         List<Request> requests = getUpdateInfoRequestsBody();
 
         BatchUpdateSpreadsheetRequest body = new BatchUpdateSpreadsheetRequest().setRequests(requests);
-        BatchUpdateSpreadsheetResponse response = this.sheetService.spreadsheets().batchUpdate(this.spreadSheetNewId, body).execute();
-        return response;
+        return this.sheetService.spreadsheets().batchUpdate(this.spreadSheetNewId, body).execute();
     }
 
-    public UpdateValuesResponse updateSpreadSheetValues() throws IOException, ParseException {
+    public UpdateValuesResponse updateSpreadSheetValues(String startingCell) throws IOException, ParseException {
         ValueRange body = getUpdateDataRequestsBody();
 
-        UpdateValuesResponse result = this.sheetService.spreadsheets().values()
-                .update(this.spreadSheetNewId, "J2", body)
+        return this.sheetService.spreadsheets().values()
+                .update(this.spreadSheetNewId, startingCell, body)
                 .setValueInputOption("USER_ENTERED")
                 .execute();
-
-        return result;
     }
 
-    protected Request  getReplaceSpreadSheetBodyRequest(String placeHolder, String newValue) {
-        Request request = new Request().
+    protected Request getReplaceSpreadSheetBodyRequest(String placeHolder, String newValue) {
+        return new Request().
                 setFindReplace(new FindReplaceRequest().
                         setFind(placeHolder).
                         setReplacement(newValue).
                         setAllSheets(true));
-
-        return request;
     }
 }

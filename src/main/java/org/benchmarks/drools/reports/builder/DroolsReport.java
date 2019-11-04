@@ -45,17 +45,17 @@ public class DroolsReport extends Report {
         DroolsFileSpreadSheet droolsFileSpreadSheet = new DroolsFileSpreadSheet(this.spreadSheetNewId,
                 this.reportProperties, this.getSheetService());
         droolsFileSpreadSheet.updateSpreadSheetInfo();
-        droolsFileSpreadSheet.updateSpreadSheetValues();
+        droolsFileSpreadSheet.updateSpreadSheetValues("J2");
         moveFile(this.spreadSheetNewId);
-    };
+    }
 
-    protected void createDoc() throws IOException{
+    private void createDoc() throws IOException{
         this.docNewId = copyFile(this.reportProperties.getTemplateDocID());
         DroolsFileDoc droolsFileDoc = new DroolsFileDoc(this.docNewId,
                 this.reportProperties, this.getDocsService());
         droolsFileDoc.requestUpdates();
         moveFile(this.docNewId);
-    };
+    }
 
     private void moveFile(String fileNewID){
         try {
