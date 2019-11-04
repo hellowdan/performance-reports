@@ -21,7 +21,7 @@ There is a **.properties file** in the * *drools.reports.resources folder* *. It
 2. Download the Google API Key File (Json format)
 3. Rename the file to "client_secret.json"
 4. Place the file on this folder: src/main/java/org/benchmarks/reports/resources/client_secret.json
-5. Call GoogleAuthorize.authorize() on GoogleService() constructor.
+5. Call GoogleAuthorizeAsUser.authorize() on GoogleService() constructor.
 
 ## Google Auth (Service Account auth)
 1. Follow the instructions: **[2]**
@@ -31,7 +31,7 @@ There is a **.properties file** in the * *drools.reports.resources folder* *. It
 5. Take note of the service account e-mail address (API Console -> learn more **[2]**)
 7. Go to the sharing configurations on the Google Drive Folder where the reports and templates are
 8. Set the service account e-mail address as a "People" to share the folder
-9. Call GoogleCredencialAuthorize.authorize() on GoogleService() constructor.
+9. Call GoogleAuthorizeAsService.authorize() on GoogleService() constructor.
 
 ## TO-DO
 1. **Critical** | draw chats and place them in the document
