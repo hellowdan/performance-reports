@@ -6,6 +6,7 @@ import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.Spreadsheet;
 import org.benchmarks.drools.reports.data.DroolsProperties;
 import org.benchmarks.reports.data.DocElementPosition;
+import org.benchmarks.reports.util.JsonLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -141,7 +142,7 @@ public abstract class FileDoc {
     public DocElementPosition jsonSearchForChartElement(String json, String chartTitle) {
         DocElementPosition found = null;
 
-        if (!isJSONValid(json)) {
+        if (!JsonLoader.isJSONValid(json)) {
             return null;
         }
 
@@ -184,14 +185,4 @@ public abstract class FileDoc {
         return found;
     }
 
-    public static boolean isJSONValid(String jsonInString) {
-        try {
-            JSONParser parser = new JSONParser();
-            Object obj = parser.parse(jsonInString);
-            JSONArray jsonArray = (JSONArray) obj;
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
 }

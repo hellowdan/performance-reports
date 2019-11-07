@@ -1,6 +1,7 @@
 package org.benchmarks.reports.util;
 
 import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
@@ -52,6 +53,17 @@ public class JsonLoader {
         }
 
         return jsonArray;
+    }
+
+    public static boolean isJSONValid(String jsonInString) {
+        try {
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(jsonInString);
+            JSONArray jsonArray = (JSONArray) obj;
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }
