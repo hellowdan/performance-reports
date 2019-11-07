@@ -34,7 +34,7 @@ There is a **.properties file** in the * *drools.reports.resources folder* *. It
 9. Call GoogleAuthorizeAsService.authorize() on GoogleService() constructor.
 
 ## TO-DO
-1. **Critical** | draw chats and place them in the document
+1. **DONE** | draw chats and place them in the document
 2. **DONE** | do the authentication process automated
 3. **DONE** | set the output of the project in a shared space in Google Docs
 4. **Major** | integrate it with the Jenkins jobs to have reports more often (once a day/night?)
