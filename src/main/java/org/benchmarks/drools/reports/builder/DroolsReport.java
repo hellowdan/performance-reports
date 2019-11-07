@@ -1,13 +1,14 @@
 package org.benchmarks.drools.reports.builder;
 
-import com.google.api.services.drive.model.File;
 import java.io.IOException;
+
+import com.google.api.services.docs.v1.model.Request;
 import org.benchmarks.drools.reports.data.DroolsProperties;
 import org.benchmarks.reports.builder.Report;
 import org.json.simple.parser.ParseException;
 
 import java.security.GeneralSecurityException;
-import java.util.Arrays;
+import java.util.List;
 
 public class DroolsReport extends Report {
 
@@ -26,69 +27,32 @@ public class DroolsReport extends Report {
     }
 
     public void generateReport() throws IOException, ParseException {
-        createNewDir();
+        this.folderNewId = createNewDir(this.reportProperties.getFolderTitle(), this.reportProperties.getResultParentFolderID());
         createSpreadSheet();
         createDoc();
     }
 
-    private void createNewDir() throws IOException {
-        File body = new File();
-        body.setName(this.reportProperties.getFolderTitle());
-        body.setParents(Arrays.asList(this.reportProperties.getResultParentFolderID()));
-        body.setMimeType("application/vnd.google-apps.folder");
-        File file = driveService.files().create(body).setFields("id").execute();
-        this.folderNewId = file.getId();
-    }
-
-    private void createSpreadSheet() throws IOException, ParseException {
-        this.spreadSheetNewId = copyFile(this.reportProperties.getTemplateSheetID());
+    protected Boolean createSpreadSheet() throws IOException, ParseException {
+        this.spreadSheetNewId = copyFile(this.reportProperties.getFilesTitle(), this.reportProperties.getTemplateSheetID());
         DroolsFileSpreadSheet droolsFileSpreadSheet = new DroolsFileSpreadSheet(this.spreadSheetNewId,
                 this.reportProperties, this.getSheetService());
+
         droolsFileSpreadSheet.updateSpreadSheetInfo();
         droolsFileSpreadSheet.updateSpreadSheetValues("J2");
-        moveFile(this.spreadSheetNewId);
+
+        moveFile(this.spreadSheetNewId, this.folderNewId);
+        return setPublishFile(this.spreadSheetNewId);
     }
 
-    private void createDoc() throws IOException{
-        this.docNewId = copyFile(this.reportProperties.getTemplateDocID());
-        DroolsFileDoc droolsFileDoc = new DroolsFileDoc(this.docNewId,
-                this.reportProperties, this.getDocsService());
-        droolsFileDoc.requestUpdates();
-        moveFile(this.docNewId);
-    }
+    protected String createDoc() throws IOException {
+        this.docNewId = copyFile(this.reportProperties.getFilesTitle(), this.reportProperties.getTemplateDocID());
+        DroolsFileDoc droolsFileDoc = new DroolsFileDoc(this.docNewId, this.spreadSheetNewId, this.reportProperties, this.getDocsService(), this.getSheetService());
 
-    private void moveFile(String fileNewID){
-        try {
-            File fileToMove = this.driveService.files().get(fileNewID)
-                    .setFields("parents")
-                    .execute();
+        List<Request> requests = droolsFileDoc.getReplaceAllBody();
+        droolsFileDoc.requestsExecute(requests);
 
-            StringBuilder previousParents = new StringBuilder();
-            for (String parent : fileToMove.getParents()) {
-                previousParents.append(parent);
-                previousParents.append(',');
-            }
+        droolsFileDoc.updateChartWithLink();
 
-            this.driveService.files().update(fileNewID, null)
-                    .setAddParents(this.folderNewId)
-                    .setRemoveParents(previousParents.toString())
-                    .setFields("id, parents")
-                    .execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String copyFile(String templateID){
-        File copiedFile = new File();
-        String newID = "";
-        try {
-            copiedFile.setName(this.reportProperties.getFilesTitle());
-            newID = this.getDriveService().files().copy(templateID, copiedFile).execute().getId();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return newID;
+        return moveFile(this.docNewId, this.folderNewId);
     }
 }

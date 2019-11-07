@@ -4,6 +4,7 @@ import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.*;
 import org.benchmarks.drools.reports.data.DroolsResultData;
 import org.benchmarks.drools.reports.data.DroolsProperties;
+import org.benchmarks.drools.reports.metadata.DroolsSpreadSheetReportChartMetadata;
 import org.benchmarks.drools.reports.resources.DroolsSheetPositions;
 import org.benchmarks.reports.builder.FileSpreadSheet;
 import org.benchmarks.reports.data.ResultRow;
@@ -15,6 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DroolsFileSpreadSheet extends FileSpreadSheet {
+
+    private Spreadsheet spreadsheetMetadata;
 
     public DroolsFileSpreadSheet(String spreadSheetNewId, DroolsProperties reportProperties, Sheets sheetService){
         super(spreadSheetNewId, reportProperties, sheetService);
