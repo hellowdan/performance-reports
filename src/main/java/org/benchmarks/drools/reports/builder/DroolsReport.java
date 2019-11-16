@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.google.api.services.docs.v1.model.Request;
 import org.benchmarks.drools.reports.data.DroolsProperties;
 import org.benchmarks.reports.builder.Report;
+import org.benchmarks.reports.data.Version;
 import org.json.simple.parser.ParseException;
 
 import java.security.GeneralSecurityException;
@@ -38,7 +39,9 @@ public class DroolsReport extends Report {
                 this.reportProperties, this.getSheetService());
 
         droolsFileSpreadSheet.updateSpreadSheetInfo();
-        droolsFileSpreadSheet.updateSpreadSheetValues("J2");
+        droolsFileSpreadSheet.updateSpreadSheetValues(Version.NEW, "K2");
+        droolsFileSpreadSheet.updateSpreadSheetValues(Version.PREVIOUS, "J2");
+        droolsFileSpreadSheet.updateSpreadSheetValues(Version.OLDER, "I2");
 
         moveFile(this.spreadSheetNewId, this.folderNewId);
         return setPublishFile(this.spreadSheetNewId);

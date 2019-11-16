@@ -12,11 +12,14 @@ public abstract class ResultData {
     protected String runtimeJsonPath;
     protected String buildtimeCsvPath;
     protected String runtimeCsvPath;
+    protected Version version;
     protected Boolean useCsv;
 
     private List<ResultRow> testResultData;
 
-    public ResultData() {}
+    public ResultData(Version version) {
+        this.version = version;
+    }
 
     public List<ResultRow> getTestResultData() throws IOException, ParseException {
         this.testResultData = new ArrayList<>();

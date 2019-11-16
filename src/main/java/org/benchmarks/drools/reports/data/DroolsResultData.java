@@ -1,5 +1,6 @@
 package org.benchmarks.drools.reports.data;
 
+import org.benchmarks.reports.data.Version;
 import org.benchmarks.reports.util.CsvLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -14,37 +15,51 @@ import java.util.List;
 
 public class DroolsResultData extends ResultData {
 
-    public DroolsResultData() throws IOException {
-        super();
+    public DroolsResultData(Version version) throws IOException {
+        super(version);
         DroolsProperties reportProperties = DroolsProperties.getInstance();
         setDataSourcePaths(reportProperties);
     }
 
     /*for tests purposes*/
-    public DroolsResultData(DroolsProperties reportProperties) throws IOException {
-        super();
+    public DroolsResultData(Version version, DroolsProperties reportProperties) {
+        super(version);
         setDataSourcePaths(reportProperties);
     }
 
     private void setDataSourcePaths(DroolsProperties reportProperties){
-        this.buildtimeJsonPath = reportProperties.getBuildtimeJsonPath();
-        this.runtimeJsonPath = reportProperties.getRuntimeJsonPath();
-        this.buildtimeCsvPath = reportProperties.getBuildtimeCsvPath();
-        this.runtimeCsvPath = reportProperties.getRuntimeCsvPath();
+
+        if (this.version == Version.NEW) {
+            this.buildtimeJsonPath = reportProperties.getNewVersionBuildtimeJsonPath();
+            this.runtimeJsonPath = reportProperties.getNewVersionRuntimeJsonPath();
+            this.buildtimeCsvPath = reportProperties.getNewVersionBuildtimeCsvPath();
+            this.runtimeCsvPath = reportProperties.getNewVersionRuntimeCsvPath();
+        } else if (this.version == Version.PREVIOUS){
+            this.buildtimeJsonPath = reportProperties.getPreviousVersionBuildtimeJsonPath();
+            this.runtimeJsonPath = reportProperties.getPreviousVersionRuntimeJsonPath();
+            this.buildtimeCsvPath = reportProperties.getPreviousVersionBuildtimeCsvPath();
+            this.runtimeCsvPath = reportProperties.getPreviousVersionRuntimeCsvPath();
+        } else if (this.version == Version.OLDER){
+            this.buildtimeJsonPath = reportProperties.getOlderVersionBuildtimeJsonPath();
+            this.runtimeJsonPath = reportProperties.getOlderVersionRuntimeJsonPath();
+            this.buildtimeCsvPath = reportProperties.getOlderVersionBuildtimeCsvPath();
+            this.runtimeCsvPath = reportProperties.getOlderVersionRuntimeCsvPath();
+        }
+
         this.useCsv = reportProperties.getUseCsv();
     }
 
     @Override
     protected List<ResultRow> getDataFromBuildTime(){
         List<ResultRow> droolsTestResultData = new ArrayList<>();
-        JSONArray droolsTestResultDataJson;
+        JSONArray dataJson;
 
         if(this.useCsv){
-            droolsTestResultDataJson = CsvLoader.getDataFromCSV(this.buildtimeCsvPath);}
+            dataJson = CsvLoader.getDataFromCSV(this.buildtimeCsvPath);}
         else{
-            droolsTestResultDataJson = JsonLoader.getDataFromJson(this.buildtimeJsonPath);}
+            dataJson = JsonLoader.getDataFromJson(this.buildtimeJsonPath);}
 
-        droolsTestResultDataJson.forEach( testResultRow -> droolsTestResultData.add(parseBuildTimeTestResultRow( (JSONObject) testResultRow )) );
+        dataJson.forEach( testResultRow -> droolsTestResultData.add(parseBuildTimeTestResultRow( (JSONObject) testResultRow )) );
 
         return droolsTestResultData;
     }
@@ -52,14 +67,15 @@ public class DroolsResultData extends ResultData {
     @Override
     protected List<ResultRow> getDataFromRunTime(){
         List<ResultRow> droolsTestResultData = new ArrayList<>();
-        JSONArray droolsTestResultDataJson;
+        JSONArray dataJson;
 
         if(this.useCsv){
-            droolsTestResultDataJson = CsvLoader.getDataFromCSV(this.runtimeCsvPath);}
-        else{
-            droolsTestResultDataJson = JsonLoader.getDataFromJson(this.runtimeJsonPath);}
+            dataJson = CsvLoader.getDataFromCSV(this.runtimeCsvPath);
+        } else{
+            dataJson = JsonLoader.getDataFromJson(this.runtimeJsonPath);
+        }
 
-        droolsTestResultDataJson.forEach( testResultRow -> droolsTestResultData.add(parseRunTimeTestResultRow( (JSONObject) testResultRow )) );
+        dataJson.forEach( testResultRow -> droolsTestResultData.add(parseRunTimeTestResultRow( (JSONObject) testResultRow )) );
 
         return droolsTestResultData;
     }

@@ -13,7 +13,8 @@ import java.util.List;
 public class DroolsFileDoc extends FileDoc {
 
     static String newVersion = "{{new_version}}";
-    static String oldVersion = "{{old_version}}";
+    static String previousVersion = "{{previous_version}}";
+    static String olderVersion = "{{older_version}}";
     static String author = "{{author}}";
     static String emailAuthor = "{{email_author}}";
     static String reportDate = "{{report_date}}";
@@ -29,7 +30,8 @@ public class DroolsFileDoc extends FileDoc {
         List<Request> requests = new ArrayList<>();
 
         requests.add(getReplaceTextBodyRequest(newVersion, this.reportProperties.getNewVersion()));
-        requests.add(getReplaceTextBodyRequest(oldVersion, this.reportProperties.getOldVersion()));
+        requests.add(getReplaceTextBodyRequest(previousVersion, this.reportProperties.getPreviousVersion()));
+        requests.add(getReplaceTextBodyRequest(olderVersion, this.reportProperties.getOlderVersion()));
         requests.add(getReplaceTextBodyRequest(author, this.reportProperties.getAuthor()));
         requests.add(getReplaceTextBodyRequest(emailAuthor, this.reportProperties.getEmailAuthor()));
         requests.add(getReplaceTextBodyRequest(reportDate, this.reportProperties.getReportDate()));

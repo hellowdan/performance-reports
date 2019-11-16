@@ -1,0 +1,24 @@
+Benchmark,Mode,Threads,Samples,Score,Score Error (99.9%),Unit,Param: matchRatio
+org.drools.benchmarks.turtle.runtime.AdvOperators2ExpertBenchmark.timeFactsInsertionAndRulesFiring,avgt,1,100,419.543258,16.985221,ms/op,
+org.drools.benchmarks.turtle.runtime.AdvOperators3ExpertBenchmark.timeFactsInsertionAndRulesFiring,avgt,1,100,269.793379,1.914867,ms/op,
+org.drools.benchmarks.turtle.runtime.AdvOperators4ExpertBenchmark.timeFactsInsertionAndRulesFiring,avgt,1,100,209.154609,1.30984,ms/op,
+org.drools.benchmarks.turtle.runtime.AdvOperatorsExpertBenchmark.timeFactsInsertionAndRulesFiring,avgt,1,100,619.8833,14.673503,ms/op,
+org.drools.benchmarks.turtle.runtime.AfterBeforeFusionBenchmark.timeEventsInsertionAndRulesFiring,ss,1,100,1039.814029,13.648537,ms/op,
+org.drools.benchmarks.turtle.runtime.CoincidesDuringFusionBenchmark.timeEventsInsertionAndRulesFiring,ss,1,100,679.428962,11.952845,ms/op,
+org.drools.benchmarks.turtle.runtime.FinishesFinishedbyFusionBenchmark.timeEventsInsertionAndRulesFiring,ss,1,100,629.515259,15.115031,ms/op,
+org.drools.benchmarks.turtle.runtime.InsertFactsIntoWmExpertBenchmark.timeFactsInsertionAndRulesFiring,ss,1,100,2598.383016,40.939369,ms/op,
+org.drools.benchmarks.turtle.runtime.InsertLogicalFactsIntoWmExpertBenchmark.timeFactsInsertionAndRulesFiring,ss,1,100,1407.059975,19.344622,ms/op,
+org.drools.benchmarks.turtle.runtime.MeetsMetbyFusionBenchmark.timeEventsInsertionAndRulesFiring,ss,1,100,668.723353,12.542456,ms/op,
+org.drools.benchmarks.turtle.runtime.OverlapsOverlappedbyFusionBenchmark.timeEventsInsertionAndRulesFiring,ss,1,100,1057.9946,19.550076,ms/op,
+org.drools.benchmarks.turtle.runtime.RetractFactsFromWmExpertBenchmark.timeFactsInsertionAndRulesFiring,ss,1,100,1528.778099,61.767978,ms/op,
+org.drools.benchmarks.turtle.runtime.SimpleDummyFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiring,ss,1,100,295.090481,13.568476,ms/op,
+org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateful,ss,1,100,658.427567,20.963298,ms/op,0.0
+org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateful,ss,1,100,1299.125945,20.598029,ms/op,0.5
+org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateful,ss,1,100,1589.244696,25.532179,ms/op,1.0
+org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateless,ss,1,100,667.853689,18.555457,ms/op,0.0
+org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateless,ss,1,100,1301.049241,22.020835,ms/op,0.5
+org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateless,ss,1,100,1617.987282,37.518552,ms/op,1.0
+org.drools.benchmarks.turtle.runtime.StandardOperatorsExpertBenchmark.timeFactsInsertionAndRulesFiring,ss,1,100,547.150483,5.247449,ms/op,
+org.drools.benchmarks.turtle.runtime.StartsStartedbyFusionBenchmark.timeEventsInsertionAndRulesFiring,ss,1,100,535.184801,7.016345,ms/op,
+org.drools.benchmarks.turtle.runtime.UpdateFactsInWmExpertBenchmark.timeFactsInsertionAndRulesFiring,ss,1,100,514.487285,13.631441,ms/op,
+org.drools.benchmarks.turtle.runtime.WmManipulationExpertBenchmark.timeFactsInsertionAndRulesFiring,ss,1,100,3499.571613,10.726533,ms/op,

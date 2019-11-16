@@ -8,14 +8,23 @@ public class DroolsProperties extends ReportProperties {
     static private DroolsProperties droolsProperties = null;
 
     private String newVersion;
-    private String oldVersion;
+    private String previousVersion;
+    private String olderVersion;
     private String reportDate;
     private String author;
     private String emailAuthor;
-    private String buildtimeCsvPath;
-    private String runtimeCsvPath;
-    private String buildtimeJsonPath;
-    private String runtimeJsonPath;
+    private String newVersionBuildtimeCsvPath;
+    private String newVersionRuntimeCsvPath;
+    private String newVersionBuildtimeJsonPath;
+    private String newVersionRuntimeJsonPath;
+    private String previousVersionBuildtimeCsvPath;
+    private String previousVersionRuntimeCsvPath;
+    private String previousVersionBuildtimeJsonPath;
+    private String previousVersionRuntimeJsonPath;
+    private String olderVersionBuildtimeCsvPath;
+    private String olderVersionRuntimeCsvPath;
+    private String olderVersionBuildtimeJsonPath;
+    private String olderVersionRuntimeJsonPath;
     private String filesTitle;
     private String templateTitle;
     private String templateDocID;
@@ -32,14 +41,23 @@ public class DroolsProperties extends ReportProperties {
         super(filename);
 
         this.newVersion = this.properties.getProperty("new_version");
-        this.oldVersion = this.properties.getProperty("old_version");
+        this.previousVersion = this.properties.getProperty("previous_version");
+        this.olderVersion = this.properties.getProperty("older_version");
         this.reportDate = this.properties.getProperty("report_date");
         this.author = this.properties.getProperty("author");
         this.emailAuthor = this.properties.getProperty("email_author");
-        this.buildtimeCsvPath = this.properties.getProperty("buildtime_csv_path");
-        this.runtimeCsvPath = this.properties.getProperty("runtime_csv_path");
-        this.buildtimeJsonPath = this.properties.getProperty("buildtime_json_path");
-        this.runtimeJsonPath = this.properties.getProperty("runtime_json_path");
+        this.newVersionBuildtimeCsvPath = this.properties.getProperty("new_version_buildtime_csv_path");
+        this.newVersionRuntimeCsvPath = this.properties.getProperty("new_version_runtime_csv_path");
+        this.newVersionBuildtimeJsonPath = this.properties.getProperty("new_version_buildtime_json_path");
+        this.newVersionRuntimeJsonPath = this.properties.getProperty("new_version_runtime_json_path");
+        this.previousVersionBuildtimeCsvPath = this.properties.getProperty("previous_version_buildtime_csv_path");
+        this.previousVersionRuntimeCsvPath = this.properties.getProperty("previous_version_runtime_csv_path");
+        this.previousVersionBuildtimeJsonPath = this.properties.getProperty("previous_version_buildtime_json_path");
+        this.previousVersionRuntimeJsonPath = this.properties.getProperty("previous_version_runtime_json_path");
+        this.olderVersionBuildtimeCsvPath = this.properties.getProperty("older_version_buildtime_csv_path");
+        this.olderVersionRuntimeCsvPath = this.properties.getProperty("older_version_runtime_csv_path");
+        this.olderVersionBuildtimeJsonPath = this.properties.getProperty("older_version_buildtime_json_path");
+        this.olderVersionRuntimeJsonPath = this.properties.getProperty("older_version_runtime_json_path");
         this.filesTitle = this.properties.getProperty("files_title");
         this.templateTitle = this.properties.getProperty("template_title");
         this.templateDocID = this.properties.getProperty("template_doc_id");
@@ -51,12 +69,13 @@ public class DroolsProperties extends ReportProperties {
         this.useCsv = this.properties.getProperty("use_csv").equals("true");
         this.googleApiKeyFile = this.properties.getProperty("google_api_key_file");
         this.googleAppApiKeyFile = this.properties.getProperty("google_app_api_key_file");
+
     }
 
     /*singleton instance to be used anytime avoiding I/O*/
     static public DroolsProperties getInstance() throws IOException {
         if (droolsProperties == null) {
-            droolsProperties = new DroolsProperties("/home/drosa/Documents/Workspace/performance-reports/src/main/java/org/benchmarks/drools/reports/resources/drools-reports.properties");
+            droolsProperties = new DroolsProperties("/home/drosa/Documents/Workspace/performance-reports-new-requirements/performance-reports/src/main/java/org/benchmarks/drools/reports/resources/drools-reports.properties");
         }
         return droolsProperties;
     }
@@ -65,9 +84,9 @@ public class DroolsProperties extends ReportProperties {
         return newVersion;
     }
 
-    public String getOldVersion() {
-        return oldVersion;
-    }
+    public String getPreviousVersion() {return previousVersion;}
+
+    public String getOlderVersion() {return olderVersion;}
 
     public String getReportDate() {
         return reportDate;
@@ -81,21 +100,37 @@ public class DroolsProperties extends ReportProperties {
         return emailAuthor;
     }
 
-    public String getBuildtimeCsvPath() {
-        return buildtimeCsvPath;
+    public String getNewVersionBuildtimeCsvPath() {
+        return newVersionBuildtimeCsvPath;
     }
 
-    public String getRuntimeCsvPath() {
-        return runtimeCsvPath;
+    public String getNewVersionRuntimeCsvPath() {
+        return newVersionRuntimeCsvPath;
     }
 
-    public String getBuildtimeJsonPath() {
-        return buildtimeJsonPath;
+    public String getNewVersionBuildtimeJsonPath() {
+        return newVersionBuildtimeJsonPath;
     }
 
-    public String getRuntimeJsonPath() {
-        return runtimeJsonPath;
+    public String getNewVersionRuntimeJsonPath() {
+        return newVersionRuntimeJsonPath;
     }
+
+    public String getPreviousVersionBuildtimeCsvPath() {return previousVersionBuildtimeCsvPath;}
+
+    public String getPreviousVersionRuntimeCsvPath() {return previousVersionRuntimeCsvPath;}
+
+    public String getPreviousVersionBuildtimeJsonPath() {return previousVersionBuildtimeJsonPath;}
+
+    public String getPreviousVersionRuntimeJsonPath() {return previousVersionRuntimeJsonPath;}
+
+    public String getOlderVersionBuildtimeCsvPath() {return olderVersionBuildtimeCsvPath;}
+
+    public String getOlderVersionRuntimeCsvPath() {return olderVersionRuntimeCsvPath;}
+
+    public String getOlderVersionBuildtimeJsonPath() {return olderVersionBuildtimeJsonPath;}
+
+    public String getOlderVersionRuntimeJsonPath() {return olderVersionRuntimeJsonPath;}
 
     public String getFilesTitle() {
         return filesTitle;
@@ -131,13 +166,8 @@ public class DroolsProperties extends ReportProperties {
 
     public Boolean getUseCsv() {return useCsv;}
 
-    public void setUseCsv(Boolean useCsv) {this.useCsv = useCsv;}
-
     public String getGoogleApiKeyFile() {return googleApiKeyFile;}
-
-    public void setGoogleApiKeyFile(String googleApiKeyFile) {this.googleApiKeyFile = googleApiKeyFile;}
 
     public String getGoogleAppApiKeyFile() {return googleAppApiKeyFile;}
 
-    public void setGoogleAppApiKeyFile(String googleAppApiKeyFile) {this.googleAppApiKeyFile = googleAppApiKeyFile;}
 }
