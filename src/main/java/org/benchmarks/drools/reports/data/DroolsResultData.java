@@ -1,5 +1,6 @@
 package org.benchmarks.drools.reports.data;
 
+import org.benchmarks.reports.data.FileLocation;
 import org.benchmarks.reports.data.Version;
 import org.benchmarks.reports.util.CsvLoader;
 import org.json.simple.JSONArray;
@@ -15,15 +16,15 @@ import java.util.List;
 
 public class DroolsResultData extends ResultData {
 
-    public DroolsResultData(Version version) throws IOException {
-        super(version);
+    public DroolsResultData(Version version, FileLocation fileLocation) throws IOException {
+        super(version, fileLocation);
         DroolsProperties reportProperties = DroolsProperties.getInstance();
         setDataSourcePaths(reportProperties);
     }
 
     /*for tests purposes*/
-    public DroolsResultData(Version version, DroolsProperties reportProperties) {
-        super(version);
+    public DroolsResultData(Version version, FileLocation fileLocation, DroolsProperties reportProperties) {
+        super(version, fileLocation);
         setDataSourcePaths(reportProperties);
     }
 
@@ -55,9 +56,9 @@ public class DroolsResultData extends ResultData {
         JSONArray dataJson;
 
         if(this.useCsv){
-            dataJson = CsvLoader.getDataFromCSV(this.buildtimeCsvPath);}
+            dataJson = CsvLoader.getDataFromCSV(this.buildtimeCsvPath, this.fileLocation);}
         else{
-            dataJson = JsonLoader.getDataFromJson(this.buildtimeJsonPath);}
+            dataJson = JsonLoader.getDataFromJson(this.buildtimeJsonPath, this.fileLocation);}
 
         dataJson.forEach( testResultRow -> droolsTestResultData.add(parseBuildTimeTestResultRow( (JSONObject) testResultRow )) );
 
@@ -70,9 +71,9 @@ public class DroolsResultData extends ResultData {
         JSONArray dataJson;
 
         if(this.useCsv){
-            dataJson = CsvLoader.getDataFromCSV(this.runtimeCsvPath);
+            dataJson = CsvLoader.getDataFromCSV(this.runtimeCsvPath, this.fileLocation);
         } else{
-            dataJson = JsonLoader.getDataFromJson(this.runtimeJsonPath);
+            dataJson = JsonLoader.getDataFromJson(this.runtimeJsonPath, this.fileLocation);
         }
 
         dataJson.forEach( testResultRow -> droolsTestResultData.add(parseRunTimeTestResultRow( (JSONObject) testResultRow )) );

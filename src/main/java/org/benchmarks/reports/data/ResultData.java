@@ -1,6 +1,8 @@
 package org.benchmarks.reports.data;
 
 import org.json.simple.parser.ParseException;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +15,14 @@ public abstract class ResultData {
     protected String buildtimeCsvPath;
     protected String runtimeCsvPath;
     protected Version version;
+    protected FileLocation fileLocation;
     protected Boolean useCsv;
 
     private List<ResultRow> testResultData;
 
-    public ResultData(Version version) {
+    public ResultData(Version version, FileLocation fileLocation) {
         this.version = version;
+        this.fileLocation = fileLocation;
     }
 
     public List<ResultRow> getTestResultData() throws IOException, ParseException {

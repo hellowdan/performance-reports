@@ -6,6 +6,7 @@ import org.benchmarks.drools.reports.data.DroolsResultData;
 import org.benchmarks.drools.reports.data.DroolsProperties;
 import org.benchmarks.drools.reports.resources.DroolsSheetPositions;
 import org.benchmarks.reports.builder.FileSpreadSheet;
+import org.benchmarks.reports.data.FileLocation;
 import org.benchmarks.reports.data.ResultRow;
 import org.benchmarks.reports.data.Version;
 import org.json.simple.parser.ParseException;
@@ -16,8 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DroolsFileSpreadSheet extends FileSpreadSheet {
-
-    private Spreadsheet spreadsheetMetadata;
 
     public DroolsFileSpreadSheet(String spreadSheetNewId, DroolsProperties reportProperties, Sheets sheetService){
         super(spreadSheetNewId, reportProperties, sheetService);
@@ -35,8 +34,8 @@ public class DroolsFileSpreadSheet extends FileSpreadSheet {
     }
 
     @Override
-    protected ValueRange getUpdateDataRequestsBody(Version version) throws IOException, ParseException {
-        DroolsResultData droolsResultData = new DroolsResultData(version);
+    protected ValueRange getUpdateDataRequestsBody(Version version, FileLocation fileLocation) throws IOException, ParseException {
+        DroolsResultData droolsResultData = new DroolsResultData(version, fileLocation);
         ValueRange body = new ValueRange();
 
         List values = new ArrayList();

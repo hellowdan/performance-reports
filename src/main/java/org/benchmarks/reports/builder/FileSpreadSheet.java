@@ -3,6 +3,7 @@ package org.benchmarks.reports.builder;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.*;
 import org.benchmarks.drools.reports.data.DroolsProperties;
+import org.benchmarks.reports.data.FileLocation;
 import org.benchmarks.reports.data.Version;
 import org.json.simple.parser.ParseException;
 
@@ -23,7 +24,7 @@ public abstract class FileSpreadSheet {
 
     protected abstract List<Request> getUpdateInfoRequestsBody();
 
-    protected abstract ValueRange getUpdateDataRequestsBody(Version version) throws IOException, ParseException;
+    protected abstract ValueRange getUpdateDataRequestsBody(Version version, FileLocation fileLocation) throws IOException, ParseException;
 
     public BatchUpdateSpreadsheetResponse updateSpreadSheetInfo() throws IOException {
         List<Request> requests = getUpdateInfoRequestsBody();
@@ -32,8 +33,8 @@ public abstract class FileSpreadSheet {
         return this.sheetService.spreadsheets().batchUpdate(this.spreadSheetNewId, body).execute();
     }
 
-    public UpdateValuesResponse updateSpreadSheetValues(Version version, String startingCell) throws IOException, ParseException {
-        ValueRange body = getUpdateDataRequestsBody(version);
+    public UpdateValuesResponse updateSpreadSheetValues(Version version, FileLocation fileLocation, String startingCell) throws IOException, ParseException {
+        ValueRange body = getUpdateDataRequestsBody(version, fileLocation);
 
         return this.sheetService.spreadsheets().values()
                 .update(this.spreadSheetNewId, startingCell, body)

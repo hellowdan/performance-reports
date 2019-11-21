@@ -3,11 +3,10 @@ package org.benchmarks.reports.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import org.benchmarks.reports.data.FileLocation;
 import org.json.simple.JSONArray;
 
 import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
@@ -15,20 +14,16 @@ import java.util.Map;
  * It can be removed later*/
 public class CsvLoader {
 
-    public static JSONArray getDataFromCSV(String csvFile) {
+    public static JSONArray getDataFromCSV(String csvFile, FileLocation fileLocation) {
         JSONArray result = null;
         File output = new File("output.json");
 
-        boolean isWeb = csvFile.trim().toLowerCase().startsWith("http://") || csvFile.trim().toLowerCase().startsWith("https://");
         Object input = null;
 
         try {
-            if (isWeb) {
-                URL urlCSV = new URL(csvFile);
-                URLConnection urlConn = urlCSV.openConnection();
-                InputStreamReader inputCSV = new InputStreamReader((urlConn).getInputStream());
-                input = new BufferedReader(inputCSV);
-            } else {
+            if (fileLocation == FileLocation.WEB) {
+                input = HttpOperations.getFileObjectFromWeb(csvFile);
+            } else if (fileLocation == FileLocation.LOCAL) {
                 input = new File(csvFile);
             }
 
@@ -36,9 +31,9 @@ public class CsvLoader {
             CsvMapper csvMapper = new CsvMapper();
 
             List<Object> readAll = null;
-            if (isWeb) {
+            if (fileLocation == FileLocation.WEB) {
                 readAll = csvMapper.readerFor(Map.class).with(csvSchema).readValues((BufferedReader) input).readAll();
-            } else {
+            } else if (fileLocation == FileLocation.LOCAL) {
                 readAll = csvMapper.readerFor(Map.class).with(csvSchema).readValues((File) input).readAll();
             }
 
@@ -57,4 +52,5 @@ public class CsvLoader {
 
         return result;
     }
+
 }
