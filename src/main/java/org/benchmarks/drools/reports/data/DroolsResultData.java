@@ -1,5 +1,6 @@
 package org.benchmarks.drools.reports.data;
 
+import org.apache.commons.io.FilenameUtils;
 import org.benchmarks.reports.data.FileLocation;
 import org.benchmarks.reports.data.Version;
 import org.benchmarks.reports.util.CsvLoader;
@@ -11,6 +12,8 @@ import java.io.IOException;
 import org.benchmarks.reports.data.ResultData;
 import org.benchmarks.reports.data.ResultRow;
 import org.benchmarks.reports.util.JsonLoader;
+
+import java.nio.file.InvalidPathException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,23 +34,18 @@ public class DroolsResultData extends ResultData {
     private void setDataSourcePaths(DroolsProperties reportProperties){
 
         if (this.version == Version.NEW) {
-            this.buildtimeJsonPath = reportProperties.getNewVersionBuildtimeJsonPath();
-            this.runtimeJsonPath = reportProperties.getNewVersionRuntimeJsonPath();
-            this.buildtimeCsvPath = reportProperties.getNewVersionBuildtimeCsvPath();
-            this.runtimeCsvPath = reportProperties.getNewVersionRuntimeCsvPath();
+            this.buildtimePath = reportProperties.getNewVersionBuildtimePath();
+            this.runtimePath = reportProperties.getNewVersionRuntimePath();
         } else if (this.version == Version.PREVIOUS){
-            this.buildtimeJsonPath = reportProperties.getPreviousVersionBuildtimeJsonPath();
-            this.runtimeJsonPath = reportProperties.getPreviousVersionRuntimeJsonPath();
-            this.buildtimeCsvPath = reportProperties.getPreviousVersionBuildtimeCsvPath();
-            this.runtimeCsvPath = reportProperties.getPreviousVersionRuntimeCsvPath();
+            this.buildtimePath = reportProperties.getPreviousVersionBuildtimePath();
+            this.runtimePath = reportProperties.getPreviousVersionRuntimePath();
         } else if (this.version == Version.OLDER){
-            this.buildtimeJsonPath = reportProperties.getOlderVersionBuildtimeJsonPath();
-            this.runtimeJsonPath = reportProperties.getOlderVersionRuntimeJsonPath();
-            this.buildtimeCsvPath = reportProperties.getOlderVersionBuildtimeCsvPath();
-            this.runtimeCsvPath = reportProperties.getOlderVersionRuntimeCsvPath();
+            this.buildtimePath = reportProperties.getOlderVersionBuildtimePath();
+            this.runtimePath = reportProperties.getOlderVersionRuntimePath();
         }
 
-        this.useCsv = reportProperties.getUseCsv();
+        this.buildTimeFileExtension = FilenameUtils.getExtension(this.buildtimePath);
+        this.runTimeFileExtension = FilenameUtils.getExtension(this.runtimePath);
     }
 
     @Override
@@ -55,10 +53,13 @@ public class DroolsResultData extends ResultData {
         List<ResultRow> droolsTestResultData = new ArrayList<>();
         JSONArray dataJson;
 
-        if(this.useCsv){
-            dataJson = CsvLoader.getDataFromCSV(this.buildtimeCsvPath, this.fileLocation);}
-        else{
-            dataJson = JsonLoader.getDataFromJson(this.buildtimeJsonPath, this.fileLocation);}
+        if(this.buildTimeFileExtension.equals("csv")){
+            dataJson = CsvLoader.getDataFromCSV(this.buildtimePath, this.fileLocation);}
+        else if(this.buildTimeFileExtension.equals("json")){
+            dataJson = JsonLoader.getDataFromJson(this.buildtimePath, this.fileLocation);}
+        else {
+            throw new InvalidPathException("Invalid file extension: ", this.buildTimeFileExtension);
+        }
 
         dataJson.forEach( testResultRow -> droolsTestResultData.add(parseBuildTimeTestResultRow( (JSONObject) testResultRow )) );
 
@@ -70,10 +71,12 @@ public class DroolsResultData extends ResultData {
         List<ResultRow> droolsTestResultData = new ArrayList<>();
         JSONArray dataJson;
 
-        if(this.useCsv){
-            dataJson = CsvLoader.getDataFromCSV(this.runtimeCsvPath, this.fileLocation);
-        } else{
-            dataJson = JsonLoader.getDataFromJson(this.runtimeJsonPath, this.fileLocation);
+        if(this.runTimeFileExtension.equals("csv")){
+            dataJson = CsvLoader.getDataFromCSV(this.runtimePath, this.fileLocation);}
+        else if(this.runTimeFileExtension.equals("json")){
+            dataJson = JsonLoader.getDataFromJson(this.runtimePath, this.fileLocation);}
+        else {
+            throw new InvalidPathException("Invalid file extension: ", this.buildTimeFileExtension);
         }
 
         dataJson.forEach( testResultRow -> droolsTestResultData.add(parseRunTimeTestResultRow( (JSONObject) testResultRow )) );

@@ -15,20 +15,14 @@ public class DroolsProperties extends ReportProperties {
     private String reportDate;
     private String author;
     private String emailAuthor;
-    private String newVersionBuildtimeCsvPath;
-    private String newVersionRuntimeCsvPath;
-    private String newVersionBuildtimeJsonPath;
-    private String newVersionRuntimeJsonPath;
+    private String newVersionBuildtimePath;
+    private String newVersionRuntimePath;
     private FileLocation newVersionFileLocation;
-    private String previousVersionBuildtimeCsvPath;
-    private String previousVersionRuntimeCsvPath;
-    private String previousVersionBuildtimeJsonPath;
-    private String previousVersionRuntimeJsonPath;
+    private String previousVersionBuildtimePath;
+    private String previousVersionRuntimePath;
     private FileLocation previousVersionFileLocation;
-    private String olderVersionBuildtimeCsvPath;
-    private String olderVersionRuntimeCsvPath;
-    private String olderVersionBuildtimeJsonPath;
-    private String olderVersionRuntimeJsonPath;
+    private String olderVersionBuildtimePath;
+    private String olderVersionRuntimePath;
     private FileLocation olderVersionFileLocation;
     private String newVersionRepositoryFolderID;
     private String previousVersionRepositoryFolderID;
@@ -41,7 +35,6 @@ public class DroolsProperties extends ReportProperties {
     private String folderTitle;
     private String buildtimeResults;
     private String runtimeResults;
-    private Boolean useCsv;
     private String googleApiKeyFile;
     private String googleAppApiKeyFile;
 
@@ -54,20 +47,14 @@ public class DroolsProperties extends ReportProperties {
         this.reportDate = this.properties.getProperty("report_date");
         this.author = this.properties.getProperty("author");
         this.emailAuthor = this.properties.getProperty("email_author");
-        this.newVersionBuildtimeCsvPath = this.properties.getProperty("new_version_buildtime_csv_path");
-        this.newVersionRuntimeCsvPath = this.properties.getProperty("new_version_runtime_csv_path");
-        this.newVersionBuildtimeJsonPath = this.properties.getProperty("new_version_buildtime_json_path");
-        this.newVersionRuntimeJsonPath = this.properties.getProperty("new_version_runtime_json_path");
+        this.newVersionBuildtimePath = this.properties.getProperty("new_version_buildtime_path");
+        this.newVersionRuntimePath = this.properties.getProperty("new_version_runtime_path");
         this.newVersionFileLocation = getFileLocationEnum(this.properties.getProperty("new_version_file_location"));
-        this.previousVersionBuildtimeCsvPath = this.properties.getProperty("previous_version_buildtime_csv_path");
-        this.previousVersionRuntimeCsvPath = this.properties.getProperty("previous_version_runtime_csv_path");
-        this.previousVersionBuildtimeJsonPath = this.properties.getProperty("previous_version_buildtime_json_path");
-        this.previousVersionRuntimeJsonPath = this.properties.getProperty("previous_version_runtime_json_path");
+        this.previousVersionBuildtimePath = this.properties.getProperty("previous_version_buildtime_path");
+        this.previousVersionRuntimePath = this.properties.getProperty("previous_version_runtime_path");
         this.previousVersionFileLocation = getFileLocationEnum(this.properties.getProperty("previous_version_file_location"));
-        this.olderVersionBuildtimeCsvPath = this.properties.getProperty("older_version_buildtime_csv_path");
-        this.olderVersionRuntimeCsvPath = this.properties.getProperty("older_version_runtime_csv_path");
-        this.olderVersionBuildtimeJsonPath = this.properties.getProperty("older_version_buildtime_json_path");
-        this.olderVersionRuntimeJsonPath = this.properties.getProperty("older_version_runtime_json_path");
+        this.olderVersionBuildtimePath = this.properties.getProperty("older_version_buildtime_path");
+        this.olderVersionRuntimePath = this.properties.getProperty("older_version_runtime_path");
         this.olderVersionFileLocation = getFileLocationEnum(this.properties.getProperty("older_version_file_location"));
         this.newVersionRepositoryFolderID = this.properties.getProperty("new_version_repository_folder_id");
         this.previousVersionRepositoryFolderID = this.properties.getProperty("previous_version_repository_folder_id");
@@ -80,7 +67,6 @@ public class DroolsProperties extends ReportProperties {
         this.folderTitle = this.properties.getProperty("folder_title");
         this.buildtimeResults = this.properties.getProperty("buildtime_results");
         this.runtimeResults = this.properties.getProperty("runtime_results");
-        this.useCsv = this.properties.getProperty("use_csv").equals("true");
         this.googleApiKeyFile = this.properties.getProperty("google_api_key_file");
         this.googleAppApiKeyFile = this.properties.getProperty("google_app_api_key_file");
 
@@ -124,37 +110,21 @@ public class DroolsProperties extends ReportProperties {
         return emailAuthor;
     }
 
-    public String getNewVersionBuildtimeCsvPath() {
-        return newVersionBuildtimeCsvPath;
+    public String getNewVersionBuildtimePath() {
+        return newVersionBuildtimePath;
     }
 
-    public String getNewVersionRuntimeCsvPath() {
-        return newVersionRuntimeCsvPath;
+    public String getNewVersionRuntimePath() {
+        return newVersionRuntimePath;
     }
 
-    public String getNewVersionBuildtimeJsonPath() {
-        return newVersionBuildtimeJsonPath;
-    }
+    public String getPreviousVersionBuildtimePath() {return previousVersionBuildtimePath;}
 
-    public String getNewVersionRuntimeJsonPath() {
-        return newVersionRuntimeJsonPath;
-    }
+    public String getPreviousVersionRuntimePath() {return previousVersionRuntimePath;}
 
-    public String getPreviousVersionBuildtimeCsvPath() {return previousVersionBuildtimeCsvPath;}
+    public String getOlderVersionBuildtimePath() {return olderVersionBuildtimePath;}
 
-    public String getPreviousVersionRuntimeCsvPath() {return previousVersionRuntimeCsvPath;}
-
-    public String getPreviousVersionBuildtimeJsonPath() {return previousVersionBuildtimeJsonPath;}
-
-    public String getPreviousVersionRuntimeJsonPath() {return previousVersionRuntimeJsonPath;}
-
-    public String getOlderVersionBuildtimeCsvPath() {return olderVersionBuildtimeCsvPath;}
-
-    public String getOlderVersionRuntimeCsvPath() {return olderVersionRuntimeCsvPath;}
-
-    public String getOlderVersionBuildtimeJsonPath() {return olderVersionBuildtimeJsonPath;}
-
-    public String getOlderVersionRuntimeJsonPath() {return olderVersionRuntimeJsonPath;}
+    public String getOlderVersionRuntimePath() {return olderVersionRuntimePath;}
 
     public String getNewVersionRepositoryFolderID() {return newVersionRepositoryFolderID;}
 
@@ -194,8 +164,6 @@ public class DroolsProperties extends ReportProperties {
         return runtimeResults;
     }
 
-    public Boolean getUseCsv() {return useCsv;}
-
     public String getGoogleApiKeyFile() {return googleApiKeyFile;}
 
     public String getGoogleAppApiKeyFile() {return googleAppApiKeyFile;}
@@ -206,60 +174,36 @@ public class DroolsProperties extends ReportProperties {
 
     public FileLocation getOlderVersionFileLocation() {return olderVersionFileLocation;}
 
-    public void setNewVersionBuildtimeCsvPath(String newVersionBuildtimeCsvPath) {
-        this.newVersionBuildtimeCsvPath = newVersionBuildtimeCsvPath;
+    public void setNewVersionBuildtimePath(String newVersionBuildtimePath) {
+        this.newVersionBuildtimePath = newVersionBuildtimePath;
     }
 
-    public void setNewVersionRuntimeCsvPath(String newVersionRuntimeCsvPath) {
-        this.newVersionRuntimeCsvPath = newVersionRuntimeCsvPath;
-    }
-
-    public void setNewVersionBuildtimeJsonPath(String newVersionBuildtimeJsonPath) {
-        this.newVersionBuildtimeJsonPath = newVersionBuildtimeJsonPath;
-    }
-
-    public void setNewVersionRuntimeJsonPath(String newVersionRuntimeJsonPath) {
-        this.newVersionRuntimeJsonPath = newVersionRuntimeJsonPath;
+    public void setNewVersionRuntimePath(String newVersionRuntimePath) {
+        this.newVersionRuntimePath = newVersionRuntimePath;
     }
 
     public void setNewVersionFileLocation(FileLocation newVersionFileLocation) {
         this.newVersionFileLocation = newVersionFileLocation;
     }
 
-    public void setPreviousVersionBuildtimeCsvPath(String previousVersionBuildtimeCsvPath) {
-        this.previousVersionBuildtimeCsvPath = previousVersionBuildtimeCsvPath;
+    public void setPreviousVersionBuildtimePath(String previousVersionBuildtimePath) {
+        this.previousVersionBuildtimePath = previousVersionBuildtimePath;
     }
 
-    public void setPreviousVersionRuntimeCsvPath(String previousVersionRuntimeCsvPath) {
-        this.previousVersionRuntimeCsvPath = previousVersionRuntimeCsvPath;
-    }
-
-    public void setPreviousVersionBuildtimeJsonPath(String previousVersionBuildtimeJsonPath) {
-        this.previousVersionBuildtimeJsonPath = previousVersionBuildtimeJsonPath;
-    }
-
-    public void setPreviousVersionRuntimeJsonPath(String previousVersionRuntimeJsonPath) {
-        this.previousVersionRuntimeJsonPath = previousVersionRuntimeJsonPath;
+    public void setPreviousVersionRuntimePath(String previousVersionRuntimePath) {
+        this.previousVersionRuntimePath = previousVersionRuntimePath;
     }
 
     public void setPreviousVersionFileLocation(FileLocation previousVersionFileLocation) {
         this.previousVersionFileLocation = previousVersionFileLocation;
     }
 
-    public void setOlderVersionBuildtimeCsvPath(String olderVersionBuildtimeCsvPath) {
-        this.olderVersionBuildtimeCsvPath = olderVersionBuildtimeCsvPath;
+    public void setOlderVersionBuildtimePath(String olderVersionBuildtimePath) {
+        this.olderVersionBuildtimePath = olderVersionBuildtimePath;
     }
 
-    public void setOlderVersionRuntimeCsvPath(String olderVersionRuntimeCsvPath) {
-        this.olderVersionRuntimeCsvPath = olderVersionRuntimeCsvPath;
-    }
-
-    public void setOlderVersionBuildtimeJsonPath(String olderVersionBuildtimeJsonPath) {
-        this.olderVersionBuildtimeJsonPath = olderVersionBuildtimeJsonPath;
-    }
-
-    public void setOlderVersionRuntimeJsonPath(String olderVersionRuntimeJsonPath) {
-        this.olderVersionRuntimeJsonPath = olderVersionRuntimeJsonPath;
+    public void setOlderVersionRuntimePath(String olderVersionRuntimePath) {
+        this.olderVersionRuntimePath = olderVersionRuntimePath;
     }
 
     public void setOlderVersionFileLocation(FileLocation olderVersionFileLocation) {

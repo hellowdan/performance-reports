@@ -17,7 +17,6 @@ public class CsvLoader {
     public static JSONArray getDataFromCSV(String csvFile, FileLocation fileLocation) {
         JSONArray result = null;
         File output = new File("output.json");
-
         Object input = null;
 
         try {

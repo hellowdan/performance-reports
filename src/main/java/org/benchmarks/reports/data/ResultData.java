@@ -10,13 +10,12 @@ import java.util.List;
 /*Already implemented for Drools. If the others follow the buildtime/runtime json format
 * it can be extended and implemented. Otherwise it can be removed and the methods moved*/
 public abstract class ResultData {
-    protected String buildtimeJsonPath;
-    protected String runtimeJsonPath;
-    protected String buildtimeCsvPath;
-    protected String runtimeCsvPath;
+    protected String buildtimePath;
+    protected String runtimePath;
     protected Version version;
     protected FileLocation fileLocation;
-    protected Boolean useCsv;
+    protected String buildTimeFileExtension;
+    protected String runTimeFileExtension;
 
     private List<ResultRow> testResultData;
 

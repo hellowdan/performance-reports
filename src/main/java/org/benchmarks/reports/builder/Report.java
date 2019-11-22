@@ -8,10 +8,11 @@ import com.google.api.services.drive.model.Revision;
 import com.google.api.services.drive.model.RevisionList;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.common.collect.Iterables;
+import org.apache.commons.io.FileUtils;
+import org.benchmarks.reports.data.FileLocation;
+import org.benchmarks.reports.util.HttpOperations;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 
@@ -115,22 +116,6 @@ public abstract class Report {
         return newID;
     }
 
-    protected String uploadFile(String filePath, String fileTitle, String folderID) {
-        String newID = "";
-        try {
-            File body = new File();
-            body.setName(fileTitle);
-            java.io.File fileToUpload = new java.io.File(filePath);
-            FileContent mediaContent = new FileContent("application/vnd.google-apps.file", fileToUpload);
-            File uploadedFile = this.driveService.files().create(body, mediaContent).setFields("id").execute();
-            newID = uploadedFile.getId();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return newID;
-    }
-
     protected ByteArrayOutputStream downloadFile(String fileID) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         this.driveService.files().get(fileID)
@@ -154,6 +139,12 @@ public abstract class Report {
         final Revision updated = Iterables.getLast(revisions.getRevisions());
 
         return (updated.getPublishAuto() && updated.getPublished() && updated.getPublishedOutsideDomain());
+    }
+
+    protected void WriteToFile(ByteArrayOutputStream byteArrayOutputStream, String filePath) throws Exception {
+        try (OutputStream outputStream = new FileOutputStream(filePath)) {
+            byteArrayOutputStream.writeTo(outputStream);
+        }
     }
 
 }
