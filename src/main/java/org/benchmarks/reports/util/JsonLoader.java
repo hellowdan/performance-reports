@@ -1,5 +1,6 @@
 package org.benchmarks.reports.util;
 
+import org.benchmarks.reports.data.FileLocation;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -30,18 +31,14 @@ public class JsonLoader {
         return jsonArray;
     }
 
-    public static JSONArray getDataFromJson(String jsonFile) {
+    public static JSONArray getDataFromJson(String jsonFile, FileLocation fileLocation) {
         JSONArray jsonArray = null;
-        boolean isWeb = jsonFile.trim().toLowerCase().startsWith("http://") || jsonFile.trim().toLowerCase().startsWith("https://");
         Reader input = null;
 
         try {
-            if (isWeb) {
-                URL urlCSV = new URL(jsonFile);
-                URLConnection urlConn = urlCSV.openConnection();
-                InputStreamReader inputCSV = new InputStreamReader((urlConn).getInputStream());
-                input = new BufferedReader(inputCSV);
-            } else {
+            if (fileLocation == FileLocation.WEB) {
+                input = HttpOperations.getFileReaderFromWeb(jsonFile);
+            } else if (fileLocation == FileLocation.LOCAL) {
                 input = new FileReader(jsonFile);
             }
             jsonArray = getParsedData(input);

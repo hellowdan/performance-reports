@@ -1,6 +1,8 @@
 package org.benchmarks.drools.reports.data;
 
 import java.io.IOException;
+
+import org.benchmarks.reports.data.FileLocation;
 import org.benchmarks.reports.util.ReportProperties;
 
 public class DroolsProperties extends ReportProperties {
@@ -8,14 +10,23 @@ public class DroolsProperties extends ReportProperties {
     static private DroolsProperties droolsProperties = null;
 
     private String newVersion;
-    private String oldVersion;
+    private String previousVersion;
+    private String olderVersion;
     private String reportDate;
     private String author;
     private String emailAuthor;
-    private String buildtimeCsvPath;
-    private String runtimeCsvPath;
-    private String buildtimeJsonPath;
-    private String runtimeJsonPath;
+    private String newVersionBuildtimePath;
+    private String newVersionRuntimePath;
+    private FileLocation newVersionFileLocation;
+    private String previousVersionBuildtimePath;
+    private String previousVersionRuntimePath;
+    private FileLocation previousVersionFileLocation;
+    private String olderVersionBuildtimePath;
+    private String olderVersionRuntimePath;
+    private FileLocation olderVersionFileLocation;
+    private String newVersionRepositoryFolderID;
+    private String previousVersionRepositoryFolderID;
+    private String olderVersionRepositoryFolderID;
     private String filesTitle;
     private String templateTitle;
     private String templateDocID;
@@ -24,7 +35,6 @@ public class DroolsProperties extends ReportProperties {
     private String folderTitle;
     private String buildtimeResults;
     private String runtimeResults;
-    private Boolean useCsv;
     private String googleApiKeyFile;
     private String googleAppApiKeyFile;
 
@@ -32,14 +42,23 @@ public class DroolsProperties extends ReportProperties {
         super(filename);
 
         this.newVersion = this.properties.getProperty("new_version");
-        this.oldVersion = this.properties.getProperty("old_version");
+        this.previousVersion = this.properties.getProperty("previous_version");
+        this.olderVersion = this.properties.getProperty("older_version");
         this.reportDate = this.properties.getProperty("report_date");
         this.author = this.properties.getProperty("author");
         this.emailAuthor = this.properties.getProperty("email_author");
-        this.buildtimeCsvPath = this.properties.getProperty("buildtime_csv_path");
-        this.runtimeCsvPath = this.properties.getProperty("runtime_csv_path");
-        this.buildtimeJsonPath = this.properties.getProperty("buildtime_json_path");
-        this.runtimeJsonPath = this.properties.getProperty("runtime_json_path");
+        this.newVersionBuildtimePath = this.properties.getProperty("new_version_buildtime_path");
+        this.newVersionRuntimePath = this.properties.getProperty("new_version_runtime_path");
+        this.newVersionFileLocation = getFileLocationEnum(this.properties.getProperty("new_version_file_location"));
+        this.previousVersionBuildtimePath = this.properties.getProperty("previous_version_buildtime_path");
+        this.previousVersionRuntimePath = this.properties.getProperty("previous_version_runtime_path");
+        this.previousVersionFileLocation = getFileLocationEnum(this.properties.getProperty("previous_version_file_location"));
+        this.olderVersionBuildtimePath = this.properties.getProperty("older_version_buildtime_path");
+        this.olderVersionRuntimePath = this.properties.getProperty("older_version_runtime_path");
+        this.olderVersionFileLocation = getFileLocationEnum(this.properties.getProperty("older_version_file_location"));
+        this.newVersionRepositoryFolderID = this.properties.getProperty("new_version_repository_folder_id");
+        this.previousVersionRepositoryFolderID = this.properties.getProperty("previous_version_repository_folder_id");
+        this.olderVersionRepositoryFolderID = this.properties.getProperty("older_version_repository_folder_id");
         this.filesTitle = this.properties.getProperty("files_title");
         this.templateTitle = this.properties.getProperty("template_title");
         this.templateDocID = this.properties.getProperty("template_doc_id");
@@ -48,15 +67,25 @@ public class DroolsProperties extends ReportProperties {
         this.folderTitle = this.properties.getProperty("folder_title");
         this.buildtimeResults = this.properties.getProperty("buildtime_results");
         this.runtimeResults = this.properties.getProperty("runtime_results");
-        this.useCsv = this.properties.getProperty("use_csv").equals("true");
         this.googleApiKeyFile = this.properties.getProperty("google_api_key_file");
         this.googleAppApiKeyFile = this.properties.getProperty("google_app_api_key_file");
+
+    }
+
+    private FileLocation getFileLocationEnum(String fileLocation){
+        FileLocation result = null;
+
+        if (fileLocation.equals("WEB")){result = FileLocation.WEB;}
+        else if (fileLocation.equals("LOCAL")){result = FileLocation.LOCAL;}
+        else if (fileLocation.equals("DRIVE")){result = FileLocation.DRIVE;}
+
+        return result;
     }
 
     /*singleton instance to be used anytime avoiding I/O*/
     static public DroolsProperties getInstance() throws IOException {
         if (droolsProperties == null) {
-            droolsProperties = new DroolsProperties("/home/drosa/Documents/Workspace/performance-reports/src/main/java/org/benchmarks/drools/reports/resources/drools-reports.properties");
+            droolsProperties = new DroolsProperties("/home/drosa/Documents/Workspace/performance-reports-new-requirements/performance-reports/src/main/java/org/benchmarks/drools/reports/resources/drools-reports.properties");
         }
         return droolsProperties;
     }
@@ -65,9 +94,9 @@ public class DroolsProperties extends ReportProperties {
         return newVersion;
     }
 
-    public String getOldVersion() {
-        return oldVersion;
-    }
+    public String getPreviousVersion() {return previousVersion;}
+
+    public String getOlderVersion() {return olderVersion;}
 
     public String getReportDate() {
         return reportDate;
@@ -81,21 +110,27 @@ public class DroolsProperties extends ReportProperties {
         return emailAuthor;
     }
 
-    public String getBuildtimeCsvPath() {
-        return buildtimeCsvPath;
+    public String getNewVersionBuildtimePath() {
+        return newVersionBuildtimePath;
     }
 
-    public String getRuntimeCsvPath() {
-        return runtimeCsvPath;
+    public String getNewVersionRuntimePath() {
+        return newVersionRuntimePath;
     }
 
-    public String getBuildtimeJsonPath() {
-        return buildtimeJsonPath;
-    }
+    public String getPreviousVersionBuildtimePath() {return previousVersionBuildtimePath;}
 
-    public String getRuntimeJsonPath() {
-        return runtimeJsonPath;
-    }
+    public String getPreviousVersionRuntimePath() {return previousVersionRuntimePath;}
+
+    public String getOlderVersionBuildtimePath() {return olderVersionBuildtimePath;}
+
+    public String getOlderVersionRuntimePath() {return olderVersionRuntimePath;}
+
+    public String getNewVersionRepositoryFolderID() {return newVersionRepositoryFolderID;}
+
+    public String getPreviousVersionRepositoryFolderID() {return previousVersionRepositoryFolderID;}
+
+    public String getOlderVersionRepositoryFolderID() {return olderVersionRepositoryFolderID;}
 
     public String getFilesTitle() {
         return filesTitle;
@@ -129,15 +164,49 @@ public class DroolsProperties extends ReportProperties {
         return runtimeResults;
     }
 
-    public Boolean getUseCsv() {return useCsv;}
-
-    public void setUseCsv(Boolean useCsv) {this.useCsv = useCsv;}
-
     public String getGoogleApiKeyFile() {return googleApiKeyFile;}
-
-    public void setGoogleApiKeyFile(String googleApiKeyFile) {this.googleApiKeyFile = googleApiKeyFile;}
 
     public String getGoogleAppApiKeyFile() {return googleAppApiKeyFile;}
 
-    public void setGoogleAppApiKeyFile(String googleAppApiKeyFile) {this.googleAppApiKeyFile = googleAppApiKeyFile;}
+    public FileLocation getNewVersionFileLocation() {return newVersionFileLocation;}
+
+    public FileLocation getPreviousVersionFileLocation() {return previousVersionFileLocation;}
+
+    public FileLocation getOlderVersionFileLocation() {return olderVersionFileLocation;}
+
+    public void setNewVersionBuildtimePath(String newVersionBuildtimePath) {
+        this.newVersionBuildtimePath = newVersionBuildtimePath;
+    }
+
+    public void setNewVersionRuntimePath(String newVersionRuntimePath) {
+        this.newVersionRuntimePath = newVersionRuntimePath;
+    }
+
+    public void setNewVersionFileLocation(FileLocation newVersionFileLocation) {
+        this.newVersionFileLocation = newVersionFileLocation;
+    }
+
+    public void setPreviousVersionBuildtimePath(String previousVersionBuildtimePath) {
+        this.previousVersionBuildtimePath = previousVersionBuildtimePath;
+    }
+
+    public void setPreviousVersionRuntimePath(String previousVersionRuntimePath) {
+        this.previousVersionRuntimePath = previousVersionRuntimePath;
+    }
+
+    public void setPreviousVersionFileLocation(FileLocation previousVersionFileLocation) {
+        this.previousVersionFileLocation = previousVersionFileLocation;
+    }
+
+    public void setOlderVersionBuildtimePath(String olderVersionBuildtimePath) {
+        this.olderVersionBuildtimePath = olderVersionBuildtimePath;
+    }
+
+    public void setOlderVersionRuntimePath(String olderVersionRuntimePath) {
+        this.olderVersionRuntimePath = olderVersionRuntimePath;
+    }
+
+    public void setOlderVersionFileLocation(FileLocation olderVersionFileLocation) {
+        this.olderVersionFileLocation = olderVersionFileLocation;
+    }
 }
