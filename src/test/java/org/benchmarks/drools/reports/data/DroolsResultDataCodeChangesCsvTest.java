@@ -21,14 +21,14 @@ public class DroolsResultDataCodeChangesCsvTest {
 
     @Before
     public void getPropertiesInstance() throws IOException {
-        droolsProperties = new DroolsProperties("/home/drosa/Documents/Workspace/performance-reports-new-requirements/performance-reports/src/test/java/org/benchmarks/drools/reports/resources/drools-reports-test-csv.properties");
+        droolsProperties = new DroolsProperties("/home/drosa/Documents/Workspace/performance-reports/src/test/java/org/benchmarks/drools/reports/resources/drools-reports-test-csv.properties");
     }
 
     /*Verifies if any code change affects the hashcode ordering strategy. A local config file is loaded to
      * setup local csv source files to compare with a expected hashcode list*/
     @Test
     public void resultNewVersionDataHashcodeCodeChangesTest() throws IOException, ParseException {
-        DroolsResultData droolsResultData = new DroolsResultData(Version.NEW, droolsProperties);
+        DroolsResultData droolsResultData = new DroolsResultData(Version.NEW, droolsProperties.getNewVersionFileLocation(), droolsProperties);
 
         List values = new ArrayList();
         List<ResultRow> testResultData = droolsResultData.getTestResultData();
@@ -48,7 +48,7 @@ public class DroolsResultDataCodeChangesCsvTest {
 
     @Test
     public void resultPreviousVersionDataHashcodeCodeChangesTest() throws IOException, ParseException {
-        DroolsResultData droolsResultData = new DroolsResultData(Version.PREVIOUS, droolsProperties);
+        DroolsResultData droolsResultData = new DroolsResultData(Version.PREVIOUS, droolsProperties.getPreviousVersionFileLocation(), droolsProperties);
 
         List values = new ArrayList();
         List<ResultRow> testResultData = droolsResultData.getTestResultData();
@@ -68,7 +68,7 @@ public class DroolsResultDataCodeChangesCsvTest {
 
     @Test
     public void resultOlderVersionDataHashcodeCodeChangesTest() throws IOException, ParseException {
-        DroolsResultData droolsResultData = new DroolsResultData(Version.OLDER, droolsProperties);
+        DroolsResultData droolsResultData = new DroolsResultData(Version.OLDER, droolsProperties.getOlderVersionFileLocation(), droolsProperties);
 
         List values = new ArrayList();
         List<ResultRow> testResultData = droolsResultData.getTestResultData();

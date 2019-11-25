@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DroolsREsultDataSourceChangesTest {
+public class DroolsResultDataSourceChangesTest {
 
     private DroolsProperties droolsProperties;
 
@@ -21,7 +21,7 @@ public class DroolsREsultDataSourceChangesTest {
      * setup local json source files to compare with a expected hashcode list*/
     @Test
     public void resultNewVersionDataHashcodeCodeChangesTest() throws IOException, ParseException {
-        DroolsResultData droolsResultData = new DroolsResultData(Version.NEW);
+        DroolsResultData droolsResultData = new DroolsResultData(Version.NEW, droolsProperties.getInstance().getNewVersionFileLocation());
 
         List values = new ArrayList();
         List<ResultRow> testResultData = droolsResultData.getTestResultData();
@@ -41,7 +41,7 @@ public class DroolsREsultDataSourceChangesTest {
 
     @Test
     public void resultPreviousVersionDataHashcodeCodeChangesTest() throws IOException, ParseException {
-        DroolsResultData droolsResultData = new DroolsResultData(Version.PREVIOUS);
+        DroolsResultData droolsResultData = new DroolsResultData(Version.PREVIOUS, droolsProperties.getInstance().getPreviousVersionFileLocation());
 
         List values = new ArrayList();
         List<ResultRow> testResultData = droolsResultData.getTestResultData();
@@ -61,7 +61,7 @@ public class DroolsREsultDataSourceChangesTest {
 
     @Test
     public void resultOlderVersionDataHashcodeCodeChangesTest() throws IOException, ParseException {
-        DroolsResultData droolsResultData = new DroolsResultData(Version.OLDER);
+        DroolsResultData droolsResultData = new DroolsResultData(Version.OLDER, droolsProperties.getInstance().getOlderVersionFileLocation());
 
         List values = new ArrayList();
         List<ResultRow> testResultData = droolsResultData.getTestResultData();
