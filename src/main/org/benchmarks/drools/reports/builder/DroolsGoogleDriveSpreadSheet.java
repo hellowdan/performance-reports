@@ -19,8 +19,12 @@ import java.util.List;
 
 public class DroolsGoogleDriveSpreadSheet extends GoogleDriveSpreadSheet {
 
+    private DroolsProperties reportProperties;
+
     public DroolsGoogleDriveSpreadSheet(String spreadSheetNewId, DroolsProperties reportProperties, Sheets sheetService) {
-        super(spreadSheetNewId, reportProperties, sheetService);
+        super(spreadSheetNewId, sheetService);
+
+        this.reportProperties = reportProperties;
     }
 
     @Override

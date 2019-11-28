@@ -2,7 +2,6 @@ package org.benchmarks.reports.builder;
 
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.*;
-import org.benchmarks.drools.reports.data.DroolsProperties;
 import org.benchmarks.reports.data.FileLocation;
 import org.benchmarks.reports.data.Version;
 import org.json.simple.parser.ParseException;
@@ -13,12 +12,10 @@ import java.util.List;
 public abstract class GoogleDriveSpreadSheet {
 
     protected String spreadSheetNewId;
-    protected DroolsProperties reportProperties;
     protected Sheets sheetService;
 
-    public GoogleDriveSpreadSheet(String spreadSheetNewId, DroolsProperties reportProperties, Sheets sheetService) {
+    public GoogleDriveSpreadSheet(String spreadSheetNewId, Sheets sheetService) {
         this.spreadSheetNewId = spreadSheetNewId;
-        this.reportProperties = reportProperties;
         this.sheetService = sheetService;
     }
 

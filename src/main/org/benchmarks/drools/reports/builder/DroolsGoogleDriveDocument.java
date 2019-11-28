@@ -19,8 +19,12 @@ public class DroolsGoogleDriveDocument extends GoogleDriveDocument {
     static String emailAuthor = "{{email_author}}";
     static String reportDate = "{{report_date}}";
 
+    protected DroolsProperties reportProperties;
+
     public DroolsGoogleDriveDocument(String docNewId, String spreadSheetNewId, DroolsProperties reportProperties, Docs docService, Sheets sheetService) throws IOException {
-        super(docNewId, spreadSheetNewId, reportProperties, docService, sheetService);
+        super(docNewId, spreadSheetNewId, docService, sheetService);
+
+        this.reportProperties = reportProperties;
     }
 
     @Override

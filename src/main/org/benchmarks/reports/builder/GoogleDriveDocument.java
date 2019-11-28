@@ -1,39 +1,50 @@
 package org.benchmarks.reports.builder;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import com.google.api.services.docs.v1.Docs;
-import com.google.api.services.docs.v1.model.*;
+import com.google.api.services.docs.v1.model.BatchUpdateDocumentRequest;
+import com.google.api.services.docs.v1.model.BatchUpdateDocumentResponse;
+import com.google.api.services.docs.v1.model.Document;
+import com.google.api.services.docs.v1.model.InsertInlineImageRequest;
+import com.google.api.services.docs.v1.model.Link;
+import com.google.api.services.docs.v1.model.Location;
+import com.google.api.services.docs.v1.model.Range;
+import com.google.api.services.docs.v1.model.ReplaceAllTextRequest;
+import com.google.api.services.docs.v1.model.Request;
+import com.google.api.services.docs.v1.model.SubstringMatchCriteria;
+import com.google.api.services.docs.v1.model.TextStyle;
+import com.google.api.services.docs.v1.model.UpdateTextStyleRequest;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.Spreadsheet;
-import org.benchmarks.drools.reports.data.DroolsProperties;
 import org.benchmarks.reports.data.DocElementPosition;
 import org.benchmarks.reports.util.JsonLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.List;
-
 public abstract class GoogleDriveDocument {
 
     protected String docNewId;
     protected String spreadSheetNewId;
-    protected DroolsProperties reportProperties;
     protected Docs docService;
     protected Sheets sheetService;
     protected Spreadsheet spreadsheetMetadata;
     protected Document documentMetadata;
 
-    protected abstract List<Request> getReplaceAllBody();
-
-    public GoogleDriveDocument(String docNewId, String spreadSheetNewId, DroolsProperties reportProperties, Docs docService, Sheets sheetService) {
+    public GoogleDriveDocument(String docNewId, String spreadSheetNewId, Docs docService, Sheets sheetService) {
         this.docNewId = docNewId;
         this.spreadSheetNewId = spreadSheetNewId;
-        this.reportProperties = reportProperties;
         this.docService = docService;
         this.sheetService = sheetService;
     }
+
+    protected abstract List<Request> getReplaceAllBody();
 
     public BatchUpdateDocumentResponse requestsExecute(List<Request> requests) throws IOException {
         BatchUpdateDocumentRequest body = new BatchUpdateDocumentRequest();
