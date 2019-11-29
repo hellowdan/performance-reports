@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
 import org.benchmarks.commons.definitions.JenkinsReportLocation;
-import org.benchmarks.commons.definitions.JenkinsReportColumns;
+import org.benchmarks.drools.definitions.DroolsReportColumns;
 import org.benchmarks.commons.definitions.JenkinsReportVersion;
 import org.benchmarks.commons.util.PropertiesLoader;
 import org.benchmarks.commons.data.JenkinsReport;
@@ -48,14 +48,14 @@ public class DroolsRuntimeJenkinsReport extends JenkinsReport {
     protected JenkinsReportRow parseJenkinsReportRow(JSONObject testJenkinsReportRow) {
         DroolsJenkinsReportRow droolsResultRow = new DroolsJenkinsReportRow();
 
-        if (testJenkinsReportRow.get(JenkinsReportColumns.benchmark.getColumn()) != null) {
-            droolsResultRow.setName((String) testJenkinsReportRow.get(JenkinsReportColumns.benchmark.getColumn()));
+        if (testJenkinsReportRow.get(DroolsReportColumns.benchmark.getColumn()) != null) {
+            droolsResultRow.setName((String) testJenkinsReportRow.get(DroolsReportColumns.benchmark.getColumn()));
         }
-        if (testJenkinsReportRow.get(JenkinsReportColumns.matchRatio.getColumn()) != null) {
-            droolsResultRow.setMatchRatio(testJenkinsReportRow.get(JenkinsReportColumns.matchRatio.getColumn()).toString());
+        if (testJenkinsReportRow.get(DroolsReportColumns.matchRatio.getColumn()) != null) {
+            droolsResultRow.setMatchRatio(testJenkinsReportRow.get(DroolsReportColumns.matchRatio.getColumn()).toString());
         }
-        if (testJenkinsReportRow.get(JenkinsReportColumns.score.getColumn()) != null) {
-            droolsResultRow.setScore(testJenkinsReportRow.get(JenkinsReportColumns.score.getColumn()).toString());
+        if (testJenkinsReportRow.get(DroolsReportColumns.score.getColumn()) != null) {
+            droolsResultRow.setScore(testJenkinsReportRow.get(DroolsReportColumns.score.getColumn()).toString());
         }
         droolsResultRow.setHashCode();
 

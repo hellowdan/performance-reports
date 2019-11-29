@@ -1,6 +1,6 @@
-package org.benchmarks.commons.definitions;
+package org.benchmarks.drools.definitions;
 
-public enum JenkinsReportColumns {
+public enum DroolsReportColumns {
     benchmark("Benchmark"),
     numberOfRules("Param: numberOfRules"),
     nrOfRules("Param: nrOfRules"),
@@ -12,7 +12,7 @@ public enum JenkinsReportColumns {
 
     private String column;
 
-    JenkinsReportColumns(String column) {
+    DroolsReportColumns(String column) {
         this.column = column;
     }
 

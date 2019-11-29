@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
 import org.benchmarks.commons.definitions.JenkinsReportLocation;
-import org.benchmarks.commons.definitions.JenkinsReportColumns;
+import org.benchmarks.drools.definitions.DroolsReportColumns;
 import org.benchmarks.commons.definitions.JenkinsReportVersion;
 import org.benchmarks.commons.util.PropertiesLoader;
 import org.benchmarks.commons.data.JenkinsReport;
@@ -83,23 +83,23 @@ public class DroolsBuildtimeJenkinsReport extends JenkinsReport {
     protected JenkinsReportRow parseJenkinsReportRow(JSONObject testJenkinsReportRow) {
         DroolsJenkinsReportRow droolsResultRow = new DroolsJenkinsReportRow();
 
-        if (testJenkinsReportRow.get(JenkinsReportColumns.benchmark.getColumn()) != null) {
-            droolsResultRow.setName((String) testJenkinsReportRow.get(JenkinsReportColumns.benchmark.getColumn()));
+        if (testJenkinsReportRow.get(DroolsReportColumns.benchmark.getColumn()) != null) {
+            droolsResultRow.setName((String) testJenkinsReportRow.get(DroolsReportColumns.benchmark.getColumn()));
         }
-        if (testJenkinsReportRow.get(JenkinsReportColumns.numberOfRules.getColumn()) != null) {
-            droolsResultRow.setNumberOfRules(testJenkinsReportRow.get(JenkinsReportColumns.numberOfRules.getColumn()).toString());
+        if (testJenkinsReportRow.get(DroolsReportColumns.numberOfRules.getColumn()) != null) {
+            droolsResultRow.setNumberOfRules(testJenkinsReportRow.get(DroolsReportColumns.numberOfRules.getColumn()).toString());
         }
-        if (testJenkinsReportRow.get(JenkinsReportColumns.nrOfRules.getColumn()) != null) {
-            droolsResultRow.setNrOfRules(testJenkinsReportRow.get(JenkinsReportColumns.nrOfRules.getColumn()).toString());
+        if (testJenkinsReportRow.get(DroolsReportColumns.nrOfRules.getColumn()) != null) {
+            droolsResultRow.setNrOfRules(testJenkinsReportRow.get(DroolsReportColumns.nrOfRules.getColumn()).toString());
         }
-        if (testJenkinsReportRow.get(JenkinsReportColumns.useCanonicalModel.getColumn()) != null) {
-            droolsResultRow.setUseCanonicalModel(testJenkinsReportRow.get(JenkinsReportColumns.useCanonicalModel.getColumn()).toString());
+        if (testJenkinsReportRow.get(DroolsReportColumns.useCanonicalModel.getColumn()) != null) {
+            droolsResultRow.setUseCanonicalModel(testJenkinsReportRow.get(DroolsReportColumns.useCanonicalModel.getColumn()).toString());
         }
-        if (testJenkinsReportRow.get(JenkinsReportColumns.rulesProviderId.getColumn()) != null) {
-            droolsResultRow.setRulesProviderId((String) testJenkinsReportRow.get(JenkinsReportColumns.rulesProviderId.getColumn()));
+        if (testJenkinsReportRow.get(DroolsReportColumns.rulesProviderId.getColumn()) != null) {
+            droolsResultRow.setRulesProviderId((String) testJenkinsReportRow.get(DroolsReportColumns.rulesProviderId.getColumn()));
         }
-        if (testJenkinsReportRow.get(JenkinsReportColumns.score.getColumn()) != null) {
-            droolsResultRow.setScore(testJenkinsReportRow.get(JenkinsReportColumns.score.getColumn()).toString());
+        if (testJenkinsReportRow.get(DroolsReportColumns.score.getColumn()) != null) {
+            droolsResultRow.setScore(testJenkinsReportRow.get(DroolsReportColumns.score.getColumn()).toString());
         }
         droolsResultRow.setHashCode();
 
