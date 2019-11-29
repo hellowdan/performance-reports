@@ -1,22 +1,31 @@
 package org.benchmarks.commons.api.helper;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.services.docs.v1.DocsScopes;
-import com.google.api.services.sheets.v4.SheetsScopes;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.auth.oauth2.ServiceAccountCredentials;
 import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GoogleAuthorizeAsService {
 
-    public static GoogleCredential authorize() throws IOException {
-        List<String> scopes = Arrays.asList(SheetsScopes.SPREADSHEETS, DocsScopes.DOCUMENTS, SheetsScopes.DRIVE);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GoogleAuthorizeAsService.class);
+    private GoogleCredentials credentials;
 
-        GoogleCredential credential = GoogleCredential.fromStream(new FileInputStream(DroolsPropertiesLoader.getInstance().getGoogleAppApiKeyFile()))
-                .createScoped(scopes);
+    public Boolean authorize() {
+        try {
+            FileInputStream serviceAccountStream = new FileInputStream(DroolsPropertiesLoader.getInstance().getGoogleAppApiKeyFile());
+            credentials = ServiceAccountCredentials.fromStream(serviceAccountStream);
+        } catch (IOException e) {
+            LOGGER.debug("File cannot be read.", e);
+        }
 
-        return credential;
+        return (this.credentials != null);
+    }
+
+    public GoogleCredentials getCredentials() {
+        return this.credentials;
     }
 }
