@@ -37,7 +37,6 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
     private String templateSheetID;
     private String resultParentFolderID;
     private String folderTitle;
-    private String googleApiKeyFile;
     private String googleAppApiKeyFile;
 
     public DroolsPropertiesLoader(String filename) throws IOException {
@@ -70,7 +69,6 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
         this.templateSheetID = this.properties.getProperty("template_sheet_id");
         this.resultParentFolderID = this.properties.getProperty("result_parent_folder_id");
         this.folderTitle = this.properties.getProperty("folder_title");
-        this.googleApiKeyFile = this.properties.getProperty("google_api_key_file");
         this.googleAppApiKeyFile = this.properties.getProperty("google_app_api_key_file");
     }
 
@@ -200,10 +198,6 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
 
     public String getFolderTitle() {
         return folderTitle;
-    }
-
-    public String getGoogleApiKeyFile() {
-        return googleApiKeyFile;
     }
 
     public String getGoogleAppApiKeyFile() {

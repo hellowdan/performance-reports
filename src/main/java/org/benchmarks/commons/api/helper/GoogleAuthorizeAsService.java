@@ -1,7 +1,7 @@
 package org.benchmarks.commons.api.helper;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
@@ -16,7 +16,7 @@ public class GoogleAuthorizeAsService {
 
     public Boolean authorize() {
         try {
-            FileInputStream serviceAccountStream = new FileInputStream(DroolsPropertiesLoader.getInstance().getGoogleAppApiKeyFile());
+            InputStream serviceAccountStream = this.getClass().getResourceAsStream(DroolsPropertiesLoader.getInstance().getGoogleAppApiKeyFile());
             credentials = ServiceAccountCredentials.fromStream(serviceAccountStream);
         } catch (IOException e) {
             LOGGER.debug("File cannot be read.", e);
