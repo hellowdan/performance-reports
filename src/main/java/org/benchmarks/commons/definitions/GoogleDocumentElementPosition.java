@@ -17,15 +17,8 @@ public class GoogleDocumentElementPosition {
         return startIndex;
     }
 
-    public void setStartIndex(String startIndex) {
-        this.startIndex = startIndex;
-    }
-
     public String getEndIndex() {
         return endIndex;
     }
 
-    public void setEndIndex(String endIndex) {
-        this.endIndex = endIndex;
-    }
 }

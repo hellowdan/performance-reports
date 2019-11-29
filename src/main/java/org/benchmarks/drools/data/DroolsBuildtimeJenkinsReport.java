@@ -1,41 +1,32 @@
 package org.benchmarks.drools.data;
 
-import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.io.FilenameUtils;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
-import org.benchmarks.commons.definitions.JenkinsReportLocation;
-import org.benchmarks.drools.definitions.DroolsReportColumns;
-import org.benchmarks.commons.definitions.JenkinsReportVersion;
-import org.benchmarks.commons.util.PropertiesLoader;
 import org.benchmarks.commons.data.JenkinsReport;
 import org.benchmarks.commons.data.JenkinsReportRow;
+import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
+import org.benchmarks.commons.definitions.JenkinsReportLocation;
+import org.benchmarks.commons.definitions.JenkinsReportVersion;
 import org.benchmarks.commons.util.CsvLoader;
 import org.benchmarks.commons.util.JsonLoader;
+import org.benchmarks.commons.util.PropertiesLoader;
 import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
+import org.benchmarks.drools.definitions.DroolsReportColumns;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class DroolsBuildtimeJenkinsReport extends JenkinsReport {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DroolsBuildtimeJenkinsReport.class);
 
     protected String buildtimePath;
     protected String buildtimeFileExtension;
 
     public DroolsBuildtimeJenkinsReport(JenkinsReportVersion jenkinsReportVersion, JenkinsReportLocation jenkinsReportLocation) {
         super(jenkinsReportVersion, jenkinsReportLocation);
-
-        try {
-            DroolsPropertiesLoader droolsPropertiesLoader = DroolsPropertiesLoader.getInstance();
-            setDataSourcePath(droolsPropertiesLoader);
-        } catch (IOException e) {
-            LOGGER.debug("File cannot be read.", e);
-        }
+        DroolsPropertiesLoader droolsPropertiesLoader = DroolsPropertiesLoader.getInstance();
+        setDataSourcePath(droolsPropertiesLoader);
     }
 
     /*for tests purposes*/

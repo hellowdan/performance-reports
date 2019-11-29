@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
-import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,10 +14,16 @@ public class GoogleAuthorizeAsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GoogleAuthorizeAsService.class);
     private GoogleCredentials credentials;
 
-    public Boolean authorize() {
+    public Boolean authorize(String googleAppApiKeyFile) {
+        String scopeSheets = "https://www.googleapis.com/auth/spreadsheets";
+        String scopeDocs = "https://www.googleapis.com/auth/documents";
+        String scopeDrive = "https://www.googleapis.com/auth/drive";
+
         try {
-            InputStream serviceAccountStream = this.getClass().getResourceAsStream(DroolsPropertiesLoader.getInstance().getGoogleAppApiKeyFile());
-            credentials = ServiceAccountCredentials.fromStream(serviceAccountStream);
+            InputStream serviceAccountStream = this.getClass().getResourceAsStream(googleAppApiKeyFile);
+            credentials = ServiceAccountCredentials.fromStream(serviceAccountStream).
+                    createScoped(Lists.newArrayList(scopeSheets, scopeDocs, scopeDrive));
+            ;
         } catch (IOException e) {
             LOGGER.debug("File cannot be read.", e);
         }

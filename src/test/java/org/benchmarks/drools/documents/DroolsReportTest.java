@@ -1,6 +1,29 @@
 package org.benchmarks.drools.documents;
 
+import org.junit.Before;
+import org.junit.Test;
+
 public class DroolsReportTest {
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @Test
+    public void generateReportTest() {
+    }
+
+    @Test
+    public void createSpreadSheetTEst() {
+    }
+
+    @Test
+    public void getGoogleDriveFilesTest() {
+    }
+
+    @Test
+    public void createDocTest() {
+    }
 
     /*
     *

@@ -4,18 +4,19 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import com.google.api.services.docs.v1.Docs;
 import com.google.api.services.docs.v1.model.Request;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.benchmarks.commons.definitions.JenkinsReportVersion;
-import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
 import org.benchmarks.commons.api.helper.GoogleDriveHelper;
 import org.benchmarks.commons.api.helper.GoogleDriveService;
 import org.benchmarks.commons.definitions.JenkinsReportLocation;
 import org.benchmarks.commons.definitions.JenkinsReportType;
+import org.benchmarks.commons.definitions.JenkinsReportVersion;
+import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DroolsReport {
 
@@ -33,16 +34,12 @@ public class DroolsReport {
     private Sheets sheetsService;
 
     public DroolsReport() {
-        try {
-            this.droolsPropertiesLoader = DroolsPropertiesLoader.getInstance();
+        this.droolsPropertiesLoader = DroolsPropertiesLoader.getInstance();
 
-            GoogleDriveService googleDriveService = new GoogleDriveService();
-            this.driveService = googleDriveService.getDrive();
-            this.docsService = googleDriveService.getDocs();
-            this.sheetsService = googleDriveService.getSheets();
-        } catch (IOException e) {
-            LOGGER.debug("File cannot be read.", e);
-        }
+        GoogleDriveService googleDriveService = new GoogleDriveService(this.droolsPropertiesLoader.getGoogleAppApiKeyFile());
+        this.driveService = googleDriveService.getDrive();
+        this.docsService = googleDriveService.getDocs();
+        this.sheetsService = googleDriveService.getSheets();
     }
 
     /*for tests purposes*/

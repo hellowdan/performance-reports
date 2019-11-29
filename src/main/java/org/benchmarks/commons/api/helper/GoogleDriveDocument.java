@@ -2,7 +2,6 @@ package org.benchmarks.commons.api.helper;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -56,19 +55,6 @@ public abstract class GoogleDriveDocument {
         try {
             BatchUpdateDocumentRequest body = new BatchUpdateDocumentRequest();
             response = this.docService.documents().batchUpdate(this.docNewId, body.setRequests(requests)).execute();
-        } catch (IOException e) {
-            LOGGER.debug("File cannot be read.", e);
-        }
-
-        return response;
-    }
-
-    protected BatchUpdateDocumentResponse singleRequestExecute(Request request) {
-        BatchUpdateDocumentResponse response = null;
-
-        try {
-            BatchUpdateDocumentRequest body = new BatchUpdateDocumentRequest();
-            response = this.docService.documents().batchUpdate(this.docNewId, body.setRequests(Arrays.asList(request))).execute();
         } catch (IOException e) {
             LOGGER.debug("File cannot be read.", e);
         }

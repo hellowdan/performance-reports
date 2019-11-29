@@ -1,7 +1,5 @@
 package org.benchmarks.drools.definitions;
 
-import java.io.IOException;
-
 import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
 import org.benchmarks.commons.definitions.JenkinsReportLocation;
 import org.benchmarks.commons.util.PropertiesLoader;
@@ -39,7 +37,7 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
     private String folderTitle;
     private String googleAppApiKeyFile;
 
-    public DroolsPropertiesLoader(String filename) throws IOException {
+    public DroolsPropertiesLoader(String filename) {
         super(filename);
 
         this.newVersion = this.properties.getProperty("new_version");
@@ -73,7 +71,7 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
     }
 
     /*singleton instance to be used anytime avoiding I/O*/
-    static public DroolsPropertiesLoader getInstance() throws IOException {
+    static public DroolsPropertiesLoader getInstance(){
         if (droolsProperties == null) {
             droolsProperties = new DroolsPropertiesLoader("/drools-reports.properties");
         }

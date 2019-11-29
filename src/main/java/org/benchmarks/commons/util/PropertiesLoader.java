@@ -16,7 +16,7 @@ public abstract class PropertiesLoader {
     protected String fileName;
 
     public PropertiesLoader(String fileName) {
-        InputStream inputStream = null;
+        InputStream inputStream;
         this.fileName = fileName;
         this.properties = new Properties();
 

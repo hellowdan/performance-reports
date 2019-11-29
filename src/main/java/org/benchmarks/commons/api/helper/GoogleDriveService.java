@@ -21,12 +21,12 @@ public class GoogleDriveService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveHelper.class);
 
-    public GoogleDriveService() {
+    public GoogleDriveService(String googleAppApiKeyFile) {
         GoogleCredentials credentials = null;
 
         try {
             GoogleAuthorizeAsService googleAuthorizeAsService = new GoogleAuthorizeAsService();
-            if(googleAuthorizeAsService.authorize()) {
+            if(googleAuthorizeAsService.authorize(googleAppApiKeyFile)) {
                 credentials = googleAuthorizeAsService.getCredentials();
             }
 
