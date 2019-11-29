@@ -25,7 +25,7 @@ public class DroolsCodeChangesJsonTest {
     @Before
     public void getPropertiesInstance() {
         try {
-            droolsProperties = new DroolsPropertiesLoader("/org/benchmarks/drools/resources/drools-reports-code-changes-json.properties");
+            droolsProperties = new DroolsPropertiesLoader("/drools-reports-code-changes-json.properties");
         } catch (IOException e) {
             LOGGER.debug("File cannot be read.", e);
         }

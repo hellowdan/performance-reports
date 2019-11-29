@@ -51,8 +51,7 @@ public class DroolsGoogleDriveSpreadSheet extends GoogleDriveSpreadSheet {
         DroolsRuntimeJenkinsReport droolsRuntimeJenkinsReport = new DroolsRuntimeJenkinsReport(jenkinsReportVersion, jenkinsReportLocation);
 
         List values = new ArrayList();
-        List<JenkinsReportRow> testResultData = null;
-        testResultData.addAll(droolsBuildtimeJenkinsReport.getData());
+        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData();
         testResultData.addAll(droolsRuntimeJenkinsReport.getData());
 
         for (Integer key : DroolsSheetPositions.droolsSheetPositions.keySet()) {

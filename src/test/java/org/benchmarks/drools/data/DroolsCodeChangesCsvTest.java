@@ -25,7 +25,7 @@ public class DroolsCodeChangesCsvTest {
     @Before
     public void getPropertiesInstance() {
         try {
-            droolsProperties = new DroolsPropertiesLoader("/org/benchmarks/drools/resources/drools-reports-code-changes-csv.properties");
+            droolsProperties = new DroolsPropertiesLoader("/drools-reports-code-changes-csv.properties");
         } catch (IOException e) {
             LOGGER.debug("File cannot be read.", e);
         }
