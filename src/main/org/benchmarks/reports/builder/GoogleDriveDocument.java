@@ -27,8 +27,13 @@ import org.benchmarks.reports.util.JsonLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class GoogleDriveDocument {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveDocument.class);
 
     protected String docNewId;
     protected String spreadSheetNewId;
@@ -46,16 +51,28 @@ public abstract class GoogleDriveDocument {
 
     protected abstract List<Request> getReplaceAllBody();
 
-    public BatchUpdateDocumentResponse requestsExecute(List<Request> requests) throws IOException {
-        BatchUpdateDocumentRequest body = new BatchUpdateDocumentRequest();
-        BatchUpdateDocumentResponse response = this.docService.documents().batchUpdate(this.docNewId, body.setRequests(requests)).execute();
+    public BatchUpdateDocumentResponse requestsExecute(List<Request> requests) {
+        BatchUpdateDocumentResponse response = null;
+
+        try {
+            BatchUpdateDocumentRequest body = new BatchUpdateDocumentRequest();
+            response = this.docService.documents().batchUpdate(this.docNewId, body.setRequests(requests)).execute();
+        } catch (IOException e) {
+            LOGGER.debug("File cannot be read.", e);
+        }
 
         return response;
     }
 
-    protected BatchUpdateDocumentResponse singleRequestExecute(Request request) throws IOException {
-        BatchUpdateDocumentRequest body = new BatchUpdateDocumentRequest();
-        BatchUpdateDocumentResponse response = this.docService.documents().batchUpdate(this.docNewId, body.setRequests(Arrays.asList(request))).execute();
+    protected BatchUpdateDocumentResponse singleRequestExecute(Request request) {
+        BatchUpdateDocumentResponse response = null;
+
+        try {
+            BatchUpdateDocumentRequest body = new BatchUpdateDocumentRequest();
+            response = this.docService.documents().batchUpdate(this.docNewId, body.setRequests(Arrays.asList(request))).execute();
+        } catch (IOException e) {
+            LOGGER.debug("File cannot be read.", e);
+        }
 
         return response;
     }
@@ -95,18 +112,30 @@ public abstract class GoogleDriveDocument {
         return request;
     }
 
-    protected void loadMetadataFromSpreadSheet() throws IOException {
-        Sheets.Spreadsheets.Get request = this.sheetService.spreadsheets().get(this.spreadSheetNewId);
-        Spreadsheet response = request.execute();
+    protected Spreadsheet loadMetadataFromSpreadSheet() {
+        Spreadsheet response = null;
 
-        this.spreadsheetMetadata = response;
+        try {
+            Sheets.Spreadsheets.Get request = this.sheetService.spreadsheets().get(this.spreadSheetNewId);
+            response = request.execute();
+        } catch (IOException e) {
+            LOGGER.debug("File cannot be read.", e);
+        }
+
+        return response;
     }
 
-    protected void loadMetadataFromDocument() throws IOException {
-        Docs.Documents.Get request = this.docService.documents().get(this.docNewId);
-        Document response = request.execute();
+    protected Document loadMetadataFromDocument() {
+        Document response = null;
 
-        this.documentMetadata = response;
+        try {
+            Docs.Documents.Get request = this.docService.documents().get(this.docNewId);
+            response = request.execute();
+        } catch (IOException e) {
+            LOGGER.debug("File cannot be read.", e);
+        }
+
+        return response;
     }
 
     protected String getSpreadSheetTabUrl(String SpreadSheetID, String tabID) {
@@ -117,8 +146,8 @@ public abstract class GoogleDriveDocument {
         return "https://docs.google.com/spreadsheets/d/" + SpreadSheetID + "/pubchart?oid=" + chartID + "&format=image";
     }
 
-    protected BatchUpdateDocumentResponse executeChartRequests(String chartTitle, String tabUrl, String chartUrl) throws IOException {
-        loadMetadataFromDocument();
+    protected BatchUpdateDocumentResponse executeChartRequests(String chartTitle, String tabUrl, String chartUrl) {
+        this.documentMetadata = loadMetadataFromDocument();
         List<Request> requests = new ArrayList<>();
         DocElementPosition docElementPosition = jsonSearchForChartElement(this.documentMetadata.getBody().getContent().toString(), chartTitle);
         if (docElementPosition != null) {
@@ -131,8 +160,8 @@ public abstract class GoogleDriveDocument {
         }
     }
 
-    public List<BatchUpdateDocumentResponse> updateChartWithLink() throws IOException {
-        loadMetadataFromSpreadSheet();
+    public List<BatchUpdateDocumentResponse> updateChartWithLink() {
+        this.spreadsheetMetadata = loadMetadataFromSpreadSheet();
         List<BatchUpdateDocumentResponse> responses = new ArrayList<>();
 
         for (int i = 0; i < spreadsheetMetadata.getSheets().size(); i++) {
@@ -191,8 +220,8 @@ public abstract class GoogleDriveDocument {
                     break;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ParseException e) {
+            LOGGER.debug("File cannot be parsed.", e);
         }
 
         return found;

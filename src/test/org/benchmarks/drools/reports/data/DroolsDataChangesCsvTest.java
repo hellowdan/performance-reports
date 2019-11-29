@@ -1,5 +1,10 @@
 package org.benchmarks.drools.reports.data;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.google.api.services.drive.Drive;
 import org.benchmarks.drools.reports.definitions.DroolsSheetPositionsTest;
 import org.benchmarks.reports.builder.GoogleDriveHelper;
@@ -10,22 +15,26 @@ import org.benchmarks.reports.data.ResultRow;
 import org.benchmarks.reports.data.Version;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class DroolsDataChangesCsvTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DroolsDataChangesCsvTest.class);
 
     private DroolsProperties droolsProperties;
     private Drive driveService;
 
     @Before
-    public void init() throws IOException {
-        droolsProperties = new DroolsProperties("/drools-reports-data-changes-csv.properties");
+    public void init() {
+        try {
+            droolsProperties = new DroolsProperties("/drools-reports-data-changes-csv.properties");
+        } catch (IOException e) {
+            LOGGER.debug("File cannot be read.", e);
+        }
 
         GoogleDriveService googleDriveService = new GoogleDriveService();
         driveService = googleDriveService.getDrive();
@@ -50,7 +59,7 @@ public class DroolsDataChangesCsvTest {
     }
 
     /*Verifies if any code change affects the hashcode ordering strategy. A local config file is loaded to
-    * setup local json source files to compare with a expected hashcode list*/
+     * setup local json source files to compare with a expected hashcode list*/
     @Test
     public void resultNewVersionDataHashcodeCodeChangesTest() {
         DroolsBuildtimeData droolsBuildtimeData = new DroolsBuildtimeData(Version.NEW, droolsProperties.getNewVersionFileLocation(), droolsProperties);

@@ -17,16 +17,25 @@ import org.benchmarks.reports.util.CsvLoader;
 import org.benchmarks.reports.util.JsonLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DroolsBuildtimeData extends ResultData {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DroolsBuildtimeData.class);
 
     protected String buildtimePath;
     protected String buildtimeFileExtension;
 
-    public DroolsBuildtimeData(Version version, FileLocation fileLocation) throws IOException {
+    public DroolsBuildtimeData(Version version, FileLocation fileLocation) {
         super(version, fileLocation);
-        DroolsProperties reportProperties = DroolsProperties.getInstance();
-        setDataSourcePath(reportProperties);
+
+        try {
+            DroolsProperties reportProperties = DroolsProperties.getInstance();
+            setDataSourcePath(reportProperties);
+        } catch (IOException e) {
+            LOGGER.debug("File cannot be read.", e);
+        }
     }
 
     /*for tests purposes*/

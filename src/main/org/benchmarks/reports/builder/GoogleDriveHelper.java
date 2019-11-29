@@ -1,5 +1,11 @@
 package org.benchmarks.reports.builder;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Arrays;
+
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.Revision;
@@ -10,16 +16,13 @@ import org.benchmarks.reports.data.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.util.Arrays;
-
 /*Provides the general Google authentication for the inherited classes.
  *Already implemented for Drools.*/
 public class GoogleDriveHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveHelper.class);
 
-    public static String createNewDir(Drive driveService, String folderTitle, String resultParentFolderID) throws IOException {
+    public static String createNewDir(Drive driveService, String folderTitle, String resultParentFolderID) {
         String newID = "";
         try {
             File body = new File();
@@ -29,7 +32,7 @@ public class GoogleDriveHelper {
             File file = driveService.files().create(body).setFields("id").execute();
             newID = file.getId();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.debug("Failed creating new folder on Google Drive: " + folderTitle, e);
         }
 
         return newID;
@@ -54,7 +57,7 @@ public class GoogleDriveHelper {
                     .setFields("id, parents")
                     .execute().getId();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.debug("Failed moving a file to a new folder on Google Drive.", e);
         }
 
         return newID;
@@ -67,41 +70,53 @@ public class GoogleDriveHelper {
             copiedFile.setName(fileTitle);
             newID = driveService.files().copy(templateID, copiedFile).execute().getId();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.debug("Failed copying a file on Google Drive.", e);
         }
 
         return newID;
     }
 
-    public static ByteArrayOutputStream downloadFile(Drive driveService, String fileID) throws IOException {
+    public static ByteArrayOutputStream downloadFile(Drive driveService, String fileID) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        driveService.files().get(fileID)
-                .executeMediaAndDownloadTo(outputStream);
+
+        try {
+            driveService.files().get(fileID).executeMediaAndDownloadTo(outputStream);
+        } catch (IOException e) {
+            LOGGER.debug("Failed downloading a file from Google Drive.", e);
+        }
+
         return outputStream;
     }
 
-    public static Boolean setPublishFile(Drive driveService, String fileID) throws IOException {
-        driveService.revisions().update(fileID, "head", new Revision()
-                .setPublishAuto(true)
-                .setPublished(true)
-                .setPublishedOutsideDomain(true)
-        )
-                .setFields("id,mimeType,modifiedTime,publishAuto,published,publishedOutsideDomain")
-                .execute();
+    public static Boolean setPublishFile(Drive driveService, String fileID) {
+        Boolean result = false;
 
-        RevisionList revisions = driveService.revisions().list(fileID)
-                .setFields("nextPageToken,revisions(id,mimeType,modifiedTime,publishAuto,published,publishedOutsideDomain)")
-                .execute();
+        try {
+            driveService.revisions().update(fileID, "head", new Revision()
+                    .setPublishAuto(true)
+                    .setPublished(true)
+                    .setPublishedOutsideDomain(true)
+            )
+                    .setFields("id,mimeType,modifiedTime,publishAuto,published,publishedOutsideDomain")
+                    .execute();
 
-        final Revision updated = Iterables.getLast(revisions.getRevisions());
+            RevisionList revisions = driveService.revisions().list(fileID)
+                    .setFields("nextPageToken,revisions(id,mimeType,modifiedTime,publishAuto,published,publishedOutsideDomain)")
+                    .execute();
 
-        return (updated.getPublishAuto() && updated.getPublished() && updated.getPublishedOutsideDomain());
+            final Revision updated = Iterables.getLast(revisions.getRevisions());
+            result = (updated.getPublishAuto() && updated.getPublished() && updated.getPublishedOutsideDomain());
+        } catch (IOException e) {
+            LOGGER.debug("Failed sharing a file on Google Drive.", e);
+        }
+
+        return result;
     }
 
     public static void writeToFile(ByteArrayOutputStream byteArrayOutputStream, String filePath) {
         try (OutputStream outputStream = new FileOutputStream(filePath)) {
             byteArrayOutputStream.writeTo(outputStream);
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOGGER.debug("Failed to write file to disk: " + filePath, e);
         }
     }

@@ -1,32 +1,41 @@
 package org.benchmarks.drools.reports.data;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.google.api.services.drive.Drive;
+import org.benchmarks.drools.reports.definitions.DroolsSheetPositionsTest;
 import org.benchmarks.reports.builder.GoogleDriveHelper;
 import org.benchmarks.reports.builder.GoogleDriveService;
 import org.benchmarks.reports.data.FileLocation;
 import org.benchmarks.reports.data.InputFileType;
 import org.benchmarks.reports.data.ResultRow;
 import org.benchmarks.reports.data.Version;
-import org.benchmarks.drools.reports.definitions.DroolsSheetPositionsTest;
 import org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class DroolsDataSourceChangesTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DroolsDataSourceChangesTest.class);
 
     private DroolsProperties droolsProperties;
     private Drive driveService;
 
     @Before
-    public void init() throws IOException {
-        droolsProperties = DroolsProperties.getInstance();
+    public void init() {
+        try {
+            droolsProperties = DroolsProperties.getInstance();
+        } catch (IOException e) {
+            LOGGER.debug("File cannot be read.", e);
+        }
 
         GoogleDriveService googleDriveService = new GoogleDriveService();
         driveService = googleDriveService.getDrive();
