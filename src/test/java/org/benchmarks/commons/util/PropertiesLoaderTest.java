@@ -1,17 +1,17 @@
 package org.benchmarks.commons.util;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class PropertiesLoaderTest {
 
-    @Before
-    public void setUp() throws Exception {
-    }
-
     @Test
     public void getPropertiesTest() {
+        PropertiesLoader propertiesLoader;
+        propertiesLoader = new PropertiesLoader("/propertiesLoaderTest.properties");
+
+        assertThat(propertiesLoader.getFilesTitle(), is("Properties file loaded successfully!"));
     }
 }

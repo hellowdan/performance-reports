@@ -112,12 +112,16 @@ public class GoogleDriveHelper {
         return result;
     }
 
-    public static void writeToFile(ByteArrayOutputStream byteArrayOutputStream, String filePath) {
+    public static Boolean writeToFile(ByteArrayOutputStream byteArrayOutputStream, String filePath) {
+        Boolean result = false;
         try (OutputStream outputStream = new FileOutputStream(filePath)) {
             byteArrayOutputStream.writeTo(outputStream);
+            result = true;
         } catch (IOException e) {
             LOGGER.debug("Failed to write file to disk: " + filePath, e);
         }
+
+        return result;
     }
 
     public static String prepareGoogleDriveFile(Drive driveService, String fileType, String fileID, JenkinsReportVersion jenkinsReportVersion, JenkinsReportFileExtension jenkinsReportFileExtension) {

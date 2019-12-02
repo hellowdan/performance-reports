@@ -6,46 +6,31 @@ import org.benchmarks.commons.util.PropertiesLoader;
 
 public class DroolsPropertiesLoader extends PropertiesLoader {
 
-    static private DroolsPropertiesLoader droolsProperties = null;
+    static private DroolsPropertiesLoader droolsPropertiesLoader = null;
 
-    private String newVersion;
-    private String previousVersion;
-    private String olderVersion;
-    private String reportDate;
-    private String author;
-    private String emailAuthor;
     private String newVersionBuildtimePath;
     private String newVersionRuntimePath;
     private JenkinsReportLocation newVersionJenkinsReportLocation;
     private JenkinsReportFileExtension newVersionJenkinsReportFileExtension;
+
     private String previousVersionBuildtimePath;
     private String previousVersionRuntimePath;
     private JenkinsReportLocation previousVersionJenkinsReportLocation;
     private JenkinsReportFileExtension previousVersionJenkinsReportFileExtension;
+
     private String olderVersionBuildtimePath;
     private String olderVersionRuntimePath;
     private JenkinsReportLocation olderVersionJenkinsReportLocation;
     private JenkinsReportFileExtension olderVersionJenkinsReportFileExtension;
+
     private String newVersionRepositoryFolderID;
     private String previousVersionRepositoryFolderID;
     private String olderVersionRepositoryFolderID;
-    private String filesTitle;
-    private String templateTitle;
-    private String templateDocID;
-    private String templateSheetID;
-    private String resultParentFolderID;
-    private String folderTitle;
-    private String googleAppApiKeyFile;
+
 
     public DroolsPropertiesLoader(String filename) {
         super(filename);
 
-        this.newVersion = this.properties.getProperty("new_version");
-        this.previousVersion = this.properties.getProperty("previous_version");
-        this.olderVersion = this.properties.getProperty("older_version");
-        this.reportDate = this.properties.getProperty("report_date");
-        this.author = this.properties.getProperty("author");
-        this.emailAuthor = this.properties.getProperty("email_author");
         this.newVersionBuildtimePath = this.properties.getProperty("new_version_buildtime_path");
         this.newVersionRuntimePath = this.properties.getProperty("new_version_runtime_path");
         this.newVersionJenkinsReportLocation = JenkinsReportLocation.getLocation(this.properties.getProperty("new_version_file_location"));
@@ -61,45 +46,14 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
         this.newVersionRepositoryFolderID = this.properties.getProperty("new_version_repository_folder_id");
         this.previousVersionRepositoryFolderID = this.properties.getProperty("previous_version_repository_folder_id");
         this.olderVersionRepositoryFolderID = this.properties.getProperty("older_version_repository_folder_id");
-        this.filesTitle = this.properties.getProperty("files_title");
-        this.templateTitle = this.properties.getProperty("template_title");
-        this.templateDocID = this.properties.getProperty("template_doc_id");
-        this.templateSheetID = this.properties.getProperty("template_sheet_id");
-        this.resultParentFolderID = this.properties.getProperty("result_parent_folder_id");
-        this.folderTitle = this.properties.getProperty("folder_title");
-        this.googleAppApiKeyFile = this.properties.getProperty("google_app_api_key_file");
     }
 
     /*singleton instance to be used anytime avoiding I/O*/
     static public DroolsPropertiesLoader getInstance(){
-        if (droolsProperties == null) {
-            droolsProperties = new DroolsPropertiesLoader("/drools-reports.properties");
+        if (droolsPropertiesLoader == null) {
+            droolsPropertiesLoader = new DroolsPropertiesLoader("/drools-reports.properties");
         }
-        return droolsProperties;
-    }
-
-    public String getNewVersion() {
-        return newVersion;
-    }
-
-    public String getPreviousVersion() {
-        return previousVersion;
-    }
-
-    public String getOlderVersion() {
-        return olderVersion;
-    }
-
-    public String getReportDate() {
-        return reportDate;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getEmailAuthor() {
-        return emailAuthor;
+        return droolsPropertiesLoader;
     }
 
     public String getNewVersionBuildtimePath() {
@@ -172,34 +126,6 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
 
     public void setOlderVersionRepositoryFolderID(String olderVersionRepositoryFolderID) {
         this.olderVersionRepositoryFolderID = olderVersionRepositoryFolderID;
-    }
-
-    public String getFilesTitle() {
-        return filesTitle;
-    }
-
-    public String getTemplateTitle() {
-        return templateTitle;
-    }
-
-    public String getTemplateDocID() {
-        return templateDocID;
-    }
-
-    public String getTemplateSheetID() {
-        return templateSheetID;
-    }
-
-    public String getResultParentFolderID() {
-        return resultParentFolderID;
-    }
-
-    public String getFolderTitle() {
-        return folderTitle;
-    }
-
-    public String getGoogleAppApiKeyFile() {
-        return googleAppApiKeyFile;
     }
 
     public JenkinsReportLocation getNewVersionJenkinsReportLocation() {
