@@ -1,13 +1,14 @@
 package org.benchmarks.drools.documents;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import com.google.api.services.sheets.v4.Sheets;
+
 import com.google.api.services.sheets.v4.model.Request;
 import com.google.api.services.sheets.v4.model.ValueRange;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
+import org.benchmarks.commons.util.PropertiesLoader;
 import org.benchmarks.drools.data.DroolsBuildtimeJenkinsReport;
 import org.benchmarks.drools.data.DroolsRuntimeJenkinsReport;
 import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
@@ -19,40 +20,43 @@ import org.benchmarks.commons.data.JenkinsReportRow;
 
 public class DroolsGoogleDriveSpreadSheet extends GoogleDriveSpreadSheet {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DroolsGoogleDriveSpreadSheet.class);
 
     static String newVersion = "{{new_version}}";
     static String previousVersion = "{{previous_version}}";
     static String olderVersion = "{{older_version}}";
-    private DroolsPropertiesLoader droolsPropertiesLoader;
 
-    public DroolsGoogleDriveSpreadSheet(String spreadSheetNewId, DroolsPropertiesLoader droolsPropertiesLoader, Sheets sheetService) {
-        super(spreadSheetNewId, sheetService);
-
-        this.droolsPropertiesLoader = droolsPropertiesLoader;
+    public DroolsGoogleDriveSpreadSheet() {
+        super();
     }
 
     @Override
-    protected List<Request> getUpdateInfoRequestsBody() {
+    protected List<Request> getUpdateInfoRequestsBody(PropertiesLoader propertiesLoader) {
+        DroolsPropertiesLoader droolsPropertiesLoader = (DroolsPropertiesLoader) propertiesLoader;
+
         List<Request> requests = new ArrayList<>();
 
-        requests.add(getReplaceSpreadSheetBodyRequest(newVersion, this.droolsPropertiesLoader.getNewVersion()));
-        requests.add(getReplaceSpreadSheetBodyRequest(previousVersion, this.droolsPropertiesLoader.getPreviousVersion()));
-        requests.add(getReplaceSpreadSheetBodyRequest(olderVersion, this.droolsPropertiesLoader.getOlderVersion()));
+        requests.add(getReplaceSpreadSheetBodyRequest(newVersion, droolsPropertiesLoader.getNewVersion()));
+        requests.add(getReplaceSpreadSheetBodyRequest(previousVersion, droolsPropertiesLoader.getPreviousVersion()));
+        requests.add(getReplaceSpreadSheetBodyRequest(olderVersion, droolsPropertiesLoader.getOlderVersion()));
 
         return requests;
     }
 
     @Override
-    protected ValueRange getUpdateDataRequestsBody(JenkinsReportVersion jenkinsReportVersion, JenkinsReportLocation jenkinsReportLocation) {
+    protected ValueRange getUpdateDataRequestsBody(JenkinsReportFileExtension jenkinsReportFileExtension, JenkinsReportVersion jenkinsReportVersion, JenkinsReportLocation jenkinsReportLocation, PropertiesLoader propertiesLoader) throws IOException {
+        DroolsPropertiesLoader droolsPropertiesLoader = (DroolsPropertiesLoader) propertiesLoader;
+
         ValueRange body = new ValueRange();
 
-        DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport(jenkinsReportVersion, jenkinsReportLocation);
-        DroolsRuntimeJenkinsReport droolsRuntimeJenkinsReport = new DroolsRuntimeJenkinsReport(jenkinsReportVersion, jenkinsReportLocation);
+        DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport();
+        DroolsRuntimeJenkinsReport droolsRuntimeJenkinsReport = new DroolsRuntimeJenkinsReport();
+
+        String buildtimePath = droolsBuildtimeJenkinsReport.getDataSourcePath(jenkinsReportVersion, droolsPropertiesLoader);
+        String runtimePath = droolsRuntimeJenkinsReport.getDataSourcePath(jenkinsReportVersion, droolsPropertiesLoader);
 
         List values = new ArrayList();
-        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData();
-        testResultData.addAll(droolsRuntimeJenkinsReport.getData());
+        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, jenkinsReportFileExtension, jenkinsReportLocation);
+        testResultData.addAll(droolsRuntimeJenkinsReport.getData(runtimePath, jenkinsReportFileExtension, jenkinsReportLocation));
 
         for (Integer key : DroolsSheetPositions.droolsSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {

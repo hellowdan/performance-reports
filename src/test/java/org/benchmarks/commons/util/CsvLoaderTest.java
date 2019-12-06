@@ -5,26 +5,34 @@ import java.io.IOException;
 
 import org.benchmarks.commons.definitions.JenkinsReportLocation;
 import org.json.simple.JSONArray;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class CsvLoaderTest {
 
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
+
     @Test
-    public void getDataFromCSVWebTest() {
+    public void getDataFromCSVWebTest() throws IOException {
         JSONArray dataJson;
-        String filePath = "https://rhba-qe-jenkins.rhev-ci-vms.eng.rdu2.redhat.com/job/BxMS/job/RHPAM-7.5-brew/job/performance/job/bre-perf/job/blessed-perf-turtle-buildtime-benchmarks/lastSuccessfulBuild/artifact/results.csv";
+        String filePath = "http://localhost:8585/buildtime.csv";
 
         CsvLoader csvLoader = new CsvLoader();
         dataJson = csvLoader.getDataFromCSV(filePath, JenkinsReportLocation.WEB);
 
         Assert.assertNotNull(dataJson);
-
-        //TO-DO need to publish a CSV file in a HTTP server (with HTTPS)
     }
 
     @Test
-    public void getDataFromCSVClasspathTest() {
+    public void getDataFromCSVClasspathTest() throws IOException {
         JSONArray dataJson;
         String filePath = "/buildtime.csv";
 

@@ -1,36 +1,41 @@
 package org.benchmarks.drools.documents;
 
-import org.junit.Before;
+import com.google.api.services.drive.Drive;
+
+import org.benchmarks.commons.api.helper.GoogleDriveService;
+import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
+
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class DroolsReportTest {
 
-    @Before
-    public void setUp() throws Exception {
+    @Test
+    public void generateReportTest() throws Exception {
+        DroolsPropertiesLoader droolsPropertiesLoader = new DroolsPropertiesLoader("/droolsReportTest.properties");
+
+        DroolsReport droolsReport = new DroolsReport(droolsPropertiesLoader);
+        Boolean result = droolsReport.generateReport();
+
+        assertThat(result, is(true));
     }
 
     @Test
-    public void generateReportTest() {
+    public void getGoogleDriveFilesTest() throws Exception {
+        DroolsPropertiesLoader droolsPropertiesLoader = new DroolsPropertiesLoader("/getGoogleDriveFiles.properties");
+        GoogleDriveService googleDriveService = new GoogleDriveService(droolsPropertiesLoader.getGoogleAppApiKeyFile());
+
+        Drive driveService = googleDriveService.getDrive();
+
+        try {
+            DroolsReport droolsReport = new DroolsReport(droolsPropertiesLoader);
+            droolsReport.getGoogleDriveFiles(droolsPropertiesLoader, driveService);
+
+            assert(true);
+        } catch (Exception e) {
+            assert(false);
+        }
     }
-
-    @Test
-    public void createSpreadSheetTEst() {
-    }
-
-    @Test
-    public void getGoogleDriveFilesTest() {
-    }
-
-    @Test
-    public void createDocTest() {
-    }
-
-    /*
-    *
-    * TO-DO: the automated auth is done, so now I can write tests for google api methods
-    *
-    * */
-
-
 
 }

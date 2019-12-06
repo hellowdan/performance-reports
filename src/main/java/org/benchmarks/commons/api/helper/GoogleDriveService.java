@@ -21,7 +21,7 @@ public class GoogleDriveService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveHelper.class);
 
-    public GoogleDriveService(String googleAppApiKeyFile) {
+    public GoogleDriveService(String googleAppApiKeyFile) throws Exception {
         GoogleCredentials credentials = null;
 
         try {
@@ -35,6 +35,7 @@ public class GoogleDriveService {
             this.drive = new Drive.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), new HttpCredentialsAdapter(credentials)).setApplicationName("performance-reports").build();
         } catch (GeneralSecurityException | IOException e) {
             LOGGER.debug("Failed to get Google Drive credentials.", e);
+            throw new Exception("Failed to get Google Drive credentials.", e);
         }
     }
 

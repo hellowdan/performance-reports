@@ -1,5 +1,7 @@
 package org.benchmarks.drools.definitions;
 
+import java.io.IOException;
+
 import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
 import org.benchmarks.commons.definitions.JenkinsReportLocation;
 import org.benchmarks.commons.util.PropertiesLoader;
@@ -28,7 +30,7 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
     private String olderVersionRepositoryFolderID;
 
 
-    public DroolsPropertiesLoader(String filename) {
+    public DroolsPropertiesLoader(String filename) throws IOException {
         super(filename);
 
         this.newVersionBuildtimePath = this.properties.getProperty("new_version_buildtime_path");
@@ -49,7 +51,7 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
     }
 
     /*singleton instance to be used anytime avoiding I/O*/
-    static public DroolsPropertiesLoader getInstance(){
+    static public DroolsPropertiesLoader getInstance() throws IOException {
         if (droolsPropertiesLoader == null) {
             droolsPropertiesLoader = new DroolsPropertiesLoader("/drools-reports.properties");
         }

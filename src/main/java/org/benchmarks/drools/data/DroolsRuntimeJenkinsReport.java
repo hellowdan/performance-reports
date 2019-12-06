@@ -1,52 +1,31 @@
 package org.benchmarks.drools.data;
 
-import java.nio.file.InvalidPathException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.io.FilenameUtils;
 import org.benchmarks.commons.data.JenkinsReport;
 import org.benchmarks.commons.data.JenkinsReportRow;
-import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
-import org.benchmarks.commons.definitions.JenkinsReportLocation;
 import org.benchmarks.commons.definitions.JenkinsReportVersion;
-import org.benchmarks.commons.util.CsvLoader;
-import org.benchmarks.commons.util.JsonLoader;
 import org.benchmarks.commons.util.PropertiesLoader;
 import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
 import org.benchmarks.drools.definitions.DroolsReportColumns;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class DroolsRuntimeJenkinsReport extends JenkinsReport {
 
-    protected String runtimePath;
-    protected String runtimeFileExtension;
-
-    public DroolsRuntimeJenkinsReport(JenkinsReportVersion jenkinsReportVersion, JenkinsReportLocation jenkinsReportLocation) {
-        super(jenkinsReportVersion, jenkinsReportLocation);
-        DroolsPropertiesLoader droolsPropertiesLoader = DroolsPropertiesLoader.getInstance();
-        setDataSourcePath(droolsPropertiesLoader);
-    }
-
-    /*for tests purposes*/
-    public DroolsRuntimeJenkinsReport(JenkinsReportVersion jenkinsReportVersion, JenkinsReportLocation jenkinsReportLocation, DroolsPropertiesLoader droolsPropertiesLoader) {
-        super(jenkinsReportVersion, jenkinsReportLocation);
-        setDataSourcePath(droolsPropertiesLoader);
+    public DroolsRuntimeJenkinsReport() {
+        super();
     }
 
     @Override
-    protected JenkinsReportRow parseJenkinsReportRow(JSONObject testJenkinsReportRow) {
+    protected JenkinsReportRow parseJenkinsReportRow(JSONObject jenkinsReportRow) {
         DroolsJenkinsReportRow droolsResultRow = new DroolsJenkinsReportRow();
 
-        if (testJenkinsReportRow.get(DroolsReportColumns.benchmark.getColumn()) != null) {
-            droolsResultRow.setName((String) testJenkinsReportRow.get(DroolsReportColumns.benchmark.getColumn()));
+        if (jenkinsReportRow.get(DroolsReportColumns.benchmark.getColumn()) != null) {
+            droolsResultRow.setName((String) jenkinsReportRow.get(DroolsReportColumns.benchmark.getColumn()));
         }
-        if (testJenkinsReportRow.get(DroolsReportColumns.matchRatio.getColumn()) != null) {
-            droolsResultRow.setMatchRatio(testJenkinsReportRow.get(DroolsReportColumns.matchRatio.getColumn()).toString());
+        if (jenkinsReportRow.get(DroolsReportColumns.matchRatio.getColumn()) != null) {
+            droolsResultRow.setMatchRatio(jenkinsReportRow.get(DroolsReportColumns.matchRatio.getColumn()).toString());
         }
-        if (testJenkinsReportRow.get(DroolsReportColumns.score.getColumn()) != null) {
-            droolsResultRow.setScore(testJenkinsReportRow.get(DroolsReportColumns.score.getColumn()).toString());
+        if (jenkinsReportRow.get(DroolsReportColumns.score.getColumn()) != null) {
+            droolsResultRow.setScore(jenkinsReportRow.get(DroolsReportColumns.score.getColumn()).toString());
         }
         droolsResultRow.setHashCode();
 
@@ -54,37 +33,15 @@ public class DroolsRuntimeJenkinsReport extends JenkinsReport {
     }
 
     @Override
-    protected void setDataSourcePath(PropertiesLoader propertiesLoader) {
+    public String getDataSourcePath(JenkinsReportVersion jenkinsReportVersion, PropertiesLoader propertiesLoader) {
         DroolsPropertiesLoader droolsProperties = (DroolsPropertiesLoader) propertiesLoader;
 
-        if (this.jenkinsReportVersion == JenkinsReportVersion.NEW) {
-            this.runtimePath = droolsProperties.getNewVersionRuntimePath();
-        } else if (this.jenkinsReportVersion == JenkinsReportVersion.PREVIOUS) {
-            this.runtimePath = droolsProperties.getPreviousVersionRuntimePath();
-        } else if (this.jenkinsReportVersion == JenkinsReportVersion.OLDER) {
-            this.runtimePath = droolsProperties.getOlderVersionRuntimePath();
-        }
-
-        this.runtimeFileExtension = FilenameUtils.getExtension(this.runtimePath);
-    }
-
-    @Override
-    public List<JenkinsReportRow> getData() {
-        List<JenkinsReportRow> droolsTestResultData = new ArrayList<>();
-        JSONArray dataJson;
-
-        if (this.runtimeFileExtension.equals(JenkinsReportFileExtension.CSV.getExtension())) {
-            CsvLoader csvLoader = new CsvLoader();
-            dataJson = csvLoader.getDataFromCSV(this.runtimePath, this.jenkinsReportLocation);
-        } else if (this.runtimeFileExtension.equals(JenkinsReportFileExtension.JSON.getExtension())) {
-            JsonLoader jsonLoader = new JsonLoader();
-            dataJson = jsonLoader.getDataFromJson(this.runtimePath, this.jenkinsReportLocation);
-        } else {
-            throw new InvalidPathException("Invalid file extension: ", this.runtimePath + " - " + this.runtimeFileExtension);
-        }
-
-        dataJson.forEach(testResultRow -> droolsTestResultData.add(parseJenkinsReportRow((JSONObject) testResultRow)));
-
-        return droolsTestResultData;
+        if (jenkinsReportVersion == JenkinsReportVersion.NEW) {
+            return droolsProperties.getNewVersionRuntimePath();
+        } else if (jenkinsReportVersion == JenkinsReportVersion.PREVIOUS) {
+            return droolsProperties.getPreviousVersionRuntimePath();
+        } else if (jenkinsReportVersion == JenkinsReportVersion.OLDER) {
+            return droolsProperties.getOlderVersionRuntimePath();
+        } else return "";
     }
 }

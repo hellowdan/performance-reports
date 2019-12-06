@@ -2,11 +2,14 @@ package org.benchmarks.commons.api.helper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 
 import com.google.api.services.drive.Drive;
+
 import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
 import org.benchmarks.commons.definitions.JenkinsReportType;
 import org.benchmarks.commons.definitions.JenkinsReportVersion;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +36,7 @@ public class GoogleDriveHelperTest {
     }
 
     @Test
-    public void createNewDirTest() {
+    public void createNewDirTest() throws IOException {
         String folderNewId;
         folderNewId = GoogleDriveHelper.createNewDir(this.driveService, newFolderTitle, ResultParentFolderID);
 
@@ -41,7 +44,7 @@ public class GoogleDriveHelperTest {
     }
 
     @Test
-    public void moveFileTest() {
+    public void moveFileTest() throws IOException {
         String docCopiedFileNewId;
         String docMovedFileNewId;
 
@@ -52,7 +55,7 @@ public class GoogleDriveHelperTest {
     }
 
     @Test
-    public void copyFileTest() {
+    public void copyFileTest() throws IOException {
         String docCopiedFileNewId;
 
         docCopiedFileNewId = GoogleDriveHelper.copyFile(this.driveService, newFileTitle, templateDocID);
@@ -61,7 +64,7 @@ public class GoogleDriveHelperTest {
     }
 
     @Test
-    public void downloadFileTest() {
+    public void downloadFileTest() throws IOException {
         ByteArrayOutputStream byteArrayOutputStream;
         byteArrayOutputStream = GoogleDriveHelper.downloadFile(this.driveService, fileToDownloadID);
 
@@ -69,14 +72,14 @@ public class GoogleDriveHelperTest {
     }
 
     @Test
-    public void setPublishFileTest() {
+    public void setPublishFileTest() throws IOException {
         Boolean result = GoogleDriveHelper.setPublishFile(this.driveService, templateDocID);
 
         assertThat(result, is(true));
     }
 
     @Test
-    public void writeToFileTest() {
+    public void writeToFileTest() throws IOException {
         Boolean result;
         ByteArrayOutputStream byteArrayOutputStream;
 
@@ -87,7 +90,7 @@ public class GoogleDriveHelperTest {
     }
 
     @Test
-    public void prepareGoogleDriveFileTest() {
+    public void prepareGoogleDriveFileTest() throws IOException {
         this.filePathPrepareGoogleDriveFile = GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.BUILDTIME.getFileType(), fileToDownloadID, JenkinsReportVersion.NEW, JenkinsReportFileExtension.CSV);
         File downloadedFile = new File(this.filePathPrepareGoogleDriveFile);
 

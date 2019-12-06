@@ -21,7 +21,7 @@ public class GoogleDriveHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveHelper.class);
 
-    public static String createNewDir(Drive driveService, String folderTitle, String resultParentFolderID) {
+    public static String createNewDir(Drive driveService, String folderTitle, String resultParentFolderID) throws IOException {
         String newID = "";
         try {
             File body = new File();
@@ -32,12 +32,13 @@ public class GoogleDriveHelper {
             newID = file.getId();
         } catch (IOException e) {
             LOGGER.debug("Failed creating new folder on Google Drive: " + folderTitle, e);
+            throw new IOException("Failed creating new folder on Google Drive: " + folderTitle, e);
         }
 
         return newID;
     }
 
-    public static String moveFile(Drive driveService, String fileNewID, String folderNewID) {
+    public static String moveFile(Drive driveService, String fileNewID, String folderNewID) throws IOException {
         String newID = "";
         try {
             File fileToMove = driveService.files().get(fileNewID)
@@ -57,12 +58,13 @@ public class GoogleDriveHelper {
                     .execute().getId();
         } catch (IOException e) {
             LOGGER.debug("Failed moving a file to a new folder on Google Drive.", e);
+            throw new IOException("Failed moving a file to a new folder on Google Drive.", e);
         }
 
         return newID;
     }
 
-    public static String copyFile(Drive driveService, String fileTitle, String templateID) {
+    public static String copyFile(Drive driveService, String fileTitle, String templateID) throws IOException {
         String newID = "";
         try {
             File copiedFile = new File();
@@ -70,25 +72,27 @@ public class GoogleDriveHelper {
             newID = driveService.files().copy(templateID, copiedFile).execute().getId();
         } catch (IOException e) {
             LOGGER.debug("Failed copying a file on Google Drive.", e);
+            throw new IOException("Failed copying a file on Google Drive.", e);
         }
 
         return newID;
     }
 
-    public static ByteArrayOutputStream downloadFile(Drive driveService, String fileID) {
+    public static ByteArrayOutputStream downloadFile(Drive driveService, String fileID) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         try {
             driveService.files().get(fileID).executeMediaAndDownloadTo(outputStream);
         } catch (IOException e) {
             LOGGER.debug("Failed downloading a file from Google Drive.", e);
+            throw new IOException("Failed downloading a file on Google Drive.", e);
         }
 
         return outputStream;
     }
 
-    public static Boolean setPublishFile(Drive driveService, String fileID) {
-        Boolean result = false;
+    public static Boolean setPublishFile(Drive driveService, String fileID) throws IOException {
+        Boolean result;
 
         try {
             driveService.revisions().update(fileID, "head", new Revision()
@@ -107,24 +111,26 @@ public class GoogleDriveHelper {
             result = (updated.getPublishAuto() && updated.getPublished() && updated.getPublishedOutsideDomain());
         } catch (IOException e) {
             LOGGER.debug("Failed sharing a file on Google Drive.", e);
+            throw new IOException("Failed sharing a file on Google Drive.", e);
         }
 
         return result;
     }
 
-    public static Boolean writeToFile(ByteArrayOutputStream byteArrayOutputStream, String filePath) {
+    public static Boolean writeToFile(ByteArrayOutputStream byteArrayOutputStream, String filePath) throws IOException {
         Boolean result = false;
         try (OutputStream outputStream = new FileOutputStream(filePath)) {
             byteArrayOutputStream.writeTo(outputStream);
             result = true;
         } catch (IOException e) {
             LOGGER.debug("Failed to write file to disk: " + filePath, e);
+            throw new IOException("Failed to write file to disk: " + filePath, e);
         }
 
         return result;
     }
 
-    public static String prepareGoogleDriveFile(Drive driveService, String fileType, String fileID, JenkinsReportVersion jenkinsReportVersion, JenkinsReportFileExtension jenkinsReportFileExtension) {
+    public static String prepareGoogleDriveFile(Drive driveService, String fileType, String fileID, JenkinsReportVersion jenkinsReportVersion, JenkinsReportFileExtension jenkinsReportFileExtension) throws IOException {
         String filePath = "";
         ByteArrayOutputStream byteArrayOutputStream;
 
@@ -135,6 +141,8 @@ public class GoogleDriveHelper {
         } catch (Exception e) {
             LOGGER.debug("Failed to download file from Google Drive: " + fileID + " - " +
                                  jenkinsReportVersion.toString() + fileType + "." + jenkinsReportFileExtension.getExtension(), e);
+            throw new IOException("Failed to download file from Google Drive: " + fileID + " - " +
+                                          jenkinsReportVersion.toString() + fileType + "." + jenkinsReportFileExtension.getExtension(), e);
         }
 
         return filePath;

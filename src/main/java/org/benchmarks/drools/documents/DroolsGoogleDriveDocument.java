@@ -1,12 +1,10 @@
 package org.benchmarks.drools.documents;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.api.services.docs.v1.Docs;
 import com.google.api.services.docs.v1.model.Request;
-import com.google.api.services.sheets.v4.Sheets;
 import org.benchmarks.commons.api.helper.GoogleDriveDocument;
+import org.benchmarks.commons.util.PropertiesLoader;
 import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
 
 public class DroolsGoogleDriveDocument extends GoogleDriveDocument {
@@ -18,24 +16,22 @@ public class DroolsGoogleDriveDocument extends GoogleDriveDocument {
     static String emailAuthor = "{{email_author}}";
     static String reportDate = "{{report_date}}";
 
-    protected DroolsPropertiesLoader droolsPropertiesLoader;
-
-    public DroolsGoogleDriveDocument(String docNewId, String spreadSheetNewId, DroolsPropertiesLoader droolsPropertiesLoader, Docs docService, Sheets sheetService) throws IOException {
-        super(docNewId, spreadSheetNewId, docService, sheetService);
-
-        this.droolsPropertiesLoader = droolsPropertiesLoader;
+    public DroolsGoogleDriveDocument() {
+        super();
     }
 
     @Override
-    protected List<Request> getReplaceAllBody() {
+    protected List<Request> getReplaceAllBody(PropertiesLoader propertiesLoader) {
+        DroolsPropertiesLoader droolsPropertiesLoader = (DroolsPropertiesLoader) propertiesLoader;
+
         List<Request> requests = new ArrayList<>();
 
-        requests.add(getReplaceTextBodyRequest(newVersion, this.droolsPropertiesLoader.getNewVersion()));
-        requests.add(getReplaceTextBodyRequest(previousVersion, this.droolsPropertiesLoader.getPreviousVersion()));
-        requests.add(getReplaceTextBodyRequest(olderVersion, this.droolsPropertiesLoader.getOlderVersion()));
-        requests.add(getReplaceTextBodyRequest(author, this.droolsPropertiesLoader.getAuthor()));
-        requests.add(getReplaceTextBodyRequest(emailAuthor, this.droolsPropertiesLoader.getEmailAuthor()));
-        requests.add(getReplaceTextBodyRequest(reportDate, this.droolsPropertiesLoader.getReportDate()));
+        requests.add(getReplaceTextBodyRequest(newVersion, droolsPropertiesLoader.getNewVersion()));
+        requests.add(getReplaceTextBodyRequest(previousVersion, droolsPropertiesLoader.getPreviousVersion()));
+        requests.add(getReplaceTextBodyRequest(olderVersion, droolsPropertiesLoader.getOlderVersion()));
+        requests.add(getReplaceTextBodyRequest(author, droolsPropertiesLoader.getAuthor()));
+        requests.add(getReplaceTextBodyRequest(emailAuthor, droolsPropertiesLoader.getEmailAuthor()));
+        requests.add(getReplaceTextBodyRequest(reportDate, droolsPropertiesLoader.getReportDate()));
 
         return requests;
     }

@@ -14,7 +14,7 @@ public class GoogleAuthorizeAsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GoogleAuthorizeAsService.class);
     private GoogleCredentials credentials;
 
-    public Boolean authorize(String googleAppApiKeyFile) {
+    public Boolean authorize(String googleAppApiKeyFile) throws IOException {
         String scopeSheets = "https://www.googleapis.com/auth/spreadsheets";
         String scopeDocs = "https://www.googleapis.com/auth/documents";
         String scopeDrive = "https://www.googleapis.com/auth/drive";
@@ -26,6 +26,7 @@ public class GoogleAuthorizeAsService {
             ;
         } catch (IOException e) {
             LOGGER.debug("File cannot be read.", e);
+            throw new IOException("File cannot be read.", e);
         }
 
         return (this.credentials != null);

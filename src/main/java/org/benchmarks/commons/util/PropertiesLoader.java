@@ -29,7 +29,7 @@ public class PropertiesLoader {
     protected Properties properties = null;
     protected String fileName;
 
-    public PropertiesLoader(String fileName) {
+    public PropertiesLoader(String fileName) throws IOException {
 
         this.fileName = fileName;
         if(loadPropertiesFile()) {
@@ -49,7 +49,7 @@ public class PropertiesLoader {
         }
     }
 
-    private Boolean loadPropertiesFile(){
+    private Boolean loadPropertiesFile() throws IOException {
         Boolean result = false;
         InputStream inputStream;
         this.properties = new Properties();
@@ -65,6 +65,7 @@ public class PropertiesLoader {
             }
         } catch (IOException e) {
             LOGGER.debug("Properties file not found: " + fileName, e);
+            throw new IOException("Properties file not found: " + fileName, e);
         }
 
         return result;

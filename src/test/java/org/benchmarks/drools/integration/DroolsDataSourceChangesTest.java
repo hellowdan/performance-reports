@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.google.api.services.drive.Drive;
+
 import org.benchmarks.commons.api.helper.GoogleDriveHelper;
 import org.benchmarks.commons.api.helper.GoogleDriveService;
 import org.benchmarks.commons.data.JenkinsReportRow;
@@ -16,7 +17,7 @@ import org.benchmarks.drools.data.DroolsBuildtimeJenkinsReport;
 import org.benchmarks.drools.data.DroolsRuntimeJenkinsReport;
 import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
 import org.benchmarks.drools.definitions.DroolsSheetPositionsTest;
-import org.json.simple.parser.ParseException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,45 +26,48 @@ import static org.junit.Assert.assertThat;
 
 public class DroolsDataSourceChangesTest {
 
-    private DroolsPropertiesLoader droolsProperties;
+    private DroolsPropertiesLoader droolsPropertiesLoader;
     private Drive driveService;
 
     @Before
-    public void setUp() {
-        droolsProperties = DroolsPropertiesLoader.getInstance();
+    public void setUp() throws Exception {
+        droolsPropertiesLoader = DroolsPropertiesLoader.getInstance();
 
-        GoogleDriveService googleDriveService = new GoogleDriveService(droolsProperties.getGoogleAppApiKeyFile());
+        GoogleDriveService googleDriveService = new GoogleDriveService(droolsPropertiesLoader.getGoogleAppApiKeyFile());
         driveService = googleDriveService.getDrive();
 
-        if (droolsProperties.getNewVersionJenkinsReportLocation() == JenkinsReportLocation.DRIVE) {
-            droolsProperties.setNewVersionJenkinsReportLocation(JenkinsReportLocation.LOCAL);
-            droolsProperties.setNewVersionBuildtimePath(GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.BUILDTIME.getFileType(), droolsProperties.getNewVersionBuildtimePath(), JenkinsReportVersion.NEW, droolsProperties.getNewVersionJenkinsReportFileExtension()));
-            droolsProperties.setNewVersionRuntimePath(GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.RUNTIME.getFileType(), droolsProperties.getNewVersionRuntimePath(), JenkinsReportVersion.NEW, droolsProperties.getNewVersionJenkinsReportFileExtension()));
+        if (droolsPropertiesLoader.getNewVersionJenkinsReportLocation() == JenkinsReportLocation.DRIVE) {
+            droolsPropertiesLoader.setNewVersionJenkinsReportLocation(JenkinsReportLocation.LOCAL);
+            droolsPropertiesLoader.setNewVersionBuildtimePath(GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.BUILDTIME.getFileType(), droolsPropertiesLoader.getNewVersionBuildtimePath(), JenkinsReportVersion.NEW, droolsPropertiesLoader.getNewVersionJenkinsReportFileExtension()));
+            droolsPropertiesLoader.setNewVersionRuntimePath(GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.RUNTIME.getFileType(), droolsPropertiesLoader.getNewVersionRuntimePath(), JenkinsReportVersion.NEW, droolsPropertiesLoader.getNewVersionJenkinsReportFileExtension()));
         }
 
-        if (droolsProperties.getPreviousVersionJenkinsReportLocation() == JenkinsReportLocation.DRIVE) {
-            droolsProperties.setPreviousVersionJenkinsReportLocation(JenkinsReportLocation.LOCAL);
-            droolsProperties.setPreviousVersionBuildtimePath(GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.BUILDTIME.getFileType(), droolsProperties.getPreviousVersionBuildtimePath(), JenkinsReportVersion.PREVIOUS, droolsProperties.getPreviousVersionJenkinsReportFileExtension()));
-            droolsProperties.setPreviousVersionRuntimePath(GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.RUNTIME.getFileType(), droolsProperties.getPreviousVersionRuntimePath(), JenkinsReportVersion.PREVIOUS, droolsProperties.getPreviousVersionJenkinsReportFileExtension()));
+        if (droolsPropertiesLoader.getPreviousVersionJenkinsReportLocation() == JenkinsReportLocation.DRIVE) {
+            droolsPropertiesLoader.setPreviousVersionJenkinsReportLocation(JenkinsReportLocation.LOCAL);
+            droolsPropertiesLoader.setPreviousVersionBuildtimePath(GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.BUILDTIME.getFileType(), droolsPropertiesLoader.getPreviousVersionBuildtimePath(), JenkinsReportVersion.PREVIOUS, droolsPropertiesLoader.getPreviousVersionJenkinsReportFileExtension()));
+            droolsPropertiesLoader.setPreviousVersionRuntimePath(GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.RUNTIME.getFileType(), droolsPropertiesLoader.getPreviousVersionRuntimePath(), JenkinsReportVersion.PREVIOUS, droolsPropertiesLoader.getPreviousVersionJenkinsReportFileExtension()));
         }
 
-        if (droolsProperties.getOlderVersionJenkinsReportLocation() == JenkinsReportLocation.DRIVE) {
-            droolsProperties.setOlderVersionJenkinsReportLocation(JenkinsReportLocation.LOCAL);
-            droolsProperties.setOlderVersionBuildtimePath(GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.BUILDTIME.getFileType(), droolsProperties.getOlderVersionBuildtimePath(), JenkinsReportVersion.OLDER, droolsProperties.getOlderVersionJenkinsReportFileExtension()));
-            droolsProperties.setOlderVersionRuntimePath(GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.RUNTIME.getFileType(), droolsProperties.getOlderVersionRuntimePath(), JenkinsReportVersion.OLDER, droolsProperties.getOlderVersionJenkinsReportFileExtension()));
+        if (droolsPropertiesLoader.getOlderVersionJenkinsReportLocation() == JenkinsReportLocation.DRIVE) {
+            droolsPropertiesLoader.setOlderVersionJenkinsReportLocation(JenkinsReportLocation.LOCAL);
+            droolsPropertiesLoader.setOlderVersionBuildtimePath(GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.BUILDTIME.getFileType(), droolsPropertiesLoader.getOlderVersionBuildtimePath(), JenkinsReportVersion.OLDER, droolsPropertiesLoader.getOlderVersionJenkinsReportFileExtension()));
+            droolsPropertiesLoader.setOlderVersionRuntimePath(GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.RUNTIME.getFileType(), droolsPropertiesLoader.getOlderVersionRuntimePath(), JenkinsReportVersion.OLDER, droolsPropertiesLoader.getOlderVersionJenkinsReportFileExtension()));
         }
     }
 
     /*Verifies if any code change affects the hashcode ordering strategy. A local config file is loaded to
      * setup local json source files to compare with a expected hashcode list*/
     @Test
-    public void resultNewVersionDataHashcodeCodeChangesTest() throws IOException, ParseException {
-        DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport(JenkinsReportVersion.NEW, droolsProperties.getNewVersionJenkinsReportLocation());
-        DroolsRuntimeJenkinsReport droolsRuntimeJenkinsReport = new DroolsRuntimeJenkinsReport(JenkinsReportVersion.NEW, droolsProperties.getNewVersionJenkinsReportLocation());
+    public void resultNewVersionDataHashcodeCodeChangesTest() throws IOException {
+        DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport();
+        DroolsRuntimeJenkinsReport droolsRuntimeJenkinsReport = new DroolsRuntimeJenkinsReport();
+
+        String buildtimePath = droolsBuildtimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.NEW, droolsPropertiesLoader);
+        String runtimePath = droolsRuntimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.NEW, droolsPropertiesLoader);
 
         List values = new ArrayList();
-        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData();
-        testResultData.addAll(droolsRuntimeJenkinsReport.getData());
+        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, droolsPropertiesLoader.getNewVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getNewVersionJenkinsReportLocation());
+        testResultData.addAll(droolsRuntimeJenkinsReport.getData(runtimePath, droolsPropertiesLoader.getNewVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getNewVersionJenkinsReportLocation()));
 
         for (Integer key : DroolsSheetPositionsTest.droolsSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
@@ -80,12 +84,15 @@ public class DroolsDataSourceChangesTest {
 
     @Test
     public void resultPreviousVersionDataHashcodeCodeChangesTest() throws IOException {
-        DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport(JenkinsReportVersion.PREVIOUS, droolsProperties.getPreviousVersionJenkinsReportLocation());
-        DroolsRuntimeJenkinsReport droolsRuntimeJenkinsReport = new DroolsRuntimeJenkinsReport(JenkinsReportVersion.PREVIOUS, droolsProperties.getPreviousVersionJenkinsReportLocation());
+        DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport();
+        DroolsRuntimeJenkinsReport droolsRuntimeJenkinsReport = new DroolsRuntimeJenkinsReport();
+
+        String buildtimePath = droolsBuildtimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.PREVIOUS, droolsPropertiesLoader);
+        String runtimePath = droolsRuntimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.PREVIOUS, droolsPropertiesLoader);
 
         List values = new ArrayList();
-        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData();
-        testResultData.addAll(droolsRuntimeJenkinsReport.getData());
+        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, droolsPropertiesLoader.getPreviousVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getPreviousVersionJenkinsReportLocation());
+        testResultData.addAll(droolsRuntimeJenkinsReport.getData(runtimePath, droolsPropertiesLoader.getPreviousVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getPreviousVersionJenkinsReportLocation()));
 
         for (Integer key : DroolsSheetPositionsTest.droolsSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
@@ -102,12 +109,15 @@ public class DroolsDataSourceChangesTest {
 
     @Test
     public void resultOlderVersionDataHashcodeCodeChangesTest() throws IOException {
-        DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport(JenkinsReportVersion.OLDER, droolsProperties.getOlderVersionJenkinsReportLocation());
-        DroolsRuntimeJenkinsReport droolsRuntimeJenkinsReport = new DroolsRuntimeJenkinsReport(JenkinsReportVersion.OLDER, droolsProperties.getOlderVersionJenkinsReportLocation());
+        DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport();
+        DroolsRuntimeJenkinsReport droolsRuntimeJenkinsReport = new DroolsRuntimeJenkinsReport();
+
+        String buildtimePath = droolsBuildtimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.OLDER, droolsPropertiesLoader);
+        String runtimePath = droolsRuntimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.OLDER, droolsPropertiesLoader);
 
         List values = new ArrayList();
-        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData();
-        testResultData.addAll(droolsRuntimeJenkinsReport.getData());
+        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, droolsPropertiesLoader.getOlderVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getOlderVersionJenkinsReportLocation());
+        testResultData.addAll(droolsRuntimeJenkinsReport.getData(runtimePath, droolsPropertiesLoader.getOlderVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getOlderVersionJenkinsReportLocation()));
 
         for (Integer key : DroolsSheetPositionsTest.droolsSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {

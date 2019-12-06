@@ -1,73 +1,17 @@
 package org.benchmarks.drools.data;
 
-import java.nio.file.InvalidPathException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.io.FilenameUtils;
 import org.benchmarks.commons.data.JenkinsReport;
 import org.benchmarks.commons.data.JenkinsReportRow;
-import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
-import org.benchmarks.commons.definitions.JenkinsReportLocation;
 import org.benchmarks.commons.definitions.JenkinsReportVersion;
-import org.benchmarks.commons.util.CsvLoader;
-import org.benchmarks.commons.util.JsonLoader;
 import org.benchmarks.commons.util.PropertiesLoader;
 import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
 import org.benchmarks.drools.definitions.DroolsReportColumns;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class DroolsBuildtimeJenkinsReport extends JenkinsReport {
 
-    protected String buildtimePath;
-    protected String buildtimeFileExtension;
-
-    public DroolsBuildtimeJenkinsReport(JenkinsReportVersion jenkinsReportVersion, JenkinsReportLocation jenkinsReportLocation) {
-        super(jenkinsReportVersion, jenkinsReportLocation);
-        DroolsPropertiesLoader droolsPropertiesLoader = DroolsPropertiesLoader.getInstance();
-        setDataSourcePath(droolsPropertiesLoader);
-    }
-
-    /*for tests purposes*/
-    public DroolsBuildtimeJenkinsReport(JenkinsReportVersion jenkinsReportVersion, JenkinsReportLocation jenkinsReportLocation, DroolsPropertiesLoader droolsPropertiesLoader) {
-        super(jenkinsReportVersion, jenkinsReportLocation);
-        setDataSourcePath(droolsPropertiesLoader);
-    }
-
-    @Override
-    public List<JenkinsReportRow> getData() {
-        List<JenkinsReportRow> droolsTestResultData = new ArrayList<>();
-        JSONArray dataJson;
-
-        if (this.buildtimeFileExtension.equals(JenkinsReportFileExtension.CSV.getExtension())) {
-            CsvLoader csvLoader = new CsvLoader();
-            dataJson = csvLoader.getDataFromCSV(this.buildtimePath, this.jenkinsReportLocation);
-        } else if (this.buildtimeFileExtension.equals(JenkinsReportFileExtension.JSON.getExtension())) {
-            JsonLoader jsonLoader = new JsonLoader();
-            dataJson = jsonLoader.getDataFromJson(this.buildtimePath, this.jenkinsReportLocation);
-        } else {
-            throw new InvalidPathException("Invalid file extension: ", this.buildtimePath + " - " + this.buildtimeFileExtension);
-        }
-
-        dataJson.forEach(testResultRow -> droolsTestResultData.add(parseJenkinsReportRow((JSONObject) testResultRow)));
-
-        return droolsTestResultData;
-    }
-
-    @Override
-    protected void setDataSourcePath(PropertiesLoader propertiesLoader) {
-        DroolsPropertiesLoader droolsProperties = (DroolsPropertiesLoader) propertiesLoader;
-
-        if (this.jenkinsReportVersion == JenkinsReportVersion.NEW) {
-            this.buildtimePath = droolsProperties.getNewVersionBuildtimePath();
-        } else if (this.jenkinsReportVersion == JenkinsReportVersion.PREVIOUS) {
-            this.buildtimePath = droolsProperties.getPreviousVersionBuildtimePath();
-        } else if (this.jenkinsReportVersion == JenkinsReportVersion.OLDER) {
-            this.buildtimePath = droolsProperties.getOlderVersionBuildtimePath();
-        }
-
-        this.buildtimeFileExtension = FilenameUtils.getExtension(this.buildtimePath);
+    public DroolsBuildtimeJenkinsReport() {
+        super();
     }
 
     @Override
@@ -96,4 +40,18 @@ public class DroolsBuildtimeJenkinsReport extends JenkinsReport {
 
         return droolsResultRow;
     }
+
+    @Override
+    public String getDataSourcePath(JenkinsReportVersion jenkinsReportVersion, PropertiesLoader propertiesLoader) {
+        DroolsPropertiesLoader droolsProperties = (DroolsPropertiesLoader) propertiesLoader;
+
+        if (jenkinsReportVersion == JenkinsReportVersion.NEW) {
+            return droolsProperties.getNewVersionBuildtimePath();
+        } else if (jenkinsReportVersion == JenkinsReportVersion.PREVIOUS) {
+            return droolsProperties.getPreviousVersionBuildtimePath();
+        } else if (jenkinsReportVersion == JenkinsReportVersion.OLDER) {
+            return droolsProperties.getOlderVersionBuildtimePath();
+        } else return "";
+    }
+
 }

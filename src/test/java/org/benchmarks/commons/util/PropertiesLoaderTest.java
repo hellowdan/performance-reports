@@ -1,5 +1,7 @@
 package org.benchmarks.commons.util;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -8,7 +10,7 @@ import static org.junit.Assert.assertThat;
 public class PropertiesLoaderTest {
 
     @Test
-    public void getPropertiesTest() {
+    public void getPropertiesTest() throws IOException {
         PropertiesLoader propertiesLoader;
         propertiesLoader = new PropertiesLoader("/propertiesLoaderTest.properties");
 

@@ -5,9 +5,6 @@ public class GoogleDocumentElementPosition {
     private String startIndex;
     private String endIndex;
 
-    public GoogleDocumentElementPosition() {
-    }
-
     public GoogleDocumentElementPosition(String startIndex, String endIndex) {
         this.startIndex = startIndex;
         this.endIndex = endIndex;

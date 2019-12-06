@@ -17,7 +17,7 @@ public class HttpOperations {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpOperations.class);
 
-    public static Object getFileObjectFromWeb(String url) {
+    public static Object getFileObjectFromWeb(String url) throws IOException {
         Object input = null;
 
         try {
@@ -29,12 +29,13 @@ public class HttpOperations {
             }
         } catch (MalformedURLException e) {
             LOGGER.debug("Invalid URL: " + url, e);
+            throw new MalformedURLException("Invalid URL: " + url);
         }
 
         return input;
     }
 
-    public static Reader getFileReaderFromWeb(String url) {
+    public static Reader getFileReaderFromWeb(String url) throws IOException {
         Reader input = null;
 
         try {
@@ -44,11 +45,12 @@ public class HttpOperations {
             }
         } catch (MalformedURLException e) {
             LOGGER.debug("Invalid URL: " + url, e);
+            throw new MalformedURLException("Invalid URL: " + url);
         }
         return input;
     }
 
-    private static Reader getFileReaderFromHTTP(URL url) {
+    private static Reader getFileReaderFromHTTP(URL url) throws IOException {
         Reader input = null;
 
         try {
@@ -57,12 +59,13 @@ public class HttpOperations {
             input = new BufferedReader(in);
         } catch (IOException e) {
             LOGGER.debug("Content from URL cannot be read: " + url.getPath(), e);
+            throw new IOException("Content from URL cannot be read: " + url.getPath(), e);
         }
 
         return input;
     }
 
-    private static Object getFileObjectFromHTTPS(URL url) {
+    private static Object getFileObjectFromHTTPS(URL url) throws IOException {
         Object input = null;
 
         try {
@@ -71,12 +74,13 @@ public class HttpOperations {
             input = new BufferedReader(in);
         } catch (IOException e) {
             LOGGER.debug("Content from URL cannot be read: " + url.getPath(), e);
+            throw new IOException("Content from URL cannot be read: " + url.getPath(), e);
         }
 
         return input;
     }
 
-    private static Object getFileObjectFromHTTP(URL url) {
+    private static Object getFileObjectFromHTTP(URL url) throws IOException {
         Object input = null;
 
         try {
@@ -85,6 +89,7 @@ public class HttpOperations {
             input = new BufferedReader(in);
         } catch (IOException e) {
             LOGGER.debug("Content from URL cannot be read: " + url.getPath(), e);
+            throw new IOException("Content from URL cannot be read: " + url.getPath(), e);
         }
 
         return input;

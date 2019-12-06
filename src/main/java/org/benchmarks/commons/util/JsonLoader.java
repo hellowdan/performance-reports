@@ -17,7 +17,7 @@ public class JsonLoader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonLoader.class);
 
-    public JSONArray getParsedData(Reader reader) {
+    public JSONArray getParsedData(Reader reader) throws IOException, ParseException {
         JSONParser jsonParser = new JSONParser();
         JSONArray jsonArray = new JSONArray();
 
@@ -26,14 +26,16 @@ public class JsonLoader {
             jsonArray = (JSONArray) obj;
         } catch (ParseException e) {
             LOGGER.debug("Content cannot be parsed.", e);
+            throw new ParseException(e.getErrorType());
         } catch (IOException e) {
             LOGGER.debug("Content cannot be read.", e);
+            throw new IOException("Content cannot be parsed.", e);
         }
 
         return jsonArray;
     }
 
-    public JSONArray getDataFromJson(String jsonFile, JenkinsReportLocation jenkinsReportLocation) {
+    public JSONArray getDataFromJson(String jsonFile, JenkinsReportLocation jenkinsReportLocation) throws IOException {
         JSONArray jsonArray = null;
         Reader input = null;
 
@@ -46,8 +48,9 @@ public class JsonLoader {
                 input = new FileReader(jsonFile);
             }
             jsonArray = getParsedData(input);
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | ParseException e) {
             LOGGER.debug("File not found: " + jsonFile, e);
+            throw new IOException("File not found: " + jsonFile, e);
         }
 
         return jsonArray;

@@ -12,10 +12,6 @@ public enum JenkinsReportLocation {
         this.location = location;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
     public static JenkinsReportLocation getLocation(String location) {
         if(location.equals(LOCAL.toString())){
             return JenkinsReportLocation.LOCAL;

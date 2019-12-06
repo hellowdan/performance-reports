@@ -7,6 +7,7 @@ import java.io.Reader;
 
 import org.benchmarks.commons.definitions.JenkinsReportLocation;
 import org.json.simple.JSONArray;
+import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ import static org.junit.Assert.*;
 public class JsonLoaderTest {
 
     @Test
-    public void getParsedDataTest() {
+    public void getParsedDataTest() throws IOException, ParseException {
         String filePath = "/buildtime.json";
 
         Reader reader = new InputStreamReader(this.getClass().getResourceAsStream(filePath));
@@ -32,7 +33,7 @@ public class JsonLoaderTest {
     }
 
     @Test
-    public void getDataFromJsonClasspathTest() {
+    public void getDataFromJsonClasspathTest() throws IOException {
         JSONArray dataJson;
         String filePath = "/buildtime.json";
 
