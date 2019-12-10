@@ -1,8 +1,8 @@
 package org.benchmarks.commons.data;
 
-public abstract class JenkinsReportRow {
+public interface JenkinsReportRow {
 
-    public abstract int getHashCode();
+    int getHashCode();
 
-    public abstract String getScore();
+    String getScore();
 }

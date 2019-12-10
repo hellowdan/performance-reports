@@ -8,12 +8,12 @@ import org.benchmarks.commons.util.PropertiesLoader;
 
 public class DroolsPropertiesLoader extends PropertiesLoader {
 
-    static private DroolsPropertiesLoader droolsPropertiesLoader = null;
+    private static DroolsPropertiesLoader droolsPropertiesLoader = null;
 
-    private String newVersionBuildtimePath;
-    private String newVersionRuntimePath;
-    private JenkinsReportLocation newVersionJenkinsReportLocation;
-    private JenkinsReportFileExtension newVersionJenkinsReportFileExtension;
+    private String currentVersionBuildtimePath;
+    private String currentVersionRuntimePath;
+    private JenkinsReportLocation currentVersionJenkinsReportLocation;
+    private JenkinsReportFileExtension currentVersionJenkinsReportFileExtension;
 
     private String previousVersionBuildtimePath;
     private String previousVersionRuntimePath;
@@ -25,7 +25,7 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
     private JenkinsReportLocation olderVersionJenkinsReportLocation;
     private JenkinsReportFileExtension olderVersionJenkinsReportFileExtension;
 
-    private String newVersionRepositoryFolderID;
+    private String currentVersionRepositoryFolderID;
     private String previousVersionRepositoryFolderID;
     private String olderVersionRepositoryFolderID;
 
@@ -33,10 +33,10 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
     public DroolsPropertiesLoader(String filename) throws IOException {
         super(filename);
 
-        this.newVersionBuildtimePath = this.properties.getProperty("new_version_buildtime_path");
-        this.newVersionRuntimePath = this.properties.getProperty("new_version_runtime_path");
-        this.newVersionJenkinsReportLocation = JenkinsReportLocation.getLocation(this.properties.getProperty("new_version_file_location"));
-        this.newVersionJenkinsReportFileExtension = JenkinsReportFileExtension.getExtension(this.properties.getProperty("new_version_file_extension"));
+        this.currentVersionBuildtimePath = this.properties.getProperty("current_version_buildtime_path");
+        this.currentVersionRuntimePath = this.properties.getProperty("current_version_runtime_path");
+        this.currentVersionJenkinsReportLocation = JenkinsReportLocation.getLocation(this.properties.getProperty("current_version_file_location"));
+        this.currentVersionJenkinsReportFileExtension = JenkinsReportFileExtension.getExtension(this.properties.getProperty("current_version_file_extension"));
         this.previousVersionBuildtimePath = this.properties.getProperty("previous_version_buildtime_path");
         this.previousVersionRuntimePath = this.properties.getProperty("previous_version_runtime_path");
         this.previousVersionJenkinsReportLocation = JenkinsReportLocation.getLocation(this.properties.getProperty("previous_version_file_location"));
@@ -45,33 +45,33 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
         this.olderVersionRuntimePath = this.properties.getProperty("older_version_runtime_path");
         this.olderVersionJenkinsReportLocation = JenkinsReportLocation.getLocation(this.properties.getProperty("older_version_file_location"));
         this.olderVersionJenkinsReportFileExtension = JenkinsReportFileExtension.getExtension(this.properties.getProperty("older_version_file_extension"));
-        this.newVersionRepositoryFolderID = this.properties.getProperty("new_version_repository_folder_id");
+        this.currentVersionRepositoryFolderID = this.properties.getProperty("current_version_repository_folder_id");
         this.previousVersionRepositoryFolderID = this.properties.getProperty("previous_version_repository_folder_id");
         this.olderVersionRepositoryFolderID = this.properties.getProperty("older_version_repository_folder_id");
     }
 
     /*singleton instance to be used anytime avoiding I/O*/
-    static public DroolsPropertiesLoader getInstance() throws IOException {
+    public static DroolsPropertiesLoader getInstance() throws IOException {
         if (droolsPropertiesLoader == null) {
             droolsPropertiesLoader = new DroolsPropertiesLoader("/drools-reports.properties");
         }
         return droolsPropertiesLoader;
     }
 
-    public String getNewVersionBuildtimePath() {
-        return newVersionBuildtimePath;
+    public String getCurrentVersionBuildtimePath() {
+        return currentVersionBuildtimePath;
     }
 
-    public void setNewVersionBuildtimePath(String newVersionBuildtimePath) {
-        this.newVersionBuildtimePath = newVersionBuildtimePath;
+    public void setCurrentVersionBuildtimePath(String currentVersionBuildtimePath) {
+        this.currentVersionBuildtimePath = currentVersionBuildtimePath;
     }
 
-    public String getNewVersionRuntimePath() {
-        return newVersionRuntimePath;
+    public String getCurrentVersionRuntimePath() {
+        return currentVersionRuntimePath;
     }
 
-    public void setNewVersionRuntimePath(String newVersionRuntimePath) {
-        this.newVersionRuntimePath = newVersionRuntimePath;
+    public void setCurrentVersionRuntimePath(String currentVersionRuntimePath) {
+        this.currentVersionRuntimePath = currentVersionRuntimePath;
     }
 
     public String getPreviousVersionBuildtimePath() {
@@ -106,12 +106,12 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
         this.olderVersionRuntimePath = olderVersionRuntimePath;
     }
 
-    public String getNewVersionRepositoryFolderID() {
-        return newVersionRepositoryFolderID;
+    public String getCurrentVersionRepositoryFolderID() {
+        return currentVersionRepositoryFolderID;
     }
 
-    public void setNewVersionRepositoryFolderID(String newVersionRepositoryFolderID) {
-        this.newVersionRepositoryFolderID = newVersionRepositoryFolderID;
+    public void setCurrentVersionRepositoryFolderID(String currentVersionRepositoryFolderID) {
+        this.currentVersionRepositoryFolderID = currentVersionRepositoryFolderID;
     }
 
     public String getPreviousVersionRepositoryFolderID() {
@@ -130,12 +130,12 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
         this.olderVersionRepositoryFolderID = olderVersionRepositoryFolderID;
     }
 
-    public JenkinsReportLocation getNewVersionJenkinsReportLocation() {
-        return newVersionJenkinsReportLocation;
+    public JenkinsReportLocation getCurrentVersionJenkinsReportLocation() {
+        return currentVersionJenkinsReportLocation;
     }
 
-    public void setNewVersionJenkinsReportLocation(JenkinsReportLocation newVersionJenkinsReportLocation) {
-        this.newVersionJenkinsReportLocation = newVersionJenkinsReportLocation;
+    public void setCurrentVersionJenkinsReportLocation(JenkinsReportLocation currentVersionJenkinsReportLocation) {
+        this.currentVersionJenkinsReportLocation = currentVersionJenkinsReportLocation;
     }
 
     public JenkinsReportLocation getPreviousVersionJenkinsReportLocation() {
@@ -154,12 +154,12 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
         this.olderVersionJenkinsReportLocation = olderVersionJenkinsReportLocation;
     }
 
-    public JenkinsReportFileExtension getNewVersionJenkinsReportFileExtension() {
-        return newVersionJenkinsReportFileExtension;
+    public JenkinsReportFileExtension getCurrentVersionJenkinsReportFileExtension() {
+        return currentVersionJenkinsReportFileExtension;
     }
 
-    public void setNewVersionJenkinsReportFileExtension(JenkinsReportFileExtension newVersionJenkinsReportFileExtension) {
-        this.newVersionJenkinsReportFileExtension = newVersionJenkinsReportFileExtension;
+    public void setCurrentVersionJenkinsReportFileExtension(JenkinsReportFileExtension currentVersionJenkinsReportFileExtension) {
+        this.currentVersionJenkinsReportFileExtension = currentVersionJenkinsReportFileExtension;
     }
 
     public JenkinsReportFileExtension getPreviousVersionJenkinsReportFileExtension() {

@@ -23,6 +23,7 @@ public class DroolsReportTest {
 
     @Test
     public void getGoogleDriveFilesTest() throws Exception {
+        Boolean result;
         DroolsPropertiesLoader droolsPropertiesLoader = new DroolsPropertiesLoader("/getGoogleDriveFiles.properties");
         GoogleDriveService googleDriveService = new GoogleDriveService(droolsPropertiesLoader.getGoogleAppApiKeyFile());
 
@@ -32,10 +33,11 @@ public class DroolsReportTest {
             DroolsReport droolsReport = new DroolsReport(droolsPropertiesLoader);
             droolsReport.getGoogleDriveFiles(droolsPropertiesLoader, driveService);
 
-            assert(true);
+            result = true;
         } catch (Exception e) {
-            assert(false);
+            result = false;
         }
+        assertThat(result, is(true));
     }
 
 }

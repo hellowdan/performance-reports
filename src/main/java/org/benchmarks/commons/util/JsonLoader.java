@@ -1,11 +1,12 @@
 package org.benchmarks.commons.util;
 
 import org.benchmarks.commons.definitions.JenkinsReportLocation;
+import org.benchmarks.commons.exceptions.FileCannotBeFoundException;
+import org.benchmarks.commons.exceptions.FileCannotBeParsedException;
+import org.benchmarks.commons.exceptions.FileCannotBeReadException;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Reader;
 import java.io.IOException;
@@ -15,21 +16,17 @@ import java.io.FileNotFoundException;
 
 public class JsonLoader {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JsonLoader.class);
-
-    public JSONArray getParsedData(Reader reader) throws IOException, ParseException {
+    public JSONArray getParsedData(Reader reader) throws IOException {
         JSONParser jsonParser = new JSONParser();
-        JSONArray jsonArray = new JSONArray();
+        JSONArray jsonArray;
 
         try {
             Object obj = jsonParser.parse(reader);
             jsonArray = (JSONArray) obj;
         } catch (ParseException e) {
-            LOGGER.debug("Content cannot be parsed.", e);
-            throw new ParseException(e.getErrorType());
+            throw new FileCannotBeParsedException(e.toString());
         } catch (IOException e) {
-            LOGGER.debug("Content cannot be read.", e);
-            throw new IOException("Content cannot be parsed.", e);
+            throw new FileCannotBeReadException(e);
         }
 
         return jsonArray;
@@ -48,20 +45,19 @@ public class JsonLoader {
                 input = new FileReader(jsonFile);
             }
             jsonArray = getParsedData(input);
-        } catch (FileNotFoundException | ParseException e) {
-            LOGGER.debug("File not found: " + jsonFile, e);
-            throw new IOException("File not found: " + jsonFile, e);
+        } catch (FileNotFoundException e) {
+            throw new FileCannotBeFoundException(jsonFile, e);
         }
 
         return jsonArray;
     }
 
-    public static boolean isJSONValid(String jsonInString) {
+    public static Boolean isJSONValid(String jsonInString) {
         try {
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(jsonInString);
             JSONArray jsonArray = (JSONArray) obj;
-            return true;
+            return jsonArray != null;
         } catch (Exception e) {
             return false;
         }

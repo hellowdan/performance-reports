@@ -8,8 +8,9 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.benchmarks.commons.exceptions.GoogleCredentialException;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
@@ -19,10 +20,9 @@ public class GoogleDriveService {
     private Drive drive;
     private Docs docs;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveHelper.class);
-
-    public GoogleDriveService(String googleAppApiKeyFile) throws Exception {
+    public GoogleDriveService(String googleAppApiKeyFile) throws GoogleCredentialException {
         GoogleCredentials credentials = null;
+        final String applicationName = "performance-reports";
 
         try {
             GoogleAuthorizeAsService googleAuthorizeAsService = new GoogleAuthorizeAsService();
@@ -30,12 +30,11 @@ public class GoogleDriveService {
                 credentials = googleAuthorizeAsService.getCredentials();
             }
 
-            this.docs = new Docs.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), new HttpCredentialsAdapter(credentials)).setApplicationName("performance-reports").build();
-            this.sheets = new Sheets.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), new HttpCredentialsAdapter(credentials)).setApplicationName("performance-reports").build();
-            this.drive = new Drive.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), new HttpCredentialsAdapter(credentials)).setApplicationName("performance-reports").build();
+            this.docs = new Docs.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), new HttpCredentialsAdapter(credentials)).setApplicationName(applicationName).build();
+            this.sheets = new Sheets.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), new HttpCredentialsAdapter(credentials)).setApplicationName(applicationName).build();
+            this.drive = new Drive.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), new HttpCredentialsAdapter(credentials)).setApplicationName(applicationName).build();
         } catch (GeneralSecurityException | IOException e) {
-            LOGGER.debug("Failed to get Google Drive credentials.", e);
-            throw new Exception("Failed to get Google Drive credentials.", e);
+            throw new GoogleCredentialException(e);
         }
     }
 

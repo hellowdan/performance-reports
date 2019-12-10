@@ -40,14 +40,6 @@ public class DroolsGoogleDriveSpreadSheetTest {
     }
 
     @Test
-    public void getUpdateInfoRequestsBodyTest() {
-    }
-
-    @Test
-    public void getUpdateDataRequestsBodyTest() {
-    }
-
-    @Test
     public void updateSpreadSheetInfoTest() throws IOException {
         BatchUpdateSpreadsheetResponse response;
 
@@ -60,10 +52,10 @@ public class DroolsGoogleDriveSpreadSheetTest {
     @Test
     public void updateSpreadSheetValuesTest() throws IOException {
         UpdateValuesResponse response;
-        final String startingCellNewVersion = "K2";
+        final String startingCellCurrentVersion = "K2";
 
         String spreadSheetNewId = GoogleDriveHelper.copyFile(this.driveService, this.droolsPropertiesLoader.getFilesTitle(), this.sheetTemplateId);
-        response = this.droolsGoogleDriveSpreadSheet.updateSpreadSheetValues(this.droolsPropertiesLoader.getNewVersionJenkinsReportFileExtension(), JenkinsReportVersion.NEW, this.droolsPropertiesLoader.getNewVersionJenkinsReportLocation(), startingCellNewVersion, this.droolsPropertiesLoader, this.sheetsService, spreadSheetNewId);
+        response = this.droolsGoogleDriveSpreadSheet.updateSpreadSheetValues(this.droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension(), JenkinsReportVersion.NEW, this.droolsPropertiesLoader.getCurrentVersionJenkinsReportLocation(), startingCellCurrentVersion, this.droolsPropertiesLoader, this.sheetsService, spreadSheetNewId);
 
         assertThat(response.getUpdatedRows(), is(45));
     }
@@ -71,11 +63,11 @@ public class DroolsGoogleDriveSpreadSheetTest {
     @Test
     public void getReplaceSpreadSheetBodyRequestTest() {
         List<Request> requests = new ArrayList<>();
-        final String newVersion = "{{new_version}}";
+        final String currentVersion = "{{current_version}}";
         final String previousVersion = "{{previous_version}}";
         final String olderVersion = "{{older_version}}";
 
-        requests.add(this.droolsGoogleDriveSpreadSheet.getReplaceSpreadSheetBodyRequest(newVersion, droolsPropertiesLoader.getNewVersion()));
+        requests.add(this.droolsGoogleDriveSpreadSheet.getReplaceSpreadSheetBodyRequest(currentVersion, droolsPropertiesLoader.getCurrentVersion()));
         requests.add(this.droolsGoogleDriveSpreadSheet.getReplaceSpreadSheetBodyRequest(previousVersion, droolsPropertiesLoader.getPreviousVersion()));
         requests.add(this.droolsGoogleDriveSpreadSheet.getReplaceSpreadSheetBodyRequest(olderVersion, droolsPropertiesLoader.getOlderVersion()));
 

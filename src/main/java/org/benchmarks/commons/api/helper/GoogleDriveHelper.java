@@ -10,16 +10,21 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.Revision;
 import com.google.api.services.drive.model.RevisionList;
 import com.google.common.collect.Iterables;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
 import org.benchmarks.commons.definitions.JenkinsReportVersion;
+import org.benchmarks.commons.exceptions.FileCannotBeSavedException;
+import org.benchmarks.commons.exceptions.GoogleDriveCopyFileException;
+import org.benchmarks.commons.exceptions.GoogleDriveDownloadFileException;
+import org.benchmarks.commons.exceptions.GoogleDriveFolderCreateException;
+import org.benchmarks.commons.exceptions.GoogleDriveMoveFileException;
+import org.benchmarks.commons.exceptions.GoogleDriveShareFileException;
 
 /*Provides the general Google authentication for the inherited classes.
  *Already implemented for Drools.*/
 public class GoogleDriveHelper {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveHelper.class);
+    private GoogleDriveHelper() {
+    }
 
     public static String createNewDir(Drive driveService, String folderTitle, String resultParentFolderID) throws IOException {
         String newID = "";
@@ -31,8 +36,7 @@ public class GoogleDriveHelper {
             File file = driveService.files().create(body).setFields("id").execute();
             newID = file.getId();
         } catch (IOException e) {
-            LOGGER.debug("Failed creating new folder on Google Drive: " + folderTitle, e);
-            throw new IOException("Failed creating new folder on Google Drive: " + folderTitle, e);
+            throw new GoogleDriveFolderCreateException(folderTitle, e);
         }
 
         return newID;
@@ -57,8 +61,7 @@ public class GoogleDriveHelper {
                     .setFields("id, parents")
                     .execute().getId();
         } catch (IOException e) {
-            LOGGER.debug("Failed moving a file to a new folder on Google Drive.", e);
-            throw new IOException("Failed moving a file to a new folder on Google Drive.", e);
+            throw new GoogleDriveMoveFileException(e);
         }
 
         return newID;
@@ -71,8 +74,7 @@ public class GoogleDriveHelper {
             copiedFile.setName(fileTitle);
             newID = driveService.files().copy(templateID, copiedFile).execute().getId();
         } catch (IOException e) {
-            LOGGER.debug("Failed copying a file on Google Drive.", e);
-            throw new IOException("Failed copying a file on Google Drive.", e);
+            throw new GoogleDriveCopyFileException(e);
         }
 
         return newID;
@@ -84,8 +86,7 @@ public class GoogleDriveHelper {
         try {
             driveService.files().get(fileID).executeMediaAndDownloadTo(outputStream);
         } catch (IOException e) {
-            LOGGER.debug("Failed downloading a file from Google Drive.", e);
-            throw new IOException("Failed downloading a file on Google Drive.", e);
+            throw new GoogleDriveDownloadFileException(fileID, e);
         }
 
         return outputStream;
@@ -110,8 +111,7 @@ public class GoogleDriveHelper {
             final Revision updated = Iterables.getLast(revisions.getRevisions());
             result = (updated.getPublishAuto() && updated.getPublished() && updated.getPublishedOutsideDomain());
         } catch (IOException e) {
-            LOGGER.debug("Failed sharing a file on Google Drive.", e);
-            throw new IOException("Failed sharing a file on Google Drive.", e);
+            throw new GoogleDriveShareFileException(fileID, e);
         }
 
         return result;
@@ -123,8 +123,7 @@ public class GoogleDriveHelper {
             byteArrayOutputStream.writeTo(outputStream);
             result = true;
         } catch (IOException e) {
-            LOGGER.debug("Failed to write file to disk: " + filePath, e);
-            throw new IOException("Failed to write file to disk: " + filePath, e);
+            throw new FileCannotBeSavedException(filePath, e);
         }
 
         return result;
@@ -139,10 +138,7 @@ public class GoogleDriveHelper {
             byteArrayOutputStream = GoogleDriveHelper.downloadFile(driveService, fileID);
             writeToFile(byteArrayOutputStream, filePath);
         } catch (Exception e) {
-            LOGGER.debug("Failed to download file from Google Drive: " + fileID + " - " +
-                                 jenkinsReportVersion.toString() + fileType + "." + jenkinsReportFileExtension.getExtension(), e);
-            throw new IOException("Failed to download file from Google Drive: " + fileID + " - " +
-                                          jenkinsReportVersion.toString() + fileType + "." + jenkinsReportFileExtension.getExtension(), e);
+            throw new GoogleDriveDownloadFileException(fileID, e);
         }
 
         return filePath;

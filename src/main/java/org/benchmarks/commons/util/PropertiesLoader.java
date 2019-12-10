@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.benchmarks.commons.exceptions.FileCannotBeFoundException;
 
 public class PropertiesLoader {
 
-    private String newVersion;
+    protected Properties properties = null;
+    protected String fileName;
+    private String currentVersion;
     private String previousVersion;
     private String olderVersion;
     private String reportDate;
@@ -24,33 +25,28 @@ public class PropertiesLoader {
     private String folderTitle;
     private String googleAppApiKeyFile;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesLoader.class);
-
-    protected Properties properties = null;
-    protected String fileName;
-
     public PropertiesLoader(String fileName) throws IOException {
 
         this.fileName = fileName;
-        if(loadPropertiesFile()) {
-            this.newVersion = this.properties.getProperty("new_version");
-            this.previousVersion = this.properties.getProperty("previous_version");
-            this.olderVersion = this.properties.getProperty("older_version");
-            this.reportDate = this.properties.getProperty("report_date");
-            this.author = this.properties.getProperty("author");
-            this.emailAuthor = this.properties.getProperty("email_author");
-            this.filesTitle = this.properties.getProperty("files_title");
-            this.templateTitle = this.properties.getProperty("template_title");
-            this.templateDocID = this.properties.getProperty("template_doc_id");
-            this.templateSheetID = this.properties.getProperty("template_sheet_id");
-            this.resultParentFolderID = this.properties.getProperty("result_parent_folder_id");
-            this.folderTitle = this.properties.getProperty("folder_title");
-            this.googleAppApiKeyFile = this.properties.getProperty("google_app_api_key_file");
-        }
+        loadPropertiesFile();
+
+        this.currentVersion = this.properties.getProperty("current_version");
+        this.previousVersion = this.properties.getProperty("previous_version");
+        this.olderVersion = this.properties.getProperty("older_version");
+        this.reportDate = this.properties.getProperty("report_date");
+        this.author = this.properties.getProperty("author");
+        this.emailAuthor = this.properties.getProperty("email_author");
+        this.filesTitle = this.properties.getProperty("files_title");
+        this.templateTitle = this.properties.getProperty("template_title");
+        this.templateDocID = this.properties.getProperty("template_doc_id");
+        this.templateSheetID = this.properties.getProperty("template_sheet_id");
+        this.resultParentFolderID = this.properties.getProperty("result_parent_folder_id");
+        this.folderTitle = this.properties.getProperty("folder_title");
+        this.googleAppApiKeyFile = this.properties.getProperty("google_app_api_key_file");
     }
 
     private Boolean loadPropertiesFile() throws IOException {
-        Boolean result = false;
+        Boolean result;
         InputStream inputStream;
         this.properties = new Properties();
 
@@ -64,8 +60,7 @@ public class PropertiesLoader {
                 throw new FileNotFoundException();
             }
         } catch (IOException e) {
-            LOGGER.debug("Properties file not found: " + fileName, e);
-            throw new IOException("Properties file not found: " + fileName, e);
+            throw new FileCannotBeFoundException(this.fileName, e);
         }
 
         return result;
@@ -75,8 +70,8 @@ public class PropertiesLoader {
         return properties;
     }
 
-    public String getNewVersion() {
-        return newVersion;
+    public String getCurrentVersion() {
+        return currentVersion;
     }
 
     public String getPreviousVersion() {

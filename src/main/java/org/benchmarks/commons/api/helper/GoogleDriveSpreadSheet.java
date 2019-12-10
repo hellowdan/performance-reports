@@ -13,13 +13,11 @@ import com.google.api.services.sheets.v4.model.ValueRange;
 import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
 import org.benchmarks.commons.definitions.JenkinsReportLocation;
 import org.benchmarks.commons.definitions.JenkinsReportVersion;
+import org.benchmarks.commons.exceptions.GoogleSpreadsheetUpdateTextException;
+import org.benchmarks.commons.exceptions.GoogleSpreadsheetUpdateValuesException;
 import org.benchmarks.commons.util.PropertiesLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class GoogleDriveSpreadSheet {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveSpreadSheet.class);
 
     public GoogleDriveSpreadSheet() {
     }
@@ -36,8 +34,7 @@ public abstract class GoogleDriveSpreadSheet {
             BatchUpdateSpreadsheetRequest body = new BatchUpdateSpreadsheetRequest().setRequests(requests);
             response = sheetsService.spreadsheets().batchUpdate(spreadSheetNewId, body).execute();
         } catch (IOException e) {
-            LOGGER.debug("Failed updating SpreadSheet text on Google Drive.", e);
-            throw new IOException("Failed updating SpreadSheet text on Google Drive.", e);
+            throw new GoogleSpreadsheetUpdateTextException(e);
         }
 
         return response;
@@ -54,8 +51,7 @@ public abstract class GoogleDriveSpreadSheet {
                     .setValueInputOption("USER_ENTERED")
                     .execute();
         } catch (IOException e) {
-            LOGGER.debug("Failed updating SpreadSheet numeric values on Google Drive.", e);
-            throw new IOException("Failed updating SpreadSheet numeric values on Google Drive.", e);
+            throw new GoogleSpreadsheetUpdateValuesException(e);
         }
 
         return response;

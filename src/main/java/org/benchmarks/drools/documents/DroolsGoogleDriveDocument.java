@@ -9,7 +9,7 @@ import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
 
 public class DroolsGoogleDriveDocument extends GoogleDriveDocument {
 
-    static String newVersion = "{{new_version}}";
+    static String currentVersion = "{{current_version}}";
     static String previousVersion = "{{previous_version}}";
     static String olderVersion = "{{older_version}}";
     static String author = "{{author}}";
@@ -26,7 +26,7 @@ public class DroolsGoogleDriveDocument extends GoogleDriveDocument {
 
         List<Request> requests = new ArrayList<>();
 
-        requests.add(getReplaceTextBodyRequest(newVersion, droolsPropertiesLoader.getNewVersion()));
+        requests.add(getReplaceTextBodyRequest(currentVersion, droolsPropertiesLoader.getCurrentVersion()));
         requests.add(getReplaceTextBodyRequest(previousVersion, droolsPropertiesLoader.getPreviousVersion()));
         requests.add(getReplaceTextBodyRequest(olderVersion, droolsPropertiesLoader.getOlderVersion()));
         requests.add(getReplaceTextBodyRequest(author, droolsPropertiesLoader.getAuthor()));

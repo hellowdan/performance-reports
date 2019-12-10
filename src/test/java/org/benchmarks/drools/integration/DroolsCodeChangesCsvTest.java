@@ -29,7 +29,7 @@ public class DroolsCodeChangesCsvTest {
     /*Verifies if any code change affects the hashcode ordering strategy. A local config file is loaded to
      * setup local csv source files to compare with a expected hashcode list*/
     @Test
-    public void resultNewVersionDataHashcodeCodeChangesTest() throws IOException {
+    public void resultCurrentVersionDataHashcodeCodeChangesTest() throws IOException {
         DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport();
         DroolsRuntimeJenkinsReport droolsRuntimeJenkinsReport = new DroolsRuntimeJenkinsReport();
 
@@ -37,8 +37,8 @@ public class DroolsCodeChangesCsvTest {
         String runtimePath = droolsRuntimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.NEW, droolsPropertiesLoader);
 
         List values = new ArrayList();
-        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, droolsPropertiesLoader.getNewVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getNewVersionJenkinsReportLocation());
-        testResultData.addAll(droolsRuntimeJenkinsReport.getData(runtimePath, droolsPropertiesLoader.getNewVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getNewVersionJenkinsReportLocation()));
+        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getCurrentVersionJenkinsReportLocation());
+        testResultData.addAll(droolsRuntimeJenkinsReport.getData(runtimePath, droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getCurrentVersionJenkinsReportLocation()));
 
         for (Integer key : DroolsSheetPositionsTest.droolsSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {

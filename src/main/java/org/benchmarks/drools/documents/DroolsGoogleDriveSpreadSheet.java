@@ -21,7 +21,7 @@ import org.benchmarks.commons.data.JenkinsReportRow;
 public class DroolsGoogleDriveSpreadSheet extends GoogleDriveSpreadSheet {
 
 
-    static String newVersion = "{{new_version}}";
+    static String currentVersion = "{{current_version}}";
     static String previousVersion = "{{previous_version}}";
     static String olderVersion = "{{older_version}}";
 
@@ -35,7 +35,7 @@ public class DroolsGoogleDriveSpreadSheet extends GoogleDriveSpreadSheet {
 
         List<Request> requests = new ArrayList<>();
 
-        requests.add(getReplaceSpreadSheetBodyRequest(newVersion, droolsPropertiesLoader.getNewVersion()));
+        requests.add(getReplaceSpreadSheetBodyRequest(currentVersion, droolsPropertiesLoader.getCurrentVersion()));
         requests.add(getReplaceSpreadSheetBodyRequest(previousVersion, droolsPropertiesLoader.getPreviousVersion()));
         requests.add(getReplaceSpreadSheetBodyRequest(olderVersion, droolsPropertiesLoader.getOlderVersion()));
 
@@ -58,9 +58,9 @@ public class DroolsGoogleDriveSpreadSheet extends GoogleDriveSpreadSheet {
         List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, jenkinsReportFileExtension, jenkinsReportLocation);
         testResultData.addAll(droolsRuntimeJenkinsReport.getData(runtimePath, jenkinsReportFileExtension, jenkinsReportLocation));
 
-        for (Integer key : DroolsSheetPositions.droolsSheetPositions.keySet()) {
+        for (Integer key : DroolsSheetPositions.getPositions().keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
-                if (testResultData.get(i).getHashCode() == DroolsSheetPositions.droolsSheetPositions.get(key)) {
+                if (testResultData.get(i).getHashCode() == DroolsSheetPositions.getPositions().get(key)) {
                     String score = testResultData.get(i).getScore();
                     values.add(Arrays.asList(score));
                     break;

@@ -1,11 +1,11 @@
 package org.benchmarks.commons.data;
 
 import java.io.IOException;
-import java.nio.file.InvalidPathException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
+import org.benchmarks.commons.exceptions.InvalidFileExtensionException;
 import org.benchmarks.commons.util.CsvLoader;
 import org.benchmarks.commons.util.JsonLoader;
 import org.json.simple.JSONArray;
@@ -30,7 +30,7 @@ public abstract class JenkinsReport {
             JsonLoader jsonLoader = new JsonLoader();
             dataJson = jsonLoader.getDataFromJson(filePath, jenkinsReportLocation);
         } else {
-            throw new InvalidPathException("Invalid file extension: ", filePath + " - " + fileExtension);
+            throw new InvalidFileExtensionException(fileExtension);
         }
 
         dataJson.forEach(resultRow -> droolsTestResultData.add(parseJenkinsReportRow((JSONObject) resultRow)));

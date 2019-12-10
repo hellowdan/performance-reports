@@ -2,7 +2,7 @@ package org.benchmarks.drools.data;
 
 import org.benchmarks.commons.data.JenkinsReportRow;
 
-public class DroolsJenkinsReportRow extends JenkinsReportRow {
+public class DroolsJenkinsReportRow implements JenkinsReportRow {
 
     private String name;
     private String numberOfRules;
@@ -12,9 +12,6 @@ public class DroolsJenkinsReportRow extends JenkinsReportRow {
     private String matchRatio;
     private String score;
     private int hashCode;
-
-    public DroolsJenkinsReportRow() {
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -53,28 +50,28 @@ public class DroolsJenkinsReportRow extends JenkinsReportRow {
     }
 
     public void setHashCode() {
-        int hashCode = 0;
+        int computedHashCode = 0;
 
         if (this.name != null) {
-            hashCode = 31 * this.name.hashCode();
+            computedHashCode = 31 * this.name.hashCode();
         }
         if (this.numberOfRules != null) {
-            hashCode = 31 * hashCode + this.numberOfRules.hashCode();
+            computedHashCode = 31 * computedHashCode + this.numberOfRules.hashCode();
         }
         if (this.nrOfRules != null) {
-            hashCode = 31 * hashCode + this.nrOfRules.hashCode();
+            computedHashCode = 31 * computedHashCode + this.nrOfRules.hashCode();
         }
         if (this.useCanonicalModel != null) {
-            hashCode = 31 * hashCode + this.useCanonicalModel.hashCode();
+            computedHashCode = 31 * computedHashCode + this.useCanonicalModel.hashCode();
         }
         if (this.rulesProviderId != null) {
-            hashCode = 31 * hashCode + this.rulesProviderId.hashCode();
+            computedHashCode = 31 * computedHashCode + this.rulesProviderId.hashCode();
         }
         if (this.matchRatio != null) {
-            hashCode = 31 * hashCode + this.matchRatio.hashCode();
+            computedHashCode = 31 * computedHashCode + this.matchRatio.hashCode();
         }
 
-        this.hashCode = hashCode;
+        this.hashCode = computedHashCode;
     }
 
     @Override

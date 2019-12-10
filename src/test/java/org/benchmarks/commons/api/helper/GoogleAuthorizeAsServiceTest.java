@@ -15,24 +15,14 @@ public class GoogleAuthorizeAsServiceTest {
     private static String serviceAccountFailJsonPath = "/service_account_auth_fail.json";
 
     @Test
-    public void authorizeTest() throws IOException {
+    public void authorizeTest() {
         GoogleAuthorizeAsService googleAuthorizeAsService = new GoogleAuthorizeAsService();
         Boolean authorize = googleAuthorizeAsService.authorize(serviceAccountJsonPath);
         assertThat(authorize, is(true));
     }
 
     @Test
-    public void authorizeFailTest() throws IOException {
-        try {
-            GoogleAuthorizeAsService googleAuthorizeAsService = new GoogleAuthorizeAsService();
-            Boolean authorize = googleAuthorizeAsService.authorize(serviceAccountFailJsonPath);
-        } catch (IOException e) {
-            assert(true);
-        }
-    }
-
-    @Test
-    public void getCredentialTest() throws IOException {
+    public void getCredentialTest() {
         GoogleCredentials credentials = null;
         GoogleAuthorizeAsService googleAuthorizeAsService = new GoogleAuthorizeAsService();
         if (googleAuthorizeAsService.authorize(serviceAccountJsonPath)) {

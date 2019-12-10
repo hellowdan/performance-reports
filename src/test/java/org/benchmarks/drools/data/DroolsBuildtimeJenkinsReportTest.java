@@ -25,13 +25,13 @@ public class DroolsBuildtimeJenkinsReportTest {
     }
 
     @Test
-    public void getDataNewVersionTest() throws IOException {
+    public void getDataCurrentVersionTest() throws IOException {
         DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport();
 
         String buildtimePath = droolsBuildtimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.NEW, droolsPropertiesLoader);
 
         List values = new ArrayList();
-        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, droolsPropertiesLoader.getNewVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getNewVersionJenkinsReportLocation());
+        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getCurrentVersionJenkinsReportLocation());
 
         for (Integer key : DroolsSheetPositionsTest.droolsBuildtimeSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {

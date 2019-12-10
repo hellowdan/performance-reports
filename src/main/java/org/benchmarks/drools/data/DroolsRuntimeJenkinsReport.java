@@ -18,14 +18,14 @@ public class DroolsRuntimeJenkinsReport extends JenkinsReport {
     protected JenkinsReportRow parseJenkinsReportRow(JSONObject jenkinsReportRow) {
         DroolsJenkinsReportRow droolsResultRow = new DroolsJenkinsReportRow();
 
-        if (jenkinsReportRow.get(DroolsReportColumns.benchmark.getColumn()) != null) {
-            droolsResultRow.setName((String) jenkinsReportRow.get(DroolsReportColumns.benchmark.getColumn()));
+        if (jenkinsReportRow.get(DroolsReportColumns.BENCHMARK.getColumn()) != null) {
+            droolsResultRow.setName((String) jenkinsReportRow.get(DroolsReportColumns.BENCHMARK.getColumn()));
         }
-        if (jenkinsReportRow.get(DroolsReportColumns.matchRatio.getColumn()) != null) {
-            droolsResultRow.setMatchRatio(jenkinsReportRow.get(DroolsReportColumns.matchRatio.getColumn()).toString());
+        if (jenkinsReportRow.get(DroolsReportColumns.MATCH_RATIO.getColumn()) != null) {
+            droolsResultRow.setMatchRatio(jenkinsReportRow.get(DroolsReportColumns.MATCH_RATIO.getColumn()).toString());
         }
-        if (jenkinsReportRow.get(DroolsReportColumns.score.getColumn()) != null) {
-            droolsResultRow.setScore(jenkinsReportRow.get(DroolsReportColumns.score.getColumn()).toString());
+        if (jenkinsReportRow.get(DroolsReportColumns.SCORE.getColumn()) != null) {
+            droolsResultRow.setScore(jenkinsReportRow.get(DroolsReportColumns.SCORE.getColumn()).toString());
         }
         droolsResultRow.setHashCode();
 
@@ -37,7 +37,7 @@ public class DroolsRuntimeJenkinsReport extends JenkinsReport {
         DroolsPropertiesLoader droolsProperties = (DroolsPropertiesLoader) propertiesLoader;
 
         if (jenkinsReportVersion == JenkinsReportVersion.NEW) {
-            return droolsProperties.getNewVersionRuntimePath();
+            return droolsProperties.getCurrentVersionRuntimePath();
         } else if (jenkinsReportVersion == JenkinsReportVersion.PREVIOUS) {
             return droolsProperties.getPreviousVersionRuntimePath();
         } else if (jenkinsReportVersion == JenkinsReportVersion.OLDER) {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
 import com.google.api.services.docs.v1.Docs;
 import com.google.api.services.docs.v1.model.BatchUpdateDocumentRequest;
 import com.google.api.services.docs.v1.model.BatchUpdateDocumentResponse;
@@ -20,19 +21,19 @@ import com.google.api.services.docs.v1.model.TextStyle;
 import com.google.api.services.docs.v1.model.UpdateTextStyleRequest;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.Spreadsheet;
+import org.benchmarks.commons.definitions.GoogleDocumentElementPosition;
+import org.benchmarks.commons.exceptions.FileCannotBeParsedException;
+import org.benchmarks.commons.exceptions.FileCannotBeReadException;
+import org.benchmarks.commons.util.JsonLoader;
 import org.benchmarks.commons.util.PropertiesLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.benchmarks.commons.definitions.GoogleDocumentElementPosition;
-import org.benchmarks.commons.util.JsonLoader;
 
 public abstract class GoogleDriveDocument {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveDocument.class);
+    private static final String GOOGLE_SPREADSHEET_URL_PREFIX = "https://docs.google.com/spreadsheets/d/";
 
     public GoogleDriveDocument() {
     }
@@ -40,63 +41,55 @@ public abstract class GoogleDriveDocument {
     protected abstract List<Request> getReplaceAllBody(PropertiesLoader propertiesLoader);
 
     public BatchUpdateDocumentResponse requestsExecute(List<Request> requests, String docNewId, Docs docService) throws IOException {
-        BatchUpdateDocumentResponse response = null;
+        BatchUpdateDocumentResponse response;
 
         try {
             BatchUpdateDocumentRequest body = new BatchUpdateDocumentRequest();
             response = docService.documents().batchUpdate(docNewId, body.setRequests(requests)).execute();
         } catch (IOException e) {
-            LOGGER.debug("File cannot be read.", e);
-            throw new IOException("File cannot be read.", e);
+            throw new FileCannotBeReadException(e);
         }
 
         return response;
     }
 
     protected Request getReplaceTextBodyRequest(String placeHolder, String newValue) {
-        Request request = new Request().
-                setReplaceAllText(new ReplaceAllTextRequest().
+        return new Request()
+                .setReplaceAllText(new ReplaceAllTextRequest().
                         setContainsText(new SubstringMatchCriteria().
                                 setText(placeHolder).
                                 setMatchCase(true)).
                         setReplaceText(newValue));
-
-        return request;
     }
 
-    protected Request getReplaceLinkBodyRequest(String title, String linkValue, String IndexOf) {
-        Request request = new Request()
+    protected Request getReplaceLinkBodyRequest(String title, String linkValue, String indexOf) {
+        return new Request()
                 .setUpdateTextStyle(new UpdateTextStyleRequest()
                                             .setRange(new Range()
-                                                              .setStartIndex(Integer.parseInt(IndexOf))
-                                                              .setEndIndex(Integer.parseInt(IndexOf) + title.length()))
+                                                              .setStartIndex(Integer.parseInt(indexOf))
+                                                              .setEndIndex(Integer.parseInt(indexOf) + title.length()))
                                             .setTextStyle(new TextStyle()
                                                                   .setLink(new Link()
                                                                                    .setUrl(linkValue)))
                                             .setFields("link"));
-
-        return request;
     }
 
-    protected Request getImageUpdateRequest(String locationIndex, String Uri) {
-        Request request = new Request().
+    protected Request getImageUpdateRequest(String locationIndex, String uri) {
+        return new Request().
                 setInsertInlineImage(new InsertInlineImageRequest()
-                                             .setUri(Uri)
-                                             .setLocation(new Location().setIndex(Integer.parseInt(locationIndex)))
-                );
-
-        return request;
+                                             .setUri(uri)
+                                             .setLocation(new Location()
+                                                                  .setIndex(Integer.parseInt(locationIndex))));
     }
 
     protected Spreadsheet loadMetadataFromSpreadSheet(String spreadSheetNewId, Sheets sheetsService) throws IOException {
-        Spreadsheet response = null;
+        Spreadsheet response;
 
         try {
             Sheets.Spreadsheets.Get request = sheetsService.spreadsheets().get(spreadSheetNewId);
             response = request.execute();
         } catch (IOException e) {
-            LOGGER.debug("File cannot be read.", e);
-            throw new IOException("File cannot be read.", e);
+            throw new FileCannotBeReadException(e);
         }
 
         return response;
@@ -109,57 +102,66 @@ public abstract class GoogleDriveDocument {
             Docs.Documents.Get request = docService.documents().get(docNewId);
             response = request.execute();
         } catch (IOException e) {
-            LOGGER.debug("File cannot be read.", e);
-            throw new IOException("File cannot be read.", e);
+            throw new FileCannotBeReadException(e);
         }
 
         return response;
     }
 
-    protected String getSpreadSheetTabUrl(String SpreadSheetID, String tabID) {
-        return "https://docs.google.com/spreadsheets/d/" + SpreadSheetID + "/edit#gid=" + tabID;
+    protected String getSpreadSheetTabUrl(String spreadSheetID, String tabID) {
+        return GOOGLE_SPREADSHEET_URL_PREFIX + spreadSheetID + "/edit#gid=" + tabID;
     }
 
-    protected String getSpreadSheetChartUrl(String SpreadSheetID, String chartID) {
-        return "https://docs.google.com/spreadsheets/d/" + SpreadSheetID + "/pubchart?oid=" + chartID + "&format=image";
+    protected String getSpreadSheetChartUrl(String spreadSheetID, String chartID) {
+        return GOOGLE_SPREADSHEET_URL_PREFIX + spreadSheetID + "/pubchart?oid=" + chartID + "&format=image";
     }
 
-    private BatchUpdateDocumentResponse executeChartRequests(String docNewId, Docs docService, String chartTitle, String tabUrl, String chartUrl) throws IOException, ParseException {
-        Document documentMetadata = loadMetadataFromDocument(docNewId, docService);
-        List<Request> requests = new ArrayList<>();
-        GoogleDocumentElementPosition googleDocumentElementPosition = jsonSearchForChartElement(documentMetadata.getBody().getContent().toString(), chartTitle);
-        if (googleDocumentElementPosition != null) {
-            requests.add(getReplaceLinkBodyRequest(chartTitle, tabUrl, googleDocumentElementPosition.getStartIndex()));
-            requests.add(getImageUpdateRequest(googleDocumentElementPosition.getEndIndex(), chartUrl));
+    private BatchUpdateDocumentResponse executeChartRequests(String docNewId, Docs docService, String chartTitle, String tabUrl, String chartUrl) throws IOException {
+        BatchUpdateDocumentResponse result = null;
 
-            return requestsExecute(requests, docNewId, docService);
-        } else {
-            return null;
+        try {
+            Document documentMetadata = loadMetadataFromDocument(docNewId, docService);
+            List<Request> requests = new ArrayList<>();
+            GoogleDocumentElementPosition googleDocumentElementPosition = jsonSearchForChartElement(documentMetadata.getBody().getContent().toString(), chartTitle);
+            if (googleDocumentElementPosition != null) {
+                requests.add(getReplaceLinkBodyRequest(chartTitle, tabUrl, googleDocumentElementPosition.getStartIndex()));
+                requests.add(getImageUpdateRequest(googleDocumentElementPosition.getEndIndex(), chartUrl));
+
+                result = requestsExecute(requests, docNewId, docService);
+            }
+        } catch (IOException e) {
+            throw new FileCannotBeReadException(e);
         }
+
+        return result;
     }
 
-    public List<BatchUpdateDocumentResponse> updateChartWithLink(String docNewId, Docs docsService, Sheets sheetsService, String spreadSheetNewId) throws IOException, ParseException {
-        Spreadsheet spreadsheetMetadata = loadMetadataFromSpreadSheet(spreadSheetNewId, sheetsService);
+    public List<BatchUpdateDocumentResponse> updateChartWithLink(String docNewId, Docs docsService, Sheets sheetsService, String spreadSheetNewId) throws IOException {
         List<BatchUpdateDocumentResponse> responses = new ArrayList<>();
 
-        for (int i = 0; i < spreadsheetMetadata.getSheets().size(); i++) {
-            if (spreadsheetMetadata.getSheets().get(i).getCharts() != null) {
-                for (int j = 0; j < spreadsheetMetadata.getSheets().get(i).getCharts().size(); j++) {
-                    String chartID = spreadsheetMetadata.getSheets().get(i).getCharts().get(j).getChartId().toString();
-                    String chartUrl = getSpreadSheetChartUrl(spreadSheetNewId, chartID);
-                    String chartTitle = spreadsheetMetadata.getSheets().get(i).getCharts().get(j).getSpec().getTitle();
-                    String tabID = spreadsheetMetadata.getSheets().get(i).getProperties().getSheetId().toString();
-                    String tabUrl = this.getSpreadSheetTabUrl(spreadSheetNewId, tabID);
+        try {
+            Spreadsheet spreadsheetMetadata = loadMetadataFromSpreadSheet(spreadSheetNewId, sheetsService);
+            for (int i = 0; i < spreadsheetMetadata.getSheets().size(); i++) {
+                if (spreadsheetMetadata.getSheets().get(i).getCharts() != null) {
+                    for (int j = 0; j < spreadsheetMetadata.getSheets().get(i).getCharts().size(); j++) {
+                        String chartID = spreadsheetMetadata.getSheets().get(i).getCharts().get(j).getChartId().toString();
+                        String chartUrl = getSpreadSheetChartUrl(spreadSheetNewId, chartID);
+                        String chartTitle = spreadsheetMetadata.getSheets().get(i).getCharts().get(j).getSpec().getTitle();
+                        String tabID = spreadsheetMetadata.getSheets().get(i).getProperties().getSheetId().toString();
+                        String tabUrl = this.getSpreadSheetTabUrl(spreadSheetNewId, tabID);
 
-                    responses.add(executeChartRequests(docNewId, docsService, chartTitle, tabUrl, chartUrl));
+                        responses.add(executeChartRequests(docNewId, docsService, chartTitle, tabUrl, chartUrl));
+                    }
                 }
             }
+        } catch (IOException e) {
+            throw new FileCannotBeReadException(e);
         }
 
         return responses;
     }
 
-    protected GoogleDocumentElementPosition jsonSearchForChartElement(String json, String chartTitle) throws ParseException {
+    protected GoogleDocumentElementPosition jsonSearchForChartElement(String json, String chartTitle) {
         GoogleDocumentElementPosition found = null;
 
         if (!JsonLoader.isJSONValid(json)) {
@@ -199,10 +201,11 @@ public abstract class GoogleDriveDocument {
                 }
             }
         } catch (ParseException e) {
-            LOGGER.debug("File cannot be parsed.", e);
-            throw new ParseException(e.getErrorType());
+            throw new FileCannotBeParsedException(e.toString());
         }
 
         return found;
     }
 }
+
+

@@ -27,12 +27,6 @@ public class JsonLoaderTest {
     }
 
     @Test
-    public void getDataFromJsonWebTest() {
-
-//        TO-DO need to publish a JSON file in a HTTP server
-    }
-
-    @Test
     public void getDataFromJsonClasspathTest() throws IOException {
         JSONArray dataJson;
         String filePath = "/buildtime.json";
@@ -56,7 +50,4 @@ public class JsonLoaderTest {
         Assert.assertNotNull(dataJson);
     }
 
-    @Test
-    public void isJSONValidTest() {
-    }
 }

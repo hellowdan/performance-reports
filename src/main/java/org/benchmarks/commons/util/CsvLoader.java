@@ -6,30 +6,34 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import jdk.nashorn.internal.runtime.ParserException;
 import org.benchmarks.commons.definitions.JenkinsReportLocation;
+import org.benchmarks.commons.exceptions.FileCannotBeFoundException;
+import org.benchmarks.commons.exceptions.FileCannotBeReadException;
+import org.benchmarks.commons.exceptions.JsonGenerationFromCSVException;
+import org.benchmarks.commons.exceptions.JsonMappingFromCSVException;
 import org.json.simple.JSONArray;
-import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /*This class exists if changing the Jenkins output to Json is not an option.
  * It can be removed later*/
 public class CsvLoader {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CsvLoader.class);
-
     public JSONArray getDataFromCSV(String csvFile, JenkinsReportLocation jenkinsReportLocation) throws IOException {
-        JSONArray result = null;
+        JSONArray result;
         String outputFileName = "output.json";
         File output = new File(outputFileName);
         Object input = null;
+        FileReader reader = null;
 
         try {
             if (jenkinsReportLocation == JenkinsReportLocation.WEB) {
@@ -59,22 +63,22 @@ public class CsvLoader {
             ObjectMapper mapper = new ObjectMapper();
             mapper.writerWithDefaultPrettyPrinter().writeValue(output, readAll);
 
-            FileReader reader = new FileReader(output);
+            reader = new FileReader(output);
             JsonLoader jsonLoader = new JsonLoader();
             result = jsonLoader.getParsedData(reader);
-
         } catch (FileNotFoundException e) {
-            LOGGER.debug("File not found: " + outputFileName, e);
+            throw new FileCannotBeFoundException(outputFileName, e);
+        } catch (JsonGenerationException e) {
+            throw new JsonGenerationFromCSVException(outputFileName, e, e.getProcessor());
+        } catch (JsonMappingException e) {
+            throw new JsonMappingFromCSVException(outputFileName, e, (JsonGenerator) e.getProcessor());
         } catch (IOException e) {
-            LOGGER.debug("File cannot be read: " + outputFileName, e);
-            throw new IOException("File cannot be read: " + outputFileName, e);
-        } catch (ParseException e) {
-            LOGGER.debug("File cannot be parsed: " + outputFileName, e);
-            throw new ParserException("File cannot be parsed: " + outputFileName);
+            throw new FileCannotBeReadException(outputFileName, e);
         } finally {
-            if (output != null) {
-                output.delete();
+            if (reader != null) {
+                reader.close();
             }
+            Files.delete(Paths.get(outputFileName));
         }
         return result;
     }

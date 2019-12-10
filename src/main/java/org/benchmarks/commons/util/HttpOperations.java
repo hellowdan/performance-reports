@@ -10,12 +10,14 @@ import java.net.URLConnection;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.benchmarks.commons.exceptions.InvalidContentFromURLException;
+import org.benchmarks.commons.exceptions.InvalidURLException;
 
 public class HttpOperations {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HttpOperations.class);
+
+    private HttpOperations() {
+    }
 
     public static Object getFileObjectFromWeb(String url) throws IOException {
         Object input = null;
@@ -28,8 +30,7 @@ public class HttpOperations {
                 input = getFileObjectFromHTTP(urlFile);
             }
         } catch (MalformedURLException e) {
-            LOGGER.debug("Invalid URL: " + url, e);
-            throw new MalformedURLException("Invalid URL: " + url);
+            throw new InvalidURLException(url, e);
         }
 
         return input;
@@ -44,52 +45,48 @@ public class HttpOperations {
                 input = getFileReaderFromHTTP(urlFile);
             }
         } catch (MalformedURLException e) {
-            LOGGER.debug("Invalid URL: " + url, e);
-            throw new MalformedURLException("Invalid URL: " + url);
+            throw new InvalidURLException(url, e);
         }
         return input;
     }
 
     private static Reader getFileReaderFromHTTP(URL url) throws IOException {
-        Reader input = null;
+        Reader input;
 
         try {
             URLConnection urlConn = url.openConnection();
             InputStreamReader in = new InputStreamReader((urlConn).getInputStream());
             input = new BufferedReader(in);
         } catch (IOException e) {
-            LOGGER.debug("Content from URL cannot be read: " + url.getPath(), e);
-            throw new IOException("Content from URL cannot be read: " + url.getPath(), e);
+            throw new InvalidContentFromURLException(url.getPath(), e);
         }
 
         return input;
     }
 
     private static Object getFileObjectFromHTTPS(URL url) throws IOException {
-        Object input = null;
+        Object input;
 
         try {
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             input = new BufferedReader(in);
         } catch (IOException e) {
-            LOGGER.debug("Content from URL cannot be read: " + url.getPath(), e);
-            throw new IOException("Content from URL cannot be read: " + url.getPath(), e);
+            throw new InvalidContentFromURLException(url.getPath(), e);
         }
 
         return input;
     }
 
     private static Object getFileObjectFromHTTP(URL url) throws IOException {
-        Object input = null;
+        Object input;
 
         try {
             URLConnection urlConn = url.openConnection();
             InputStreamReader in = new InputStreamReader((urlConn).getInputStream());
             input = new BufferedReader(in);
         } catch (IOException e) {
-            LOGGER.debug("Content from URL cannot be read: " + url.getPath(), e);
-            throw new IOException("Content from URL cannot be read: " + url.getPath(), e);
+            throw new InvalidContentFromURLException(url.getPath(), e);
         }
 
         return input;
