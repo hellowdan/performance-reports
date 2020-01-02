@@ -5,63 +5,109 @@ import java.util.Map;
 
 public class DroolsSheetPositions {
 
-    public static Map<Integer, Integer> getPositions() {
+    public static Map<Integer, String> getPositions() {
         return positions;
     }
 
-    private static final Map<Integer, Integer> positions = new HashMap<>();
+    private static final Map<Integer, String> positions = new HashMap<>();
 
     static {
-        positions.put(2, -2073236289);
-        positions.put(3, -1680868626);
-        positions.put(4, -1680749462);
-        positions.put(5, -1635645888);
-        positions.put(6, 1562675363);
-        positions.put(7, 859874790);
-        positions.put(8, -1355391740);
-        positions.put(9, 1547054095);
-        positions.put(10, -467888059);
-        positions.put(11, -1860409520);
-        positions.put(12, -907887477);
-        positions.put(13, 1994558358);
-        positions.put(14, -793370873);
-        positions.put(15, 2109074962);
-        positions.put(16, -398509219);
-        positions.put(17, -1791030680);
-        positions.put(18, 1376498143);
-        positions.put(19, -16023318);
-        positions.put(20, -1143461791);
-        positions.put(21, 1758984044);
-        positions.put(22, -1787652405);
-        positions.put(23, 1114793430);
+        positions.put(2, "name=org.drools.benchmarks.turtle.buildtime.KBaseCreationFromDTablesBenchmark.timeKBaseCreationFromOneBigAndOneSmallDTable|numberOfRules=|nrOfRules=|useCanonicalModel=|rulesProviderId=|matchRatio=null");
+        positions.put(3, "name=org.drools.benchmarks.turtle.buildtime.KBaseCreationFromDrlBenchmark.timeKBaseCreationFromDrl|numberOfRules=|nrOfRules=1k|useCanonicalModel=|rulesProviderId=|matchRatio=null");
+        positions.put(4, "name=org.drools.benchmarks.turtle.buildtime.KBaseCreationFromDrlBenchmark.timeKBaseCreationFromDrl|numberOfRules=|nrOfRules=5k|useCanonicalModel=|rulesProviderId=|matchRatio=null");
+        positions.put(5, "name=org.drools.benchmarks.turtle.buildtime.KBaseCreationFromDrlBenchmark.timeKBaseCreationFromDrl|numberOfRules=|nrOfRules=10k|useCanonicalModel=|rulesProviderId=|matchRatio=null");
+        positions.put(6, "name=org.drools.benchmarks.turtle.buildtime.KBaseCreationFromDslAndDslrBenchmark.timeBaseCreationFromSimpleDslrAndDsl|numberOfRules=|nrOfRules=|useCanonicalModel=|rulesProviderId=|matchRatio=null");
+        positions.put(7, "name=org.drools.benchmarks.turtle.buildtime.KBaseCreationFromMultipleResourcesBenchmark.timeKBaseCreationFromMultipleResources|numberOfRules=|nrOfRules=|useCanonicalModel=|rulesProviderId=|matchRatio=null");
+        positions.put(8, "name=org.drools.benchmarks.turtle.buildtime.BuildKJarFromResourceBenchmark.createKJarFromResource|numberOfRules=1000|nrOfRules=|useCanonicalModel=true|rulesProviderId=|matchRatio=null");
+        positions.put(9, "name=org.drools.benchmarks.turtle.buildtime.BuildKJarFromResourceBenchmark.createKJarFromResource|numberOfRules=1000|nrOfRules=|useCanonicalModel=false|rulesProviderId=|matchRatio=null");
+        positions.put(10,"name=org.drools.benchmarks.turtle.buildtime.BuildKJarFromResourceBenchmark.createKJarFromResource|numberOfRules=2000|nrOfRules=|useCanonicalModel=true|rulesProviderId=|matchRatio=null");
+        positions.put(11,"name=org.drools.benchmarks.turtle.buildtime.BuildKJarFromResourceBenchmark.createKJarFromResource|numberOfRules=2000|nrOfRules=|useCanonicalModel=false|rulesProviderId=|matchRatio=null");
+        positions.put(12,"name=org.drools.benchmarks.turtle.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer|numberOfRules=100|nrOfRules=|useCanonicalModel=true|rulesProviderId=RulesWithJoinsProvider|matchRatio=null");
+        positions.put(13,"name=org.drools.benchmarks.turtle.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer|numberOfRules=100|nrOfRules=|useCanonicalModel=false|rulesProviderId=RulesWithJoinsProvider|matchRatio=null");
+        positions.put(14,"name=org.drools.benchmarks.turtle.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer|numberOfRules=500|nrOfRules=|useCanonicalModel=true|rulesProviderId=RulesWithJoinsProvider|matchRatio=null");
+        positions.put(15,"name=org.drools.benchmarks.turtle.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer|numberOfRules=500|nrOfRules=|useCanonicalModel=false|rulesProviderId=RulesWithJoinsProvider|matchRatio=null");
+        positions.put(16,"name=org.drools.benchmarks.turtle.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer|numberOfRules=1000|nrOfRules=|useCanonicalModel=true|rulesProviderId=RulesWithJoinsProvider|matchRatio=null");
+        positions.put(17,"name=org.drools.benchmarks.turtle.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer|numberOfRules=1000|nrOfRules=|useCanonicalModel=false|rulesProviderId=RulesWithJoinsProvider|matchRatio=null");
+        positions.put(18,"name=org.drools.benchmarks.turtle.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer|numberOfRules=3000|nrOfRules=|useCanonicalModel=true|rulesProviderId=RulesWithJoinsProvider|matchRatio=null");
+        positions.put(19,"name=org.drools.benchmarks.turtle.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer|numberOfRules=3000|nrOfRules=|useCanonicalModel=false|rulesProviderId=RulesWithJoinsProvider|matchRatio=null");
+        positions.put(20,"name=org.drools.benchmarks.turtle.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer|numberOfRules=5000|nrOfRules=|useCanonicalModel=true|rulesProviderId=RulesWithJoinsProvider|matchRatio=null");
+        positions.put(21,"name=org.drools.benchmarks.turtle.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer|numberOfRules=5000|nrOfRules=|useCanonicalModel=false|rulesProviderId=RulesWithJoinsProvider|matchRatio=null");
+        positions.put(22,"name=org.drools.benchmarks.turtle.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer|numberOfRules=10000|nrOfRules=|useCanonicalModel=true|rulesProviderId=RulesWithJoinsProvider|matchRatio=null");
+        positions.put(23,"name=org.drools.benchmarks.turtle.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer|numberOfRules=10000|nrOfRules=|useCanonicalModel=false|rulesProviderId=RulesWithJoinsProvider|matchRatio=null");
 
-        positions.put(24, 1946463606);
-        positions.put(25, 1506297886);
-        positions.put(26, 633379258);
-        positions.put(27, 1766569851);
-        positions.put(28, -1395206852);
+        positions.put(24,"name=org.drools.benchmarks.turtle.runtime.StandardOperatorsExpertBenchmark.timeFactsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
+        positions.put(25,"name=org.drools.benchmarks.turtle.runtime.AdvOperatorsExpertBenchmark.timeFactsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
+        positions.put(26,"name=org.drools.benchmarks.turtle.runtime.AdvOperators2ExpertBenchmark.timeFactsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
+        positions.put(27,"name=org.drools.benchmarks.turtle.runtime.AdvOperators3ExpertBenchmark.timeFactsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
+        positions.put(28,"name=org.drools.benchmarks.turtle.runtime.AdvOperators4ExpertBenchmark.timeFactsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
 
-        positions.put(29, 1872798123);
-        positions.put(30, 1551763690);
-        positions.put(31, 1843366782);
-        positions.put(32, -1422255231);
-        positions.put(33, 2037369949);
-        positions.put(34, -370251809);
+        positions.put(29,"name=org.drools.benchmarks.turtle.runtime.AfterBeforeFusionBenchmark.timeEventsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
+        positions.put(30,"name=org.drools.benchmarks.turtle.runtime.CoincidesDuringFusionBenchmark.timeEventsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
+        positions.put(31,"name=org.drools.benchmarks.turtle.runtime.FinishesFinishedbyFusionBenchmark.timeEventsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
+        positions.put(32,"name=org.drools.benchmarks.turtle.runtime.MeetsMetbyFusionBenchmark.timeEventsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
+        positions.put(33,"name=org.drools.benchmarks.turtle.runtime.OverlapsOverlappedbyFusionBenchmark.timeEventsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
+        positions.put(34,"name=org.drools.benchmarks.turtle.runtime.StartsStartedbyFusionBenchmark.timeEventsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
 
-        positions.put(35, -1474728408);
-        positions.put(36, -1546399473);
-        positions.put(37, -69661112);
-        positions.put(38, -1852924899);
-        positions.put(39, -724266667);
+        positions.put(35,"name=org.drools.benchmarks.turtle.runtime.InsertFactsIntoWmExpertBenchmark.timeFactsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
+        positions.put(36,"name=org.drools.benchmarks.turtle.runtime.InsertLogicalFactsIntoWmExpertBenchmark.timeFactsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
+        positions.put(37,"name=org.drools.benchmarks.turtle.runtime.RetractFactsFromWmExpertBenchmark.timeFactsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
+        positions.put(38,"name=org.drools.benchmarks.turtle.runtime.UpdateFactsInWmExpertBenchmark.timeFactsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
+        positions.put(39,"name=org.drools.benchmarks.turtle.runtime.WmManipulationExpertBenchmark.timeFactsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
 
-        positions.put(40, -1207774343);
-        positions.put(41, -604370273);
-        positions.put(42, -604370268);
-        positions.put(43, -604369312);
-        positions.put(44, -1399719717);
-        positions.put(45, -1399719712);
-        positions.put(46, -1399718756);
+        positions.put(40,"name=org.drools.benchmarks.turtle.runtime.SimpleDummyFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiring|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=");
+        positions.put(41,"name=org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateful|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=0.0");
+        positions.put(42,"name=org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateful|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=0.5");
+        positions.put(43,"name=org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateful|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=1.0");
+        positions.put(44,"name=org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateless|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=0.0");
+        positions.put(45,"name=org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateless|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=0.5");
+        positions.put(46,"name=org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateless|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=1.0");
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private DroolsSheetPositions() {
     }

@@ -36,7 +36,6 @@ public class DroolsBuildtimeJenkinsReport extends JenkinsReport {
         if (testJenkinsReportRow.get(DroolsReportColumns.SCORE.getColumn()) != null) {
             droolsResultRow.setScore(testJenkinsReportRow.get(DroolsReportColumns.SCORE.getColumn()).toString());
         }
-        droolsResultRow.setHashCode();
 
         return droolsResultRow;
     }

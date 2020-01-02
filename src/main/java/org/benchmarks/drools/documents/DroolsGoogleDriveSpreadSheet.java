@@ -60,7 +60,7 @@ public class DroolsGoogleDriveSpreadSheet extends GoogleDriveSpreadSheet {
 
         for (Integer key : DroolsSheetPositions.getPositions().keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
-                if (testResultData.get(i).getHashCode() == DroolsSheetPositions.getPositions().get(key)) {
+                if (testResultData.get(i).getUniqueID().equals(DroolsSheetPositions.getPositions().get(key))) {
                     String score = testResultData.get(i).getScore();
                     values.add(Arrays.asList(score));
                     break;

@@ -8,10 +8,7 @@ import java.util.List;
 import org.benchmarks.commons.data.JenkinsReportRow;
 import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
 import org.benchmarks.commons.definitions.JenkinsReportLocation;
-import org.benchmarks.commons.definitions.JenkinsReportVersion;
-import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
 import org.benchmarks.drools.definitions.DroolsSheetPositionsTest;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -32,7 +29,7 @@ public class DroolsBuildtimeJenkinsReportTest {
 
         for (Integer key : DroolsSheetPositionsTest.droolsBuildtimeSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
-                if (testResultData.get(i).getHashCode() == DroolsSheetPositionsTest.droolsBuildtimeSheetPositions.get(key)) {
+                if (testResultData.get(i).getUniqueID().equals(DroolsSheetPositionsTest.droolsBuildtimeSheetPositions.get(key))) {
                     String score = testResultData.get(i).getScore();
                     values.add(Arrays.asList(score));
                     break;
@@ -52,7 +49,7 @@ public class DroolsBuildtimeJenkinsReportTest {
 
         for (Integer key : DroolsSheetPositionsTest.droolsBuildtimeSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
-                if (testResultData.get(i).getHashCode() == DroolsSheetPositionsTest.droolsBuildtimeSheetPositions.get(key)) {
+                if (testResultData.get(i).getUniqueID().equals(DroolsSheetPositionsTest.droolsBuildtimeSheetPositions.get(key))) {
                     String score = testResultData.get(i).getScore();
                     values.add(Arrays.asList(score));
                     break;
@@ -72,7 +69,7 @@ public class DroolsBuildtimeJenkinsReportTest {
 
         for (Integer key : DroolsSheetPositionsTest.droolsBuildtimeSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
-                if (testResultData.get(i).getHashCode() == DroolsSheetPositionsTest.droolsBuildtimeSheetPositions.get(key)) {
+                if (testResultData.get(i).getUniqueID().equals(DroolsSheetPositionsTest.droolsBuildtimeSheetPositions.get(key))) {
                     String score = testResultData.get(i).getScore();
                     values.add(Arrays.asList(score));
                     break;

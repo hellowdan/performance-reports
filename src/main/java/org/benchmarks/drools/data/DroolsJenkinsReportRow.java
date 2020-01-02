@@ -11,7 +11,6 @@ public class DroolsJenkinsReportRow implements JenkinsReportRow {
     private String rulesProviderId;
     private String matchRatio;
     private String score;
-    private int hashCode;
 
     public void setName(String name) {
         this.name = name;
@@ -45,39 +44,19 @@ public class DroolsJenkinsReportRow implements JenkinsReportRow {
         this.score = score;
     }
 
-    public int getHashCode() {
-        return this.hashCode;
-    }
-
-    public void setHashCode() {
-        int computedHashCode = 0;
-
-        if (this.name != null) {
-            computedHashCode = 31 * this.name.hashCode();
-        }
-        if (this.numberOfRules != null) {
-            computedHashCode = 31 * computedHashCode + this.numberOfRules.hashCode();
-        }
-        if (this.nrOfRules != null) {
-            computedHashCode = 31 * computedHashCode + this.nrOfRules.hashCode();
-        }
-        if (this.useCanonicalModel != null) {
-            computedHashCode = 31 * computedHashCode + this.useCanonicalModel.hashCode();
-        }
-        if (this.rulesProviderId != null) {
-            computedHashCode = 31 * computedHashCode + this.rulesProviderId.hashCode();
-        }
-        if (this.matchRatio != null) {
-            computedHashCode = 31 * computedHashCode + this.matchRatio.hashCode();
-        }
-
-        this.hashCode = computedHashCode;
+    @Override
+    public String getUniqueID() {
+        return  "name=" + this.name +
+                "|numberOfRules=" + this.numberOfRules +
+                "|nrOfRules=" + this.nrOfRules +
+                "|useCanonicalModel=" + this.useCanonicalModel +
+                "|rulesProviderId=" + this.rulesProviderId +
+                "|matchRatio=" + this.matchRatio;
     }
 
     @Override
     public String toString() {
         return "TestResults{" +
-                "hashCode=" + hashCode + '\'' +
                 "name='" + name + '\'' +
                 ", numberOfRules='" + numberOfRules + '\'' +
                 ", nrOfRules='" + nrOfRules + '\'' +

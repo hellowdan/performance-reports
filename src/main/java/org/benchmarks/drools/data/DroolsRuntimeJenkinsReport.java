@@ -27,7 +27,6 @@ public class DroolsRuntimeJenkinsReport extends JenkinsReport {
         if (jenkinsReportRow.get(DroolsReportColumns.SCORE.getColumn()) != null) {
             droolsResultRow.setScore(jenkinsReportRow.get(DroolsReportColumns.SCORE.getColumn()).toString());
         }
-        droolsResultRow.setHashCode();
 
         return droolsResultRow;
     }

@@ -64,7 +64,7 @@ public class DroolsDataChangesCsvTest {
 
         for (Integer key : DroolsSheetPositionsTest.droolsSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
-                if (testResultData.get(i).getHashCode() == DroolsSheetPositionsTest.droolsSheetPositions.get(key)) {
+                if (testResultData.get(i).getUniqueID().equals(DroolsSheetPositionsTest.droolsSheetPositions.get(key))) {
                     String score = testResultData.get(i).getScore();
                     values.add(Arrays.asList(score));
                     break;
@@ -86,7 +86,7 @@ public class DroolsDataChangesCsvTest {
 
         for (Integer key : DroolsSheetPositionsTest.droolsSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
-                if (testResultData.get(i).getHashCode() == DroolsSheetPositionsTest.droolsSheetPositions.get(key)) {
+                if (testResultData.get(i).getUniqueID().equals(DroolsSheetPositionsTest.droolsSheetPositions.get(key))) {
                     String score = testResultData.get(i).getScore();
                     values.add(Arrays.asList(score));
                     break;
@@ -111,7 +111,7 @@ public class DroolsDataChangesCsvTest {
 
         for (Integer key : DroolsSheetPositionsTest.droolsSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
-                if (testResultData.get(i).getHashCode() == DroolsSheetPositionsTest.droolsSheetPositions.get(key)) {
+                if (testResultData.get(i).getUniqueID().equals(DroolsSheetPositionsTest.droolsSheetPositions.get(key))) {
                     String score = testResultData.get(i).getScore();
                     values.add(Arrays.asList(score));
                     break;
