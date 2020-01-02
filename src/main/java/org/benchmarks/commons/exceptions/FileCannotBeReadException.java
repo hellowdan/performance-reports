@@ -9,7 +9,7 @@ public class FileCannotBeReadException extends IOException {
     }
 
     public FileCannotBeReadException(String fileName, Throwable cause) {
-        super(ExceptionsConstants.FILE_CANNOT_BE_READ, cause);
+        super(String.format(ExceptionsConstants.FILE_CANNOT_BE_READ_PARAM, fileName), cause);
     }
 
 }

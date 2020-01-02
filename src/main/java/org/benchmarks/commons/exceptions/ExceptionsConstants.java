@@ -4,6 +4,7 @@ public abstract class ExceptionsConstants {
     public static final String FAILED_GENERATE_REPORT = "Failed generating the performance report";
     public static final String FILE_NOT_FOUND_PARAM = "File not found: %s";
     public static final String FILE_CANNOT_BE_READ = "File cannot be read";
+    public static final String FILE_CANNOT_BE_READ_PARAM = "File cannot be read: %s";
     public static final String FILE_CANNOT_BE_PARSED = "File cannot be parsed";
     public static final String FILE_CANNOT_BE_PARSED_PARAM = "File cannot be parsed: %s";
     public static final String INVALID_URL_PARAM = "Invalid URL: %s";

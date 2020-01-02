@@ -34,7 +34,7 @@ public class DroolsGoogleDriveSpreadSheetTest {
         GoogleDriveService googleDriveService = new GoogleDriveService("/service_account.json");
         this.driveService = googleDriveService.getDrive();
         this.sheetsService = googleDriveService.getSheets();
-        this.droolsPropertiesLoader = new DroolsPropertiesLoader("/drools-reports-code-changes-csv.properties");
+        this.droolsPropertiesLoader = new DroolsPropertiesLoader("/droolsUpdateSheet.properties");
 
         this.droolsGoogleDriveSpreadSheet = new DroolsGoogleDriveSpreadSheet();
     }

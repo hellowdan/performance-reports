@@ -6,13 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.benchmarks.commons.data.JenkinsReportRow;
-import org.benchmarks.commons.definitions.JenkinsReportVersion;
+import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
+import org.benchmarks.commons.definitions.JenkinsReportLocation;
 import org.benchmarks.drools.data.DroolsBuildtimeJenkinsReport;
 import org.benchmarks.drools.data.DroolsRuntimeJenkinsReport;
-import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
 import org.benchmarks.drools.definitions.DroolsSheetPositionsTest;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -20,12 +19,12 @@ import static org.junit.Assert.assertThat;
 
 public class DroolsCodeChangesJsonTest {
 
-    private DroolsPropertiesLoader droolsPropertiesLoader;
-
-    @Before
-    public void setUp() throws IOException {
-        droolsPropertiesLoader = new DroolsPropertiesLoader("/drools-reports-code-changes-json.properties");
-    }
+    private static String currentVersionBuildtimePath = "/buildtimeCurrentVersion.json";
+    private static String currentVersionRuntimePath = "/runtimeCurrentVersion.json";
+    private static String previousVersionBuildtimePath = "/buildtimePreviousVersion.json";
+    private static String previousVersionRuntimePath = "/runtimePreviousVersion.json";
+    private static String olderVersionBuildtimePath = "/buildtimeOlderVersion.json";
+    private static String olderVersionRuntimePath = "/runtimeOlderVersion.json";
 
     /*Verifies if any code change affects the hashcode ordering strategy. A local config file is loaded to
      * setup local csv source files to compare with a expected hashcode list*/
@@ -34,12 +33,9 @@ public class DroolsCodeChangesJsonTest {
         DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport();
         DroolsRuntimeJenkinsReport droolsRuntimeJenkinsReport = new DroolsRuntimeJenkinsReport();
 
-        String buildtimePath = droolsBuildtimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.NEW, droolsPropertiesLoader);
-        String runtimePath = droolsRuntimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.NEW, droolsPropertiesLoader);
-
         List values = new ArrayList();
-        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getCurrentVersionJenkinsReportLocation());
-        testResultData.addAll(droolsRuntimeJenkinsReport.getData(runtimePath, droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getCurrentVersionJenkinsReportLocation()));
+        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(currentVersionBuildtimePath, JenkinsReportFileExtension.JSON, JenkinsReportLocation.CLASSPATH);
+        testResultData.addAll(droolsRuntimeJenkinsReport.getData(currentVersionRuntimePath, JenkinsReportFileExtension.JSON, JenkinsReportLocation.CLASSPATH));
 
         for (Integer key : DroolsSheetPositionsTest.droolsSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
@@ -59,12 +55,9 @@ public class DroolsCodeChangesJsonTest {
         DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport();
         DroolsRuntimeJenkinsReport droolsRuntimeJenkinsReport = new DroolsRuntimeJenkinsReport();
 
-        String buildtimePath = droolsBuildtimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.PREVIOUS, droolsPropertiesLoader);
-        String runtimePath = droolsRuntimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.PREVIOUS, droolsPropertiesLoader);
-
         List values = new ArrayList();
-        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, droolsPropertiesLoader.getPreviousVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getPreviousVersionJenkinsReportLocation());
-        testResultData.addAll(droolsRuntimeJenkinsReport.getData(runtimePath, droolsPropertiesLoader.getPreviousVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getPreviousVersionJenkinsReportLocation()));
+        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(previousVersionBuildtimePath, JenkinsReportFileExtension.JSON, JenkinsReportLocation.CLASSPATH);
+        testResultData.addAll(droolsRuntimeJenkinsReport.getData(previousVersionRuntimePath, JenkinsReportFileExtension.JSON, JenkinsReportLocation.CLASSPATH));
 
         for (Integer key : DroolsSheetPositionsTest.droolsSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
@@ -84,12 +77,9 @@ public class DroolsCodeChangesJsonTest {
         DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport();
         DroolsRuntimeJenkinsReport droolsRuntimeJenkinsReport = new DroolsRuntimeJenkinsReport();
 
-        String buildtimePath = droolsBuildtimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.OLDER, droolsPropertiesLoader);
-        String runtimePath = droolsRuntimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.OLDER, droolsPropertiesLoader);
-
         List values = new ArrayList();
-        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, droolsPropertiesLoader.getOlderVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getOlderVersionJenkinsReportLocation());
-        testResultData.addAll(droolsRuntimeJenkinsReport.getData(runtimePath, droolsPropertiesLoader.getOlderVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getOlderVersionJenkinsReportLocation()));
+        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(olderVersionBuildtimePath, JenkinsReportFileExtension.JSON, JenkinsReportLocation.CLASSPATH);
+        testResultData.addAll(droolsRuntimeJenkinsReport.getData(olderVersionRuntimePath, JenkinsReportFileExtension.JSON, JenkinsReportLocation.CLASSPATH));
 
         for (Integer key : DroolsSheetPositionsTest.droolsSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {

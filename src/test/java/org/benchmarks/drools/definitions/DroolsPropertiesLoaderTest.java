@@ -13,7 +13,7 @@ public class DroolsPropertiesLoaderTest {
     @Test
     public void getPropertiesTest() throws IOException {
         PropertiesLoader propertiesLoader;
-        propertiesLoader = new PropertiesLoader("/drools-reports-code-changes-csv.properties");
+        propertiesLoader = new PropertiesLoader("/droolsReportTest.properties");
 
         assertThat(propertiesLoader.getFilesTitle(), is("Red Hat Business Automation Decision Engine 7.5.0 Performance Report"));
     }

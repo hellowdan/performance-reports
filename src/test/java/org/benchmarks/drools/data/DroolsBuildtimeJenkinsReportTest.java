@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.benchmarks.commons.data.JenkinsReportRow;
+import org.benchmarks.commons.definitions.JenkinsReportFileExtension;
+import org.benchmarks.commons.definitions.JenkinsReportLocation;
 import org.benchmarks.commons.definitions.JenkinsReportVersion;
 import org.benchmarks.drools.definitions.DroolsPropertiesLoader;
 import org.benchmarks.drools.definitions.DroolsSheetPositionsTest;
@@ -17,21 +19,16 @@ import static org.junit.Assert.*;
 
 public class DroolsBuildtimeJenkinsReportTest {
 
-    private DroolsPropertiesLoader droolsPropertiesLoader;
-
-    @Before
-    public void setUp() throws Exception {
-        droolsPropertiesLoader = new DroolsPropertiesLoader("/drools-reports-code-changes-json.properties");
-    }
+    private static String currentVersionBuildtimePath = "/buildtimeCurrentVersion.json";
+    private static String previousVersionBuildtimePath = "/buildtimePreviousVersion.json";
+    private static String olderVersionBuildtimePath = "/buildtimeOlderVersion.json";
 
     @Test
     public void getDataCurrentVersionTest() throws IOException {
         DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport();
 
-        String buildtimePath = droolsBuildtimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.NEW, droolsPropertiesLoader);
-
         List values = new ArrayList();
-        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getCurrentVersionJenkinsReportLocation());
+        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(currentVersionBuildtimePath, JenkinsReportFileExtension.JSON, JenkinsReportLocation.CLASSPATH);
 
         for (Integer key : DroolsSheetPositionsTest.droolsBuildtimeSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
@@ -50,10 +47,8 @@ public class DroolsBuildtimeJenkinsReportTest {
     public void getDataPreviousVersionTest() throws IOException {
         DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport();
 
-        String buildtimePath = droolsBuildtimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.PREVIOUS, droolsPropertiesLoader);
-
         List values = new ArrayList();
-        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, droolsPropertiesLoader.getPreviousVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getPreviousVersionJenkinsReportLocation());
+        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(previousVersionBuildtimePath, JenkinsReportFileExtension.JSON, JenkinsReportLocation.CLASSPATH);
 
         for (Integer key : DroolsSheetPositionsTest.droolsBuildtimeSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
@@ -72,10 +67,8 @@ public class DroolsBuildtimeJenkinsReportTest {
     public void getDataOlderVersionTest() throws IOException {
         DroolsBuildtimeJenkinsReport droolsBuildtimeJenkinsReport = new DroolsBuildtimeJenkinsReport();
 
-        String buildtimePath = droolsBuildtimeJenkinsReport.getDataSourcePath(JenkinsReportVersion.OLDER, droolsPropertiesLoader);
-
         List values = new ArrayList();
-        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, droolsPropertiesLoader.getOlderVersionJenkinsReportFileExtension(), droolsPropertiesLoader.getOlderVersionJenkinsReportLocation());
+        List<JenkinsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(olderVersionBuildtimePath, JenkinsReportFileExtension.JSON, JenkinsReportLocation.CLASSPATH);
 
         for (Integer key : DroolsSheetPositionsTest.droolsBuildtimeSheetPositions.keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
