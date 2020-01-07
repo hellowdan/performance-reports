@@ -91,7 +91,7 @@ public class GoogleDriveHelperTest {
     @Test
     public void prepareGoogleDriveFileTest() throws IOException {
         final String localDir = "target/";
-        this.filePathPrepareGoogleDriveFile = GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.BUILDTIME.getFileType(), fileToDownloadID, localDir, JenkinsReportVersion.NEW, JenkinsReportFileExtension.CSV);
+        this.filePathPrepareGoogleDriveFile = GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.BUILDTIME.getFileType(), fileToDownloadID, localDir, JenkinsReportVersion.CURRENT, JenkinsReportFileExtension.CSV);
         File downloadedFile = new File(this.filePathPrepareGoogleDriveFile);
 
         assertThat(downloadedFile.exists(), is(true));

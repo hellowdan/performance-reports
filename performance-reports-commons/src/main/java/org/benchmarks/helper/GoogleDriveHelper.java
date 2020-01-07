@@ -131,16 +131,11 @@ public class GoogleDriveHelper {
     }
 
     public static String prepareGoogleDriveFile(Drive driveService, String fileType, String fileID, String localDir, JenkinsReportVersion jenkinsReportVersion, JenkinsReportFileExtension jenkinsReportFileExtension) throws IOException {
-        String filePath = "";
         ByteArrayOutputStream byteArrayOutputStream;
 
-        try {
-            filePath = localDir + jenkinsReportVersion.toString() + fileType + "." + jenkinsReportFileExtension.getExtension();
-            byteArrayOutputStream = GoogleDriveHelper.downloadFile(driveService, fileID);
-            writeToFile(byteArrayOutputStream, filePath);
-        } catch (Exception e) {
-            throw new GoogleDriveDownloadFileException(fileID, e);
-        }
+        String filePath = localDir + jenkinsReportVersion.toString() + fileType + "." + jenkinsReportFileExtension.getExtension();
+        byteArrayOutputStream = GoogleDriveHelper.downloadFile(driveService, fileID);
+        writeToFile(byteArrayOutputStream, filePath);
 
         return filePath;
     }

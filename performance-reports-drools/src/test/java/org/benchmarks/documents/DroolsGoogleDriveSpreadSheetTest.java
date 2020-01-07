@@ -55,7 +55,7 @@ public class DroolsGoogleDriveSpreadSheetTest {
         final String startingCellCurrentVersion = "K2";
 
         String spreadSheetNewId = GoogleDriveHelper.copyFile(this.driveService, this.droolsPropertiesLoader.getFilesTitle(), this.sheetTemplateId);
-        response = this.droolsGoogleDriveSpreadSheet.updateSpreadSheetValues(this.droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension(), JenkinsReportVersion.NEW, this.droolsPropertiesLoader.getCurrentVersionJenkinsReportLocation(), startingCellCurrentVersion, this.droolsPropertiesLoader, this.sheetsService, spreadSheetNewId);
+        response = this.droolsGoogleDriveSpreadSheet.updateSpreadSheetValues(this.droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension(), JenkinsReportVersion.CURRENT, this.droolsPropertiesLoader.getCurrentVersionJenkinsReportLocation(), startingCellCurrentVersion, this.droolsPropertiesLoader, this.sheetsService, spreadSheetNewId);
 
         assertThat(response.getUpdatedRows(), is(45));
     }

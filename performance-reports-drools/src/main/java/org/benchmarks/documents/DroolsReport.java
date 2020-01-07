@@ -1,6 +1,8 @@
 package org.benchmarks.documents;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import com.google.api.services.docs.v1.Docs;
@@ -46,7 +48,9 @@ public class DroolsReport {
     }
 
     public Boolean generateReport() {
-        final String localDir = "target/";
+        Path localTargetPath = Paths.get("target");
+        String localDir = localTargetPath.getFileName().toString();
+
         Boolean result = null;
         try {
             this.folderNewId = GoogleDriveHelper.createNewDir(this.driveService, this.droolsPropertiesLoader.getFolderTitle(), this.droolsPropertiesLoader.getResultParentFolderID());
@@ -68,7 +72,7 @@ public class DroolsReport {
 
             DroolsGoogleDriveSpreadSheet droolsFileSpreadSheet = new DroolsGoogleDriveSpreadSheet();
             droolsFileSpreadSheet.updateSpreadSheetInfo(this.droolsPropertiesLoader, this.sheetsService, this.spreadSheetNewId);
-            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension(), JenkinsReportVersion.NEW, this.droolsPropertiesLoader.getCurrentVersionJenkinsReportLocation(), startingCellCurrentVersion, this.droolsPropertiesLoader, this.sheetsService, this.spreadSheetNewId);
+            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension(), JenkinsReportVersion.CURRENT, this.droolsPropertiesLoader.getCurrentVersionJenkinsReportLocation(), startingCellCurrentVersion, this.droolsPropertiesLoader, this.sheetsService, this.spreadSheetNewId);
             droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsPropertiesLoader.getPreviousVersionJenkinsReportFileExtension(), JenkinsReportVersion.PREVIOUS, this.droolsPropertiesLoader.getPreviousVersionJenkinsReportLocation(), startingCellPreviousVersion, this.droolsPropertiesLoader, this.sheetsService, this.spreadSheetNewId);
             droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsPropertiesLoader.getOlderVersionJenkinsReportFileExtension(), JenkinsReportVersion.OLDER, this.droolsPropertiesLoader.getOlderVersionJenkinsReportLocation(), startingCellOlderVersion, this.droolsPropertiesLoader, this.sheetsService, this.spreadSheetNewId);
 
@@ -90,9 +94,14 @@ public class DroolsReport {
             docNewId = GoogleDriveHelper.copyFile(this.driveService, this.droolsPropertiesLoader.getFilesTitle(), this.droolsPropertiesLoader.getTemplateDocID());
             DroolsGoogleDriveDocument droolsFileDoc = new DroolsGoogleDriveDocument();
 
-            List<Request> requests = droolsFileDoc.getReplaceAllBody(this.droolsPropertiesLoader);
-            droolsFileDoc.requestsExecute(requests, docNewId, this.docsService);
-            droolsFileDoc.updateChartWithLink(docNewId, this.docsService, this.sheetsService, this.spreadSheetNewId);
+            List<Request> requestsBody = droolsFileDoc.getReplaceAllBody(this.droolsPropertiesLoader);
+            droolsFileDoc.requestsExecute(requestsBody, docNewId, this.docsService);
+
+            droolsFileDoc.updateChartsWithLinks(docNewId, this.docsService, this.sheetsService, this.spreadSheetNewId);
+
+            List<Request> requestsTables = droolsFileDoc.getReplaceAllTables(this.sheetsService, this.spreadSheetNewId);
+            droolsFileDoc.requestsExecute(requestsTables, docNewId, this.docsService);
+
             result = GoogleDriveHelper.moveFile(this.driveService, docNewId, this.folderNewId);
         } catch (IOException e) {
             LOGGER.debug(ExceptionsConstants.FILE_CANNOT_BE_READ, e);
@@ -105,8 +114,8 @@ public class DroolsReport {
         try {
             if (droolsPropertiesLoader.getCurrentVersionJenkinsReportLocation() == JenkinsReportLocation.DRIVE) {
                 droolsPropertiesLoader.setCurrentVersionJenkinsReportLocation(JenkinsReportLocation.LOCAL);
-                droolsPropertiesLoader.setCurrentVersionBuildtimePath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, JenkinsReportType.BUILDTIME.getFileType(), droolsPropertiesLoader.getCurrentVersionBuildtimePath(), localDir, JenkinsReportVersion.NEW, droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension()));
-                droolsPropertiesLoader.setCurrentVersionRuntimePath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, JenkinsReportType.RUNTIME.getFileType(), droolsPropertiesLoader.getCurrentVersionRuntimePath(), localDir, JenkinsReportVersion.NEW, droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension()));
+                droolsPropertiesLoader.setCurrentVersionBuildtimePath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, JenkinsReportType.BUILDTIME.getFileType(), droolsPropertiesLoader.getCurrentVersionBuildtimePath(), localDir, JenkinsReportVersion.CURRENT, droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension()));
+                droolsPropertiesLoader.setCurrentVersionRuntimePath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, JenkinsReportType.RUNTIME.getFileType(), droolsPropertiesLoader.getCurrentVersionRuntimePath(), localDir, JenkinsReportVersion.CURRENT, droolsPropertiesLoader.getCurrentVersionJenkinsReportFileExtension()));
             }
 
             if (droolsPropertiesLoader.getPreviousVersionJenkinsReportLocation() == JenkinsReportLocation.DRIVE) {

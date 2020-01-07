@@ -33,7 +33,7 @@ public class DroolsRuntimeJenkinsReport extends JenkinsReport {
     public String getDataSourcePath(JenkinsReportVersion jenkinsReportVersion, PropertiesLoader propertiesLoader) {
         DroolsPropertiesLoader droolsProperties = (DroolsPropertiesLoader) propertiesLoader;
 
-        if (jenkinsReportVersion == JenkinsReportVersion.NEW) {
+        if (jenkinsReportVersion == JenkinsReportVersion.CURRENT) {
             return droolsProperties.getCurrentVersionRuntimePath();
         } else if (jenkinsReportVersion == JenkinsReportVersion.PREVIOUS) {
             return droolsProperties.getPreviousVersionRuntimePath();

@@ -1,8 +1,10 @@
 package org.benchmarks.documents;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.api.services.docs.v1.model.Request;
+import com.google.api.services.sheets.v4.Sheets;
 import org.benchmarks.definitions.DroolsPropertiesLoader;
 import org.benchmarks.helper.GoogleDriveDocument;
 import org.benchmarks.util.PropertiesLoader;
@@ -35,4 +37,27 @@ public class DroolsGoogleDriveDocument extends GoogleDriveDocument {
 
         return requests;
     }
+
+    public List<Request> getReplaceAllTables(Sheets sheetsService, String spreadSheetID) throws IOException {
+        final String spreadsheetBuildtimeSheetName = "Charts - buildtime Oracle JDK8";
+        final String spreadsheetBuildtimeRange = "A3:F24";
+        final String buildtimeTableName = "Buildtime_Test_Result_Table";
+        final int buildtimeStartingCol = 1;
+        final int buildtimeStartingRow = 3;
+        final String spreadsheetRuntimeSheetName = "Charts - runtime Oracle JDK8";
+        final String spreadsheetRuntimeRange = "A3:F25";
+        final String runtimeTableName = "Runtime_Test_Result_Table";
+        final int runtimeStartingCol = 1;
+        final int runtimeStartingRow = 3;
+
+        List<Request> requests = new ArrayList<>();
+
+        requests.addAll(getTableUpdateRequest(getValueRangeFromSheet(sheetsService, spreadSheetID, spreadsheetBuildtimeSheetName, spreadsheetBuildtimeRange),
+                                                     buildtimeTableName, buildtimeStartingCol, buildtimeStartingRow));
+        requests.addAll(getTableUpdateRequest(getValueRangeFromSheet(sheetsService, spreadSheetID, spreadsheetRuntimeSheetName, spreadsheetRuntimeRange),
+                                                     runtimeTableName, runtimeStartingCol, runtimeStartingRow));
+
+        return requests;
+    }
+
 }

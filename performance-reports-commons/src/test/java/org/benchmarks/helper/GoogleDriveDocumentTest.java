@@ -152,7 +152,7 @@ public class GoogleDriveDocumentTest {
         String chartTitle = "Basic BRE runtime gain vs loss performance benchmarks";
         Document documentMetadata = this.googleDriveDocument.loadMetadataFromDocument(this.docTestId, this.docsService);
 
-        GoogleDocumentElementPosition googleDocumentElementPosition = this.googleDriveDocument.jsonSearchForChartElement(documentMetadata.getBody().getContent().toString(), chartTitle);
+        GoogleDocumentElementPosition googleDocumentElementPosition = this.googleDriveDocument.jsonSearchForElement(documentMetadata.getBody().getContent().toString(), chartTitle);
 
         Assert.assertNotNull(googleDocumentElementPosition);
     }
@@ -162,7 +162,7 @@ public class GoogleDriveDocumentTest {
         List<BatchUpdateDocumentResponse> responses = null;
 
         if(GoogleDriveHelper.setPublishFile(this.driveService, docTestId)) {
-            responses = this.googleDriveDocument.updateChartWithLink(docTestId, docsService, sheetsService, sheetTestId);
+            responses = this.googleDriveDocument.updateChartsWithLinks(docTestId, docsService, sheetsService, sheetTestId);
         }
 
         assertThat(responses.size(), is(4));

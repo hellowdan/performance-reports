@@ -1,7 +1,7 @@
 package org.benchmarks.definitions;
 
 public enum JenkinsReportVersion {
-    NEW,
+    CURRENT,
     PREVIOUS,
     OLDER
 }

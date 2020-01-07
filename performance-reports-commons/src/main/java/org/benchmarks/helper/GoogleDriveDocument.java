@@ -21,6 +21,7 @@ import com.google.api.services.docs.v1.model.TextStyle;
 import com.google.api.services.docs.v1.model.UpdateTextStyleRequest;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.Spreadsheet;
+import com.google.api.services.sheets.v4.model.ValueRange;
 import org.benchmarks.definitions.GoogleDocumentElementPosition;
 import org.benchmarks.exceptions.FileCannotBeParsedException;
 import org.benchmarks.exceptions.FileCannotBeReadException;
@@ -122,7 +123,7 @@ public abstract class GoogleDriveDocument {
         try {
             Document documentMetadata = loadMetadataFromDocument(docNewId, docService);
             List<Request> requests = new ArrayList<>();
-            GoogleDocumentElementPosition googleDocumentElementPosition = jsonSearchForChartElement(documentMetadata.getBody().getContent().toString(), chartTitle);
+            GoogleDocumentElementPosition googleDocumentElementPosition = jsonSearchForElement(documentMetadata.getBody().getContent().toString(), chartTitle);
             if (googleDocumentElementPosition != null) {
                 requests.add(getReplaceLinkBodyRequest(chartTitle, tabUrl, googleDocumentElementPosition.getStartIndex()));
                 requests.add(getImageUpdateRequest(googleDocumentElementPosition.getEndIndex(), chartUrl));
@@ -136,7 +137,49 @@ public abstract class GoogleDriveDocument {
         return result;
     }
 
-    public List<BatchUpdateDocumentResponse> updateChartWithLink(String docNewId, Docs docsService, Sheets sheetsService, String spreadSheetNewId) throws IOException {
+    public ValueRange getValueRangeFromSheet(Sheets sheetsService, String spreadSheetID, String sheetName, String rangeCells) throws IOException {
+        String range = sheetName + "!" + rangeCells;
+        String valueRenderOption = "FORMATTED_VALUE";
+        String dateTimeRenderOption = "SERIAL_NUMBER";
+        ValueRange response = null;
+
+        try {
+            Sheets.Spreadsheets.Values.Get request = sheetsService.spreadsheets().values().get(spreadSheetID, range);
+            request.setValueRenderOption(valueRenderOption);
+            request.setDateTimeRenderOption(dateTimeRenderOption);
+
+            response = request.execute();
+        } catch (IOException e) {
+            throw new FileCannotBeReadException(e);
+        }
+
+        return response;
+    }
+
+    public List<Request> getTableUpdateRequest(ValueRange jsonTableFromSheets, String tableName, int startingCol, int startingRow) throws IOException {
+        final String cellFormatName = "%s_%d_%d";
+        int col = startingCol;
+        int row = startingRow;
+        List<Request> requests = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < jsonTableFromSheets.getValues().size(); i++) {
+                for (int j = 0; j < jsonTableFromSheets.getValues().get(i).size(); j++) {
+                    String cellToFind = String.format(cellFormatName, tableName, col, row);
+                    requests.add(this.getReplaceTextBodyRequest(cellToFind, jsonTableFromSheets.getValues().get(i).get(j).toString()));
+                    col++;
+                }
+                col = startingCol;
+                row++;
+            }
+        } catch (Exception e) {
+            throw new FileCannotBeReadException(e);
+        }
+
+        return requests;
+    }
+
+    public List<BatchUpdateDocumentResponse> updateChartsWithLinks(String docNewId, Docs docsService, Sheets sheetsService, String spreadSheetNewId) throws IOException {
         List<BatchUpdateDocumentResponse> responses = new ArrayList<>();
 
         try {
@@ -161,7 +204,7 @@ public abstract class GoogleDriveDocument {
         return responses;
     }
 
-    protected GoogleDocumentElementPosition jsonSearchForChartElement(String json, String chartTitle) {
+    protected GoogleDocumentElementPosition jsonSearchForElement(String json, String elementTitle) {
         GoogleDocumentElementPosition found = null;
 
         if (!JsonLoader.isJSONValid(json)) {
@@ -184,7 +227,7 @@ public abstract class GoogleDriveDocument {
                     String key = (String) a.next();
                     String value = jsonObject.get(key).toString();
 
-                    if (value.contains(chartTitle)) {
+                    if (value.contains(elementTitle)) {
                         JSONObject jsonObjectParagraph = (JSONObject) jsonObject.get(key);
                         JSONArray jsonArrayElement = (JSONArray) jsonObjectParagraph.get("elements");
                         JSONObject jsonObjectElement = (JSONObject) jsonArrayElement.get(0);
