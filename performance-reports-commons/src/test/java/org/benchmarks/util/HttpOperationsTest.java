@@ -34,17 +34,17 @@ public class HttpOperationsTest {
         wireMockServer.stop();
     }
 
-    private String buildApiMethodUrl(Boolean useSSL) {
+    private String getUrl(Boolean useSSL) {
         if (useSSL) {
             return String.format("https://127.0.0.1:%d/buildtime.json", wireMockServer.httpsPort());
         } else {
-            return String.format("http://127.0.0.1:%d/buildtime.json", wireMockServer.port());
+            return String.format("http://localhost:%d/buildtime.json", wireMockServer.port());
         }
     }
 
     @Test
     public void getFileObjectFromWebHTTPSTest() throws IOException {
-        String serverUrl = buildApiMethodUrl(true);
+        String serverUrl = getUrl(true);
         wireMockServer.stubFor(get(urlEqualTo(serverUrl))
                                        .withHeader("Accept", equalTo("text/xml"))
                                        .willReturn(aResponse()
@@ -59,7 +59,7 @@ public class HttpOperationsTest {
 
     @Test
     public void getJsonFileObjectFromWebHTTPTest() throws IOException {
-        String serverUrl = buildApiMethodUrl(false);
+        String serverUrl = getUrl(false);
         wireMockServer.stubFor(get(urlEqualTo(serverUrl))
                                        .withHeader("Accept", equalTo("text/xml"))
                                        .willReturn(aResponse()
@@ -74,7 +74,7 @@ public class HttpOperationsTest {
 
     @Test
     public void getCsvFileObjectFromWebHTTPTest() throws IOException {
-        String serverUrl = buildApiMethodUrl(false);
+        String serverUrl = getUrl(false);
         wireMockServer.stubFor(get(urlEqualTo(serverUrl))
                                        .withHeader("Accept", equalTo("text/xml"))
                                        .willReturn(aResponse()

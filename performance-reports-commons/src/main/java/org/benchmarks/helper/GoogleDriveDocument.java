@@ -9,14 +9,20 @@ import java.util.Set;
 import com.google.api.services.docs.v1.Docs;
 import com.google.api.services.docs.v1.model.BatchUpdateDocumentRequest;
 import com.google.api.services.docs.v1.model.BatchUpdateDocumentResponse;
+import com.google.api.services.docs.v1.model.Color;
 import com.google.api.services.docs.v1.model.Document;
 import com.google.api.services.docs.v1.model.InsertInlineImageRequest;
 import com.google.api.services.docs.v1.model.Link;
 import com.google.api.services.docs.v1.model.Location;
+import com.google.api.services.docs.v1.model.OptionalColor;
 import com.google.api.services.docs.v1.model.Range;
 import com.google.api.services.docs.v1.model.ReplaceAllTextRequest;
 import com.google.api.services.docs.v1.model.Request;
+import com.google.api.services.docs.v1.model.RgbColor;
+import com.google.api.services.docs.v1.model.StructuralElement;
 import com.google.api.services.docs.v1.model.SubstringMatchCriteria;
+import com.google.api.services.docs.v1.model.TableCell;
+import com.google.api.services.docs.v1.model.TableRow;
 import com.google.api.services.docs.v1.model.TextStyle;
 import com.google.api.services.docs.v1.model.UpdateTextStyleRequest;
 import com.google.api.services.sheets.v4.Sheets;
@@ -61,6 +67,19 @@ public abstract class GoogleDriveDocument {
                                 setText(placeHolder).
                                 setMatchCase(true)).
                         setReplaceText(newValue));
+    }
+
+    protected Request getFormatTextColorRequest(String text, RgbColor color, String indexOf) {
+        return new Request()
+                .setUpdateTextStyle(new UpdateTextStyleRequest()
+                                            .setRange(new Range()
+                                                              .setStartIndex(Integer.parseInt(indexOf))
+                                                              .setEndIndex(Integer.parseInt(indexOf) + text.length()))
+                                            .setTextStyle(new TextStyle()
+                                                                  .setForegroundColor(new OptionalColor()
+                                                                                              .setColor(new Color().setRgbColor(color))))
+                                            .setFields("foregroundColor"));
+
     }
 
     protected Request getReplaceLinkBodyRequest(String title, String linkValue, String indexOf) {
@@ -156,8 +175,7 @@ public abstract class GoogleDriveDocument {
         return response;
     }
 
-    public List<Request> getTableUpdateRequest(ValueRange jsonTableFromSheets, String tableName, int startingCol, int startingRow) throws IOException {
-        final String cellFormatName = "%s_%d_%d";
+    public List<Request> getTableUpdateRequest(ValueRange jsonTableFromSheets, String cellFormat, String tableName, int startingCol, int startingRow) throws IOException {
         int col = startingCol;
         int row = startingRow;
         List<Request> requests = new ArrayList<>();
@@ -165,7 +183,7 @@ public abstract class GoogleDriveDocument {
         try {
             for (int i = 0; i < jsonTableFromSheets.getValues().size(); i++) {
                 for (int j = 0; j < jsonTableFromSheets.getValues().get(i).size(); j++) {
-                    String cellToFind = String.format(cellFormatName, tableName, col, row);
+                    String cellToFind = String.format(cellFormat, tableName, col, row);
                     requests.add(this.getReplaceTextBodyRequest(cellToFind, jsonTableFromSheets.getValues().get(i).get(j).toString()));
                     col++;
                 }
@@ -202,6 +220,27 @@ public abstract class GoogleDriveDocument {
         }
 
         return responses;
+    }
+
+    protected GoogleDocumentElementPosition searchForTableCellContent(List<StructuralElement> elements, String textToSearch) {
+        GoogleDocumentElementPosition found = null;
+
+        for (StructuralElement element : elements) {
+            if (element.getTable() != null) {
+                for (TableRow row : element.getTable().getTableRows()) {
+                    for (TableCell cell : row.getTableCells()) {
+                        if(textToSearch.equals(cell.getContent().get(0).getParagraph().getElements().get(0).getTextRun().getContent())){
+                            String startIndex = cell.getStartIndex().toString();
+                            String endIndex = cell.getEndIndex().toString();
+
+                            found = new GoogleDocumentElementPosition(startIndex, endIndex);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return found;
     }
 
     protected GoogleDocumentElementPosition jsonSearchForElement(String json, String elementTitle) {

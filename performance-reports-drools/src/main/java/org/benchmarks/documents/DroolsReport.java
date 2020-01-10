@@ -9,6 +9,7 @@ import com.google.api.services.docs.v1.Docs;
 import com.google.api.services.docs.v1.model.Request;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
+import com.google.api.services.sheets.v4.model.ValueRange;
 import org.benchmarks.definitions.DroolsPropertiesLoader;
 import org.benchmarks.definitions.JenkinsReportLocation;
 import org.benchmarks.definitions.JenkinsReportType;
@@ -26,6 +27,10 @@ public class DroolsReport {
     private static String startingCellCurrentVersion = "K2";
     private static String startingCellPreviousVersion = "J2";
     private static String startingCellOlderVersion = "I2";
+    private static String spreadsheetBuildtimeSheetName = "Charts - buildtime Oracle JDK8";
+    private static String spreadsheetBuildtimeRange = "A3:F24";
+    private static String spreadsheetRuntimeSheetName = "Charts - runtime Oracle JDK8";
+    private static String spreadsheetRuntimeRange = "A3:F25";
     private DroolsPropertiesLoader droolsPropertiesLoader;
     private String folderNewId;
     private String spreadSheetNewId;
@@ -99,8 +104,14 @@ public class DroolsReport {
 
             droolsFileDoc.updateChartsWithLinks(docNewId, this.docsService, this.sheetsService, this.spreadSheetNewId);
 
-            List<Request> requestsTables = droolsFileDoc.getReplaceAllTables(this.sheetsService, this.spreadSheetNewId);
+            ValueRange buildTimeValueRange = droolsFileDoc.getValueRangeFromSheet(sheetsService, this.spreadSheetNewId, spreadsheetBuildtimeSheetName, spreadsheetBuildtimeRange);
+            ValueRange runTimeValueRange = droolsFileDoc.getValueRangeFromSheet(sheetsService, this.spreadSheetNewId, spreadsheetRuntimeSheetName, spreadsheetRuntimeRange);
+
+            List<Request> requestsTables = droolsFileDoc.getReplaceAllTables(buildTimeValueRange, runTimeValueRange);
             droolsFileDoc.requestsExecute(requestsTables, docNewId, this.docsService);
+
+            List<Request> requestsFormatTables = droolsFileDoc.getFormatAllTables(this.docsService, docNewId, buildTimeValueRange, runTimeValueRange);
+            droolsFileDoc.requestsExecute(requestsFormatTables, docNewId, this.docsService);
 
             result = GoogleDriveHelper.moveFile(this.driveService, docNewId, this.folderNewId);
         } catch (IOException e) {
