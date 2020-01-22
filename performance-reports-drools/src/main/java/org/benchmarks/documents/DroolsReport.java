@@ -52,6 +52,9 @@ public class DroolsReport {
         }
     }
 
+    public DroolsReport() {
+    }
+
     public Boolean generateReport() {
         Path localTargetPath = Paths.get("target");
         String localDir = localTargetPath.getFileName().toString();

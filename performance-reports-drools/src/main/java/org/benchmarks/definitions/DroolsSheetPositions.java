@@ -9,7 +9,13 @@ public class DroolsSheetPositions {
         return positions;
     }
 
+    public static Map<Integer, String> getFancyNames() {
+        return fancyNames;
+    }
+
     private static final Map<Integer, String> positions = new HashMap<>();
+
+    private static final Map<Integer, String> fancyNames = new HashMap<>();
 
     static {
         positions.put(2, "name=org.drools.benchmarks.turtle.buildtime.KBaseCreationFromDTablesBenchmark.timeKBaseCreationFromOneBigAndOneSmallDTable|numberOfRules=|nrOfRules=|useCanonicalModel=|rulesProviderId=|matchRatio=null");
@@ -62,6 +68,99 @@ public class DroolsSheetPositions {
         positions.put(45,"name=org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateless|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=0.5");
         positions.put(46,"name=org.drools.benchmarks.turtle.runtime.SimpleRealFactsMatchRatioExpertBenchmark.timeFactsInsertionAndRulesFiringStateless|numberOfRules=null|nrOfRules=null|useCanonicalModel=null|rulesProviderId=null|matchRatio=1.0");
     }
+
+    static {
+        fancyNames.put(2, "Kbase creation from decision tables");
+        fancyNames.put(3, "Kbase creation from DRL (1k)");
+        fancyNames.put(4, "Kbase creation from DRL (5k)");
+        fancyNames.put(5, "Kbase creation from DRL (10k)");
+        fancyNames.put(6, "Kbase creation from DSL/DSLR");
+        fancyNames.put(7, "Kbase creation from Multiple resources");
+        fancyNames.put(8, "Build KJar from DRL resource – 1000 rules, with model");
+        fancyNames.put(9, "Build KJar from DRL resource – 1000 rules, without model");
+        fancyNames.put(10,"Build KJar from DRL resource – 2000 rules, with model");
+        fancyNames.put(11,"Build KJar from DRL resource – 2000 rules, without model");
+        fancyNames.put(12,"Create KieContainer and KieBase from KJar – 100 rules, with model");
+        fancyNames.put(13,"Create KieContainer and KieBase from KJar – 100 rules, without model");
+        fancyNames.put(14,"Create KieContainer and KieBase from KJar – 500 rules, with model");
+        fancyNames.put(15,"Create KieContainer and KieBase from KJar – 500 rules, without model");
+        fancyNames.put(16,"Create KieContainer and KieBase from KJar – 1000 rules, with model");
+        fancyNames.put(17,"Create KieContainer and KieBase from KJar – 1000 rules, without model");
+        fancyNames.put(18,"Create KieContainer and KieBase from KJar – 3000 rules, with model");
+        fancyNames.put(19,"Create KieContainer and KieBase from KJar – 3000 rules, without model");
+        fancyNames.put(20,"Create KieContainer and KieBase from KJar – 5000 rules, with model");
+        fancyNames.put(21,"Create KieContainer and KieBase from KJar – 5000 rules, without model");
+        fancyNames.put(22,"Create KieContainer and KieBase from KJar – 10000 rules, with model");
+        fancyNames.put(23,"Create KieContainer and KieBase from KJar – 10000 rules, without model");
+
+        fancyNames.put(24,"Standard Expert operators");
+        fancyNames.put(25,"Advanced Expert operators");
+        fancyNames.put(26,"Advanced Expert operators 2");
+        fancyNames.put(27,"Advanced Expert operators 3");
+        fancyNames.put(28,"Advanced Expert operators 4");
+
+        fancyNames.put(29,"Fusion operators 'after' and 'before'");
+        fancyNames.put(30,"Fusion operators 'coincides' and 'during'");
+        fancyNames.put(31,"Fusion operators 'finishes' and 'finishedby'");
+        fancyNames.put(32,"Fusion operators 'meets' and 'metby'");
+        fancyNames.put(33,"Fusion operators 'overlaps' and 'overlappedby'");
+        fancyNames.put(34,"Fusion operators 'starts' and 'startedby'");
+
+        fancyNames.put(35,"Basic insert facts into working memory");
+        fancyNames.put(36,"Basic insert logical facts into working memory");
+        fancyNames.put(37,"Basic retract facts from working memory");
+        fancyNames.put(38,"Basic update facts in working memory");
+        fancyNames.put(39,"Basic working memory manipulation");
+
+        fancyNames.put(40,"Basic facts match ratio 0 % - dummy facts");
+        fancyNames.put(41,"Basic facts match ratio 0 % - real facts");
+        fancyNames.put(42,"Basic facts match ratio 50 % - real facts");
+        fancyNames.put(43,"Basic facts match ratio 100 % - real facts");
+        fancyNames.put(44,"Basic facts match ratio 0 % - real facts – stateless");
+        fancyNames.put(45,"Basic facts match ratio 50 % - real facts – stateless");
+        fancyNames.put(46,"Basic facts match ratio 100 % - real facts – stateless");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

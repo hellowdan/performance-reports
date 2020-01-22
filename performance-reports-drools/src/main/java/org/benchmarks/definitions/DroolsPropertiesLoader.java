@@ -8,25 +8,24 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
 
     private static DroolsPropertiesLoader droolsPropertiesLoader = null;
 
-    private String currentVersionBuildtimePath;
-    private String currentVersionRuntimePath;
-    private JenkinsReportLocation currentVersionJenkinsReportLocation;
-    private JenkinsReportFileExtension currentVersionJenkinsReportFileExtension;
+    protected String currentVersionBuildtimePath;
+    protected String currentVersionRuntimePath;
+    protected JenkinsReportLocation currentVersionJenkinsReportLocation;
+    protected JenkinsReportFileExtension currentVersionJenkinsReportFileExtension;
 
-    private String previousVersionBuildtimePath;
-    private String previousVersionRuntimePath;
-    private JenkinsReportLocation previousVersionJenkinsReportLocation;
-    private JenkinsReportFileExtension previousVersionJenkinsReportFileExtension;
+    protected String previousVersionBuildtimePath;
+    protected String previousVersionRuntimePath;
+    protected JenkinsReportLocation previousVersionJenkinsReportLocation;
+    protected JenkinsReportFileExtension previousVersionJenkinsReportFileExtension;
 
-    private String olderVersionBuildtimePath;
-    private String olderVersionRuntimePath;
-    private JenkinsReportLocation olderVersionJenkinsReportLocation;
-    private JenkinsReportFileExtension olderVersionJenkinsReportFileExtension;
+    protected String olderVersionBuildtimePath;
+    protected String olderVersionRuntimePath;
+    protected JenkinsReportLocation olderVersionJenkinsReportLocation;
+    protected JenkinsReportFileExtension olderVersionJenkinsReportFileExtension;
 
     private String currentVersionRepositoryFolderID;
     private String previousVersionRepositoryFolderID;
     private String olderVersionRepositoryFolderID;
-
 
     public DroolsPropertiesLoader(String filename) throws IOException {
         super(filename);
@@ -43,6 +42,7 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
         this.olderVersionRuntimePath = this.properties.getProperty("older_version_runtime_path");
         this.olderVersionJenkinsReportLocation = JenkinsReportLocation.getLocation(this.properties.getProperty("older_version_file_location"));
         this.olderVersionJenkinsReportFileExtension = JenkinsReportFileExtension.getExtension(this.properties.getProperty("older_version_file_extension"));
+
         this.currentVersionRepositoryFolderID = this.properties.getProperty("current_version_repository_folder_id");
         this.previousVersionRepositoryFolderID = this.properties.getProperty("previous_version_repository_folder_id");
         this.olderVersionRepositoryFolderID = this.properties.getProperty("older_version_repository_folder_id");
@@ -52,6 +52,13 @@ public class DroolsPropertiesLoader extends PropertiesLoader {
     public static DroolsPropertiesLoader getInstance() throws IOException {
         if (droolsPropertiesLoader == null) {
             droolsPropertiesLoader = new DroolsPropertiesLoader("/drools-reports.properties");
+        }
+        return droolsPropertiesLoader;
+    }
+
+    public static DroolsPropertiesLoader getInstance(String filename) throws IOException {
+        if ((droolsPropertiesLoader == null) || ((droolsPropertiesLoader != null) && (droolsPropertiesLoader.fileName != filename))) {
+            droolsPropertiesLoader = new DroolsPropertiesLoader(filename);
         }
         return droolsPropertiesLoader;
     }

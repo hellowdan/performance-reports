@@ -19,8 +19,8 @@ public abstract class JenkinsReport {
     public JenkinsReport() {
     }
 
-    public List<JenkinsReportRow> getData(String filePath, JenkinsReportFileExtension fileExtension, JenkinsReportLocation jenkinsReportLocation) throws IOException {
-        List<JenkinsReportRow> droolsTestResultData = new ArrayList<>();
+    public List getData(String filePath, JenkinsReportFileExtension fileExtension, JenkinsReportLocation jenkinsReportLocation) throws IOException {
+        List<JenkinsReportRow> testResultData = new ArrayList<>();
         JSONArray dataJson;
 
         if (fileExtension.equals(JenkinsReportFileExtension.CSV)) {
@@ -33,9 +33,9 @@ public abstract class JenkinsReport {
             throw new InvalidFileExtensionException(fileExtension);
         }
 
-        dataJson.forEach(resultRow -> droolsTestResultData.add(parseJenkinsReportRow((JSONObject) resultRow)));
+        dataJson.forEach(resultRow -> testResultData.add(parseJenkinsReportRow((JSONObject) resultRow)));
 
-        return droolsTestResultData;
+        return testResultData;
     }
 
     public abstract String getDataSourcePath(JenkinsReportVersion jenkinsReportVersion, PropertiesLoader propertiesLoader);
