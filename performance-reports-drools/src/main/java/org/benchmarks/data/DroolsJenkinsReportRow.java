@@ -2,14 +2,14 @@ package org.benchmarks.data;
 
 public class DroolsJenkinsReportRow implements JenkinsReportRow {
 
-    private String name;
+    protected String name;
     private String fancyName;
     private String numberOfRules;
     private String nrOfRules;
     private String useCanonicalModel;
     private String rulesProviderId;
     private String matchRatio;
-    private String score;
+    protected String score;
 
     public String getName() {
         return name;

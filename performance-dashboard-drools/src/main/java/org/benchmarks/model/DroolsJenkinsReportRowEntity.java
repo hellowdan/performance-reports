@@ -62,7 +62,7 @@ public class DroolsJenkinsReportRowEntity {
 
     @Override
     public String toString() {
-        return "DroolsJenkinsReportRowDB{" +
+        return "DroolsJenkinsReportRowEntity{" +
                 "name='" + name + '\'' +
                 ", fancyName=" + fancyName + '\'' +
                 ", numberOfRules='" + numberOfRules + '\'' +
