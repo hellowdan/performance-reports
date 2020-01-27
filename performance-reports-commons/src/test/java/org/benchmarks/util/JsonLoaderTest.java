@@ -19,7 +19,7 @@ public class JsonLoaderTest {
 
         Reader reader = new InputStreamReader(this.getClass().getResourceAsStream(filePath));
         JsonLoader jsonLoader = new JsonLoader();
-        JSONArray jsonArray = jsonLoader.getParsedData(reader);
+        JSONArray jsonArray = jsonLoader.getParsedDataArray(reader);
 
         Assert.assertNotNull(jsonArray);
     }
@@ -30,7 +30,7 @@ public class JsonLoaderTest {
         String filePath = "/__files/buildtime.json";
 
         JsonLoader jsonLoader = new JsonLoader();
-        dataJson = jsonLoader.getDataFromJson(filePath, JenkinsReportLocation.CLASSPATH);
+        dataJson = jsonLoader.getDataFromJsonArray(filePath, JenkinsReportLocation.CLASSPATH);
 
         Assert.assertNotNull(dataJson);
     }
@@ -43,7 +43,7 @@ public class JsonLoaderTest {
 
         input = new File(this.getClass().getResource(filePath).getFile());
         JsonLoader jsonLoader = new JsonLoader();
-        dataJson = jsonLoader.getDataFromJson(input.getCanonicalPath(), JenkinsReportLocation.LOCAL);
+        dataJson = jsonLoader.getDataFromJsonArray(input.getCanonicalPath(), JenkinsReportLocation.LOCAL);
 
         Assert.assertNotNull(dataJson);
     }

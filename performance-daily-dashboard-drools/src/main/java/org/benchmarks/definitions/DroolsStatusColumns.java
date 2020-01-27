@@ -1,13 +1,14 @@
 package org.benchmarks.definitions;
 
     public enum DroolsStatusColumns {
-        JOB("displayName"),
+        JOB("fullDisplayName"),
         URL("url"),
-        LAST_BUILD("lastBuild.number"),
-        LAST_SUCCESSFUL_BUILD("lastSuccessfulBuild.number"),
-        LAST_FAILED_BUILD("lastFailedBuild.number"),
+        LAST_BUILD("lastBuild"),
+        LAST_SUCCESSFUL_BUILD("lastSuccessfulBuild"),
+        LAST_FAILED_BUILD("lastFailedBuild"),
         LAST_BUILD_STATUS("result"),
-        LAST_BUILD_TIMESTAMP("timestamp");
+        LAST_BUILD_TIMESTAMP("timestamp"),
+        BUILD_NUMBER("number");
 
         private String column;
 

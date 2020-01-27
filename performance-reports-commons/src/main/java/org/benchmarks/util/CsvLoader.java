@@ -65,7 +65,7 @@ public class CsvLoader {
 
             reader = new FileReader(output);
             JsonLoader jsonLoader = new JsonLoader();
-            result = jsonLoader.getParsedData(reader);
+            result = jsonLoader.getParsedDataArray(reader);
         } catch (FileNotFoundException e) {
             throw new FileCannotBeFoundException(outputFileName, e);
         } catch (JsonGenerationException e) {

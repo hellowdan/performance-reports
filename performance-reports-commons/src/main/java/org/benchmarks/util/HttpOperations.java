@@ -40,9 +40,7 @@ public class HttpOperations {
 
         try {
             URL urlFile = new URL(url);
-            if ("http".equals(urlFile.getProtocol())) {
-                input = getFileReaderFromHTTP(urlFile);
-            }
+            input = getFileReaderFromHTTP(urlFile);
         } catch (MalformedURLException e) {
             throw new InvalidURLException(url, e);
         }

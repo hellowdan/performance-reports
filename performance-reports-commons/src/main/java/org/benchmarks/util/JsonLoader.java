@@ -11,12 +11,13 @@ import org.benchmarks.exceptions.FileCannotBeFoundException;
 import org.benchmarks.exceptions.FileCannotBeParsedException;
 import org.benchmarks.exceptions.FileCannotBeReadException;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class JsonLoader {
 
-    public JSONArray getParsedData(Reader reader) throws IOException {
+    public JSONArray getParsedDataArray(Reader reader) throws IOException {
         JSONParser jsonParser = new JSONParser();
         JSONArray jsonArray;
 
@@ -32,7 +33,22 @@ public class JsonLoader {
         return jsonArray;
     }
 
-    public JSONArray getDataFromJson(String jsonFile, JenkinsReportLocation jenkinsReportLocation) throws IOException {
+    public JSONObject getParsedDataObject(Reader reader) throws IOException {
+        JSONParser jsonParser = new JSONParser();
+        Object obj = null;
+
+        try {
+            obj = jsonParser.parse(reader);
+        } catch (ParseException e) {
+            throw new FileCannotBeParsedException(e.toString());
+        } catch (IOException e) {
+            throw new FileCannotBeReadException(e);
+        }
+
+        return (JSONObject) obj;
+    }
+
+    public JSONArray getDataFromJsonArray(String jsonFile, JenkinsReportLocation jenkinsReportLocation) throws IOException {
         JSONArray jsonArray = null;
         Reader input = null;
 
@@ -44,12 +60,32 @@ public class JsonLoader {
             } else if (jenkinsReportLocation == JenkinsReportLocation.LOCAL) {
                 input = new FileReader(jsonFile);
             }
-            jsonArray = getParsedData(input);
+            jsonArray = getParsedDataArray(input);
         } catch (FileNotFoundException e) {
             throw new FileCannotBeFoundException(jsonFile, e);
         }
 
         return jsonArray;
+    }
+
+    public JSONObject getDataFromJsonObject(String jsonFile, JenkinsReportLocation jenkinsReportLocation) throws IOException {
+        Object obj = null;
+        Reader input = null;
+
+        try {
+            if (jenkinsReportLocation == JenkinsReportLocation.WEB) {
+                input = HttpOperations.getFileReaderFromWeb(jsonFile);
+            } else if (jenkinsReportLocation == JenkinsReportLocation.CLASSPATH) {
+                input = new InputStreamReader(this.getClass().getResourceAsStream(jsonFile));
+            } else if (jenkinsReportLocation == JenkinsReportLocation.LOCAL) {
+                input = new FileReader(jsonFile);
+            }
+            obj = getParsedDataObject(input);
+        } catch (FileNotFoundException e) {
+            throw new FileCannotBeFoundException(jsonFile, e);
+        }
+
+        return (JSONObject) obj;
     }
 
     public static Boolean isJSONValid(String jsonInString) {

@@ -4,7 +4,7 @@ public class DroolsJenkinsDailyReportRow extends DroolsJenkinsReportRow{
 
     private String benchmark;
 
-    public DroolsJenkinsDailyReportRow(Long internalId, String benchmark) {
+    public DroolsJenkinsDailyReportRow(String benchmark) {
         this.benchmark = benchmark;
     }
 

@@ -1,14 +1,14 @@
 package org.benchmarks.definitions;
 
 public class DroolsDailyBenchmarkConfig {
-    private String benchmark;
+    private String job;
     private String path;
     private String apiPath;
     private String lastBuildApiPath;
     private String lastSuccessfulBuildCsvPath;
 
-    public DroolsDailyBenchmarkConfig(String benchmark, String path) {
-        this.benchmark = benchmark;
+    public DroolsDailyBenchmarkConfig(String job, String path) {
+        this.job = job;
         this.path = path;
         this.apiPath = path + "/api/json";
         this.lastBuildApiPath = path + "/lastBuild/api/json";
@@ -16,11 +16,11 @@ public class DroolsDailyBenchmarkConfig {
     }
 
     public String getBenchmark() {
-        return benchmark;
+        return job;
     }
 
     public void setBenchmark(String benchmark) {
-        this.benchmark = benchmark;
+        this.job = benchmark;
     }
 
     public String getPath() {

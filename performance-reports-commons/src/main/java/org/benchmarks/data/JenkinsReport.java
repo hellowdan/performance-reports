@@ -28,7 +28,7 @@ public abstract class JenkinsReport {
             dataJson = csvLoader.getDataFromCSV(filePath, jenkinsReportLocation);
         } else if (fileExtension.equals(JenkinsReportFileExtension.JSON)) {
             JsonLoader jsonLoader = new JsonLoader();
-            dataJson = jsonLoader.getDataFromJson(filePath, jenkinsReportLocation);
+            dataJson = jsonLoader.getDataFromJsonArray(filePath, jenkinsReportLocation);
         } else {
             throw new InvalidFileExtensionException(fileExtension);
         }

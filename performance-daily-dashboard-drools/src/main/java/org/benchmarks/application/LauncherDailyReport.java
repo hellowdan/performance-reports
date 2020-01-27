@@ -3,12 +3,14 @@ package org.benchmarks.application;
 import java.io.IOException;
 import java.util.List;
 
+import org.benchmarks.dao.DroolsJenkinsDailyStatusRepository;
 import org.benchmarks.data.DroolsDailyData;
 import org.benchmarks.definitions.DroolsDailyPropertiesLoader;
 import org.benchmarks.definitions.JenkinsReportFileExtension;
 import org.benchmarks.definitions.JenkinsReportLocation;
 import org.benchmarks.model.DroolsJenkinsDailyReportRowEntity;
 import org.benchmarks.dao.DroolsJenkinsDailyReportRowRepository;
+import org.benchmarks.model.DroolsJenkinsDailyStatusEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,6 +32,9 @@ public class LauncherDailyReport implements CommandLineRunner {
     @Autowired
     DroolsJenkinsDailyReportRowRepository reportRepository;
 
+    @Autowired
+    DroolsJenkinsDailyStatusRepository statusRepository;
+
     @Override
     public void run(String... args) throws Exception {
         DroolsDailyData droolsDailyData = new DroolsDailyData();
@@ -41,6 +46,9 @@ public class LauncherDailyReport implements CommandLineRunner {
             try {
                 List<DroolsJenkinsDailyReportRowEntity> benchmarkEntity = droolsDailyData.getDroolsBenchmarkData(JenkinsReportFileExtension.CSV, JenkinsReportLocation.WEB, config);
                 benchmarkEntity.forEach(row -> reportRepository.save(row));
+
+                DroolsJenkinsDailyStatusEntity statusEntity = droolsDailyData.getDroolsStatusData(JenkinsReportLocation.WEB, config);
+                statusRepository.save(statusEntity);
             } catch (IOException e) {
                 e.printStackTrace();
             }

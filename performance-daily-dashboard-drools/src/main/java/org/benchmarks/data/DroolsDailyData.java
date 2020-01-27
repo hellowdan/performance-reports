@@ -12,7 +12,6 @@ import org.benchmarks.definitions.JenkinsReportLocation;
 import org.benchmarks.model.DroolsJenkinsDailyReportRowEntity;
 import org.benchmarks.model.DroolsJenkinsDailyStatusEntity;
 import org.benchmarks.util.JsonLoader;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class DroolsDailyData {
@@ -39,16 +38,10 @@ public class DroolsDailyData {
 
     public DroolsJenkinsDailyStatusEntity getDroolsStatusData(JenkinsReportLocation jenkinsReportLocation, DroolsDailyBenchmarkConfig config) throws IOException {
         JsonLoader jsonLoader = new JsonLoader();
-        JSONArray dataJsonLastBuild = jsonLoader.getDataFromJson(config.getLastBuildApiPath(), jenkinsReportLocation);
-        JSONArray dataJsonJob = jsonLoader.getDataFromJson(config.getApiPath(), jenkinsReportLocation);
+        JSONObject dataJsonLastBuild = jsonLoader.getDataFromJsonObject(config.getLastBuildApiPath(), jenkinsReportLocation);
+        JSONObject dataJsonJob = jsonLoader.getDataFromJsonObject(config.getApiPath(), jenkinsReportLocation);
 
-        JSONObject objLastBuild = new JSONObject();
-        objLastBuild.put("lastBuild:", dataJsonLastBuild);
-
-        JSONObject objJob = new JSONObject();
-        objJob.put("job:", dataJsonJob);
-
-        DroolsJenkinsDailyStatusRow resultRow = parseJenkinsStatus(objLastBuild, objJob);
+        DroolsJenkinsDailyStatusRow resultRow = parseJenkinsStatus(dataJsonLastBuild, dataJsonJob);
 
         DroolsJenkinsDailyStatusEntity droolsJenkinsDailyStatusEntity = new DroolsJenkinsDailyStatusEntity(resultRow);
 
@@ -59,25 +52,35 @@ public class DroolsDailyData {
         DroolsJenkinsDailyStatusRow droolsJenkinsReportRow = new DroolsJenkinsDailyStatusRow();
 
         if (dataJsonLastBuild.get(DroolsStatusColumns.JOB.getColumn()) != null) {
-            droolsJenkinsReportRow.setBenchmark(dataJsonLastBuild.get(DroolsStatusColumns.JOB.getColumn()).toString());
+            String displayName = dataJsonLastBuild.get(DroolsStatusColumns.JOB.getColumn()).toString();
+            if (displayName.indexOf("#") > 0) {
+                displayName = displayName.substring(0, displayName.indexOf("#")).trim();
+            }
+            droolsJenkinsReportRow.setBenchmark(displayName);
         }
         if (dataJsonLastBuild.get(DroolsStatusColumns.URL.getColumn()) != null) {
             droolsJenkinsReportRow.setUrl(dataJsonLastBuild.get(DroolsStatusColumns.URL.getColumn()).toString());
         }
-        if (dataJsonLastBuild.get(DroolsStatusColumns.LAST_BUILD.getColumn()) != null) {
-            droolsJenkinsReportRow.setLastBuild(dataJsonLastBuild.get(DroolsStatusColumns.LAST_BUILD.getColumn()).toString());
+        if (dataJsonJob.get(DroolsStatusColumns.LAST_BUILD.getColumn()) != null) {
+            JSONObject resultsObject = (JSONObject) dataJsonJob.get(DroolsStatusColumns.LAST_BUILD.getColumn());
+            String number = resultsObject.get(DroolsStatusColumns.BUILD_NUMBER.getColumn()).toString();
+            droolsJenkinsReportRow.setLastBuild(number);
         }
-        if (dataJsonLastBuild.get(DroolsStatusColumns.LAST_SUCCESSFUL_BUILD.getColumn()) != null) {
-            droolsJenkinsReportRow.setLastSuccessfulBuild(dataJsonLastBuild.get(DroolsStatusColumns.LAST_SUCCESSFUL_BUILD.getColumn()).toString());
+        if (dataJsonJob.get(DroolsStatusColumns.LAST_SUCCESSFUL_BUILD.getColumn()) != null) {
+            JSONObject resultsObject = (JSONObject) dataJsonJob.get(DroolsStatusColumns.LAST_SUCCESSFUL_BUILD.getColumn());
+            String number = resultsObject.get(DroolsStatusColumns.BUILD_NUMBER.getColumn()).toString();
+            droolsJenkinsReportRow.setLastSuccessfulBuild(number);
         }
-        if (dataJsonLastBuild.get(DroolsStatusColumns.LAST_FAILED_BUILD.getColumn()) != null) {
-            droolsJenkinsReportRow.setLastFailedBuild(dataJsonLastBuild.get(DroolsStatusColumns.LAST_FAILED_BUILD.getColumn()).toString());
+        if (dataJsonJob.get(DroolsStatusColumns.LAST_FAILED_BUILD.getColumn()) != null) {
+            JSONObject resultsObject = (JSONObject) dataJsonJob.get(DroolsStatusColumns.LAST_FAILED_BUILD.getColumn());
+            String number = resultsObject.get(DroolsStatusColumns.BUILD_NUMBER.getColumn()).toString();
+            droolsJenkinsReportRow.setLastFailedBuild(number);
         }
-        if (dataJsonJob.get(DroolsStatusColumns.LAST_BUILD_STATUS.getColumn()) != null) {
-            droolsJenkinsReportRow.setLastBuildStatus(dataJsonJob.get(DroolsStatusColumns.LAST_BUILD_STATUS.getColumn()).toString());
+        if (dataJsonLastBuild.get(DroolsStatusColumns.LAST_BUILD_STATUS.getColumn()) != null) {
+            droolsJenkinsReportRow.setLastBuildStatus(dataJsonLastBuild.get(DroolsStatusColumns.LAST_BUILD_STATUS.getColumn()).toString());
         }
-        if (dataJsonJob.get(DroolsStatusColumns.LAST_BUILD_TIMESTAMP.getColumn()) != null) {
-            Long lastBuildDateOfExecution = Long.parseLong(dataJsonJob.get(DroolsStatusColumns.LAST_BUILD_TIMESTAMP.getColumn()).toString());
+        if (dataJsonLastBuild.get(DroolsStatusColumns.LAST_BUILD_TIMESTAMP.getColumn()) != null) {
+            Long lastBuildDateOfExecution = Long.parseLong(dataJsonLastBuild.get(DroolsStatusColumns.LAST_BUILD_TIMESTAMP.getColumn()).toString());
             droolsJenkinsReportRow.setLastBuildDateOfExecution(new Timestamp(lastBuildDateOfExecution));
         }
 
