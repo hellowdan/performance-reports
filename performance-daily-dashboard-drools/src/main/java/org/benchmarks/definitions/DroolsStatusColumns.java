@@ -3,7 +3,7 @@ package org.benchmarks.definitions;
     public enum DroolsStatusColumns {
         JOB("fullDisplayName"),
         URL("url"),
-        LAST_BUILD("lastBuild"),
+        LAST_BUILD("lastCompletedBuild"),
         LAST_SUCCESSFUL_BUILD("lastSuccessfulBuild"),
         LAST_FAILED_BUILD("lastFailedBuild"),
         LAST_BUILD_STATUS("result"),

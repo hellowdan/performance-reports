@@ -2,6 +2,8 @@ package org.benchmarks.data;
 
 import java.sql.Timestamp;
 
+import org.benchmarks.definitions.DroolsStatus;
+
 public class DroolsJenkinsDailyStatusRow {
 
     private String benchmark;
@@ -10,6 +12,7 @@ public class DroolsJenkinsDailyStatusRow {
     private String lastSuccessfulBuild;
     private String lastFailedBuild;
     private String lastBuildStatus;
+    private int lastBuildStatusFlag;
     private Timestamp lastBuildDateOfExecution;
 
     public DroolsJenkinsDailyStatusRow() {
@@ -61,7 +64,17 @@ public class DroolsJenkinsDailyStatusRow {
 
     public void setLastBuildStatus(String lastBuildStatus) {
         this.lastBuildStatus = lastBuildStatus;
+        if(this.lastBuildStatus.equals(DroolsStatus.SUCCESS.getStatus())){
+            this.lastBuildStatusFlag = DroolsStatus.SUCCESS.getStatusFlag();
+        } else if(this.lastBuildStatus.equals(DroolsStatus.FAILURE.getStatus())){
+            this.lastBuildStatusFlag = DroolsStatus.FAILURE.getStatusFlag();
+        }
     }
+
+    public int getLastBuildStatusFlag() {
+        return lastBuildStatusFlag;
+    }
+
 
     public Timestamp getLastBuildDateOfExecution() {
         return lastBuildDateOfExecution;
@@ -80,6 +93,7 @@ public class DroolsJenkinsDailyStatusRow {
                 "lastSuccessfulBuild='" + lastSuccessfulBuild + '\'' +
                 "lastFailedBuild='" + lastFailedBuild + '\'' +
                 "lastBuildStatus='" + lastBuildStatus + '\'' +
+                "lastBuildStatusFlag='" + lastBuildStatusFlag + '\'' +
                 "lastBuildDateOfExecution='" + lastBuildDateOfExecution + '\'' +
                 '}';
     }

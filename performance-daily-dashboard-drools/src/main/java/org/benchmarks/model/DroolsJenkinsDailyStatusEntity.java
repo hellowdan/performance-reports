@@ -25,6 +25,7 @@ public class DroolsJenkinsDailyStatusEntity {
     private String lastFailedBuildNumber;
     private String lastBuildUrl;
     private String lastBuildStatus;
+    private int lastBuildStatusFlag;
     private Timestamp lastBuildDateOfExecution;
     private int day;
     private int month;
@@ -40,6 +41,7 @@ public class DroolsJenkinsDailyStatusEntity {
         this.lastFailedBuildNumber = resultRow.getLastFailedBuild();
         this.lastBuildUrl = resultRow.getUrl();
         this.lastBuildStatus = resultRow.getLastBuildStatus();
+        this.lastBuildStatusFlag = resultRow.getLastBuildStatusFlag();
         this.lastBuildDateOfExecution = resultRow.getLastBuildDateOfExecution();
         this.day = localDate.getDayOfMonth();
         this.month = localDate.getMonthValue();
@@ -57,6 +59,7 @@ public class DroolsJenkinsDailyStatusEntity {
                 ", lastFailedBuildNumber=" + lastFailedBuildNumber +
                 ", lastBuildUrl=" + lastBuildUrl +
                 ", lastBuildStatus=" + lastBuildStatus +
+                ", lastBuildStatusFlag=" + lastBuildStatusFlag +
                 ", lastBuildDateOfExecution=" + lastBuildDateOfExecution +
                 '}';
     }
