@@ -11,7 +11,7 @@ public class DroolsDailyBenchmarkConfig {
         this.job = job;
         this.path = path;
         this.apiPath = path + "/api/json";
-        this.lastBuildApiPath = path + "/lastBuild/api/json";
+        this.lastBuildApiPath = path + "/lastCompletedBuild/api/json";
         this.lastSuccessfulBuildCsvPath = path + "/lastSuccessfulBuild/artifact/results.csv";
     }
 
