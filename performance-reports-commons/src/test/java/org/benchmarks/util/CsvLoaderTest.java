@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import org.benchmarks.definitions.JenkinsReportLocation;
+import org.benchmarks.definitions.SourceFileLocation;
 import org.json.simple.JSONArray;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -34,7 +34,7 @@ public class CsvLoaderTest {
         String filePath = "http://127.0.0.1:8888/buildtime.csv";
 
         CsvLoader csvLoader = new CsvLoader();
-        dataJson = csvLoader.getDataFromCSV(filePath, JenkinsReportLocation.WEB);
+        dataJson = csvLoader.getDataFromCSV(filePath, SourceFileLocation.WEB);
 
         Assert.assertNotNull(dataJson);
     }
@@ -45,7 +45,7 @@ public class CsvLoaderTest {
         String filePath = "/__files/buildtime.csv";
 
         CsvLoader csvLoader = new CsvLoader();
-        dataJson = csvLoader.getDataFromCSV(filePath, JenkinsReportLocation.CLASSPATH);
+        dataJson = csvLoader.getDataFromCSV(filePath, SourceFileLocation.CLASSPATH);
 
         Assert.assertNotNull(dataJson);
     }
@@ -58,7 +58,7 @@ public class CsvLoaderTest {
 
         input = new File(this.getClass().getResource(filePath).getFile());
         CsvLoader csvLoader = new CsvLoader();
-        dataJson = csvLoader.getDataFromCSV(input.getCanonicalPath(), JenkinsReportLocation.LOCAL);
+        dataJson = csvLoader.getDataFromCSV(input.getCanonicalPath(), SourceFileLocation.LOCAL);
 
         Assert.assertNotNull(dataJson);
     }

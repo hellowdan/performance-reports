@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import org.benchmarks.definitions.JenkinsReportLocation;
+import org.benchmarks.definitions.SourceFileLocation;
 import org.benchmarks.exceptions.FileCannotBeFoundException;
 import org.benchmarks.exceptions.FileCannotBeReadException;
 import org.benchmarks.exceptions.JsonGenerationFromCSVException;
@@ -28,7 +28,7 @@ import org.json.simple.JSONArray;
  * It can be removed later*/
 public class CsvLoader {
 
-    public JSONArray getDataFromCSV(String csvFile, JenkinsReportLocation jenkinsReportLocation) throws IOException {
+    public JSONArray getDataFromCSV(String csvFile, SourceFileLocation sourceFileLocation) throws IOException {
         JSONArray result;
         String outputFileName = "output.json";
         File output = new File(outputFileName);
@@ -36,11 +36,11 @@ public class CsvLoader {
         FileReader reader = null;
 
         try {
-            if (jenkinsReportLocation == JenkinsReportLocation.WEB) {
+            if (sourceFileLocation == SourceFileLocation.WEB) {
                 input = HttpOperations.getFileObjectFromWeb(csvFile);
-            } else if (jenkinsReportLocation == JenkinsReportLocation.CLASSPATH) {
+            } else if (sourceFileLocation == SourceFileLocation.CLASSPATH) {
                 input = this.getClass().getResourceAsStream(csvFile);
-            } else if (jenkinsReportLocation == JenkinsReportLocation.LOCAL) {
+            } else if (sourceFileLocation == SourceFileLocation.LOCAL) {
                 input = new File(csvFile);
             }
 
@@ -52,11 +52,11 @@ public class CsvLoader {
             CsvMapper csvMapper = new CsvMapper();
 
             List<Object> readAll = null;
-            if (jenkinsReportLocation == JenkinsReportLocation.WEB) {
+            if (sourceFileLocation == SourceFileLocation.WEB) {
                 readAll = csvMapper.readerFor(Map.class).with(csvSchema).readValues((BufferedReader) input).readAll();
-            } else if (jenkinsReportLocation == JenkinsReportLocation.CLASSPATH) {
+            } else if (sourceFileLocation == SourceFileLocation.CLASSPATH) {
                 readAll = csvMapper.readerFor(Map.class).with(csvSchema).readValues((BufferedInputStream) input).readAll();
-            } else if (jenkinsReportLocation == JenkinsReportLocation.LOCAL) {
+            } else if (sourceFileLocation == SourceFileLocation.LOCAL) {
                 readAll = csvMapper.readerFor(Map.class).with(csvSchema).readValues((File) input).readAll();
             }
 

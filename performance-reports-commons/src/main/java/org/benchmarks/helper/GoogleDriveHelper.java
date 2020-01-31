@@ -11,8 +11,8 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.Revision;
 import com.google.api.services.drive.model.RevisionList;
 import com.google.common.collect.Iterables;
-import org.benchmarks.definitions.JenkinsReportFileExtension;
-import org.benchmarks.definitions.JenkinsReportVersion;
+import org.benchmarks.definitions.SourceFileExtension;
+import org.benchmarks.definitions.StaticVersion;
 import org.benchmarks.exceptions.FileCannotBeSavedException;
 import org.benchmarks.exceptions.GoogleDriveCopyFileException;
 import org.benchmarks.exceptions.GoogleDriveDownloadFileException;
@@ -130,10 +130,10 @@ public class GoogleDriveHelper {
         return result;
     }
 
-    public static String prepareGoogleDriveFile(Drive driveService, String fileType, String fileID, String localDir, JenkinsReportVersion jenkinsReportVersion, JenkinsReportFileExtension jenkinsReportFileExtension) throws IOException {
+    public static String prepareGoogleDriveFile(Drive driveService, String fileType, String fileID, String localDir, StaticVersion staticVersion, SourceFileExtension sourceFileExtension) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream;
 
-        String filePath = localDir + jenkinsReportVersion.toString() + fileType + "." + jenkinsReportFileExtension.getExtension();
+        String filePath = localDir + staticVersion.toString() + fileType + "." + sourceFileExtension.getExtension();
         byteArrayOutputStream = GoogleDriveHelper.downloadFile(driveService, fileID);
         writeToFile(byteArrayOutputStream, filePath);
 

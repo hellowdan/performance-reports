@@ -32,7 +32,7 @@ import org.benchmarks.definitions.GoogleDocumentElementPosition;
 import org.benchmarks.exceptions.FileCannotBeParsedException;
 import org.benchmarks.exceptions.FileCannotBeReadException;
 import org.benchmarks.util.JsonLoader;
-import org.benchmarks.util.PropertiesLoader;
+import org.benchmarks.util.ReportProperties;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -45,7 +45,7 @@ public abstract class GoogleDriveDocument {
     public GoogleDriveDocument() {
     }
 
-    protected abstract List<Request> getReplaceAllBody(PropertiesLoader propertiesLoader);
+    protected abstract List<Request> getReplaceAllBody(ReportProperties reportProperties);
 
     public BatchUpdateDocumentResponse requestsExecute(List<Request> requests, String docNewId, Docs docService) throws IOException {
         BatchUpdateDocumentResponse response;

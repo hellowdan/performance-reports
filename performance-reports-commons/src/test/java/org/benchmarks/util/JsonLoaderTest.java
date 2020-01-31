@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import org.benchmarks.definitions.JenkinsReportLocation;
+import org.benchmarks.definitions.SourceFileLocation;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 import org.junit.Assert;
@@ -30,7 +30,7 @@ public class JsonLoaderTest {
         String filePath = "/__files/buildtime.json";
 
         JsonLoader jsonLoader = new JsonLoader();
-        dataJson = jsonLoader.getDataFromJsonArray(filePath, JenkinsReportLocation.CLASSPATH);
+        dataJson = jsonLoader.getDataFromJsonArray(filePath, SourceFileLocation.CLASSPATH);
 
         Assert.assertNotNull(dataJson);
     }
@@ -43,7 +43,7 @@ public class JsonLoaderTest {
 
         input = new File(this.getClass().getResource(filePath).getFile());
         JsonLoader jsonLoader = new JsonLoader();
-        dataJson = jsonLoader.getDataFromJsonArray(input.getCanonicalPath(), JenkinsReportLocation.LOCAL);
+        dataJson = jsonLoader.getDataFromJsonArray(input.getCanonicalPath(), SourceFileLocation.LOCAL);
 
         Assert.assertNotNull(dataJson);
     }

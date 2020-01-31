@@ -6,9 +6,9 @@ import java.io.IOException;
 
 import com.google.api.services.drive.Drive;
 
-import org.benchmarks.definitions.JenkinsReportFileExtension;
-import org.benchmarks.definitions.JenkinsReportType;
-import org.benchmarks.definitions.JenkinsReportVersion;
+import org.benchmarks.definitions.SourceFileExtension;
+import org.benchmarks.definitions.ReportType;
+import org.benchmarks.definitions.StaticVersion;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -91,7 +91,7 @@ public class GoogleDriveHelperTest {
     @Test
     public void prepareGoogleDriveFileTest() throws IOException {
         final String localDir = "target/";
-        this.filePathPrepareGoogleDriveFile = GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, JenkinsReportType.BUILDTIME.getFileType(), fileToDownloadID, localDir, JenkinsReportVersion.CURRENT, JenkinsReportFileExtension.CSV);
+        this.filePathPrepareGoogleDriveFile = GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, ReportType.BUILDTIME.getFileType(), fileToDownloadID, localDir, StaticVersion.CURRENT, SourceFileExtension.CSV);
         File downloadedFile = new File(this.filePathPrepareGoogleDriveFile);
 
         assertThat(downloadedFile.exists(), is(true));

@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import org.benchmarks.definitions.JenkinsReportLocation;
+import org.benchmarks.definitions.SourceFileLocation;
 import org.benchmarks.exceptions.FileCannotBeFoundException;
 import org.benchmarks.exceptions.FileCannotBeParsedException;
 import org.benchmarks.exceptions.FileCannotBeReadException;
@@ -48,16 +48,16 @@ public class JsonLoader {
         return (JSONObject) obj;
     }
 
-    public JSONArray getDataFromJsonArray(String jsonFile, JenkinsReportLocation jenkinsReportLocation) throws IOException {
+    public JSONArray getDataFromJsonArray(String jsonFile, SourceFileLocation sourceFileLocation) throws IOException {
         JSONArray jsonArray = null;
         Reader input = null;
 
         try {
-            if (jenkinsReportLocation == JenkinsReportLocation.WEB) {
+            if (sourceFileLocation == SourceFileLocation.WEB) {
                 input = HttpOperations.getFileReaderFromWeb(jsonFile);
-            } else if (jenkinsReportLocation == JenkinsReportLocation.CLASSPATH) {
+            } else if (sourceFileLocation == SourceFileLocation.CLASSPATH) {
                 input = new InputStreamReader(this.getClass().getResourceAsStream(jsonFile));
-            } else if (jenkinsReportLocation == JenkinsReportLocation.LOCAL) {
+            } else if (sourceFileLocation == SourceFileLocation.LOCAL) {
                 input = new FileReader(jsonFile);
             }
             jsonArray = getParsedDataArray(input);
@@ -68,16 +68,16 @@ public class JsonLoader {
         return jsonArray;
     }
 
-    public JSONObject getDataFromJsonObject(String jsonFile, JenkinsReportLocation jenkinsReportLocation) throws IOException {
+    public JSONObject getDataFromJsonObject(String jsonFile, SourceFileLocation sourceFileLocation) throws IOException {
         Object obj = null;
         Reader input = null;
 
         try {
-            if (jenkinsReportLocation == JenkinsReportLocation.WEB) {
+            if (sourceFileLocation == SourceFileLocation.WEB) {
                 input = HttpOperations.getFileReaderFromWeb(jsonFile);
-            } else if (jenkinsReportLocation == JenkinsReportLocation.CLASSPATH) {
+            } else if (sourceFileLocation == SourceFileLocation.CLASSPATH) {
                 input = new InputStreamReader(this.getClass().getResourceAsStream(jsonFile));
-            } else if (jenkinsReportLocation == JenkinsReportLocation.LOCAL) {
+            } else if (sourceFileLocation == SourceFileLocation.LOCAL) {
                 input = new FileReader(jsonFile);
             }
             obj = getParsedDataObject(input);

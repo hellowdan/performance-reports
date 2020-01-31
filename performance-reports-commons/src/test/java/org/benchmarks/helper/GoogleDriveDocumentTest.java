@@ -20,7 +20,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.Spreadsheet;
 
-import org.benchmarks.util.PropertiesLoader;
+import org.benchmarks.util.ReportProperties;
 import org.benchmarks.definitions.GoogleDocumentElementPosition;
 import org.json.simple.parser.ParseException;
 
@@ -50,7 +50,7 @@ public class GoogleDriveDocumentTest {
 
         this.googleDriveDocument = new GoogleDriveDocument() {
             @Override
-            protected List<Request> getReplaceAllBody(PropertiesLoader propertiesLoader) {
+            protected List<Request> getReplaceAllBody(ReportProperties reportProperties) {
                 return null;
             }
         };
