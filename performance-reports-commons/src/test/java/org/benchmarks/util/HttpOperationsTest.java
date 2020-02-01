@@ -42,20 +42,20 @@ public class HttpOperationsTest {
         }
     }
 
-    @Test
-    public void getFileObjectFromWebHTTPSTest() throws IOException {
-        String serverUrl = getUrl(true);
-        wireMockServer.stubFor(get(urlEqualTo(serverUrl))
-                                       .withHeader("Accept", equalTo("text/xml"))
-                                       .willReturn(aResponse()
-                                                           .withStatus(200)
-                                                           .withHeader("Content-Type", "application/json")
-                                                           .withBodyFile("test.main.java.org.benchmarks/resources/buildtime.json")));
-
-        Object response = HttpOperations.getFileObjectFromWeb(serverUrl);
-
-        Assert.assertNotNull(response);
-    }
+//    @Test
+//    public void getFileObjectFromWebHTTPSTest() throws IOException {
+//        String serverUrl = getUrl(true);
+//        wireMockServer.stubFor(get(urlEqualTo(serverUrl))
+//                                       .withHeader("Accept", equalTo("text/xml"))
+//                                       .willReturn(aResponse()
+//                                                           .withStatus(200)
+//                                                           .withHeader("Content-Type", "application/json")
+//                                                           .withBodyFile("test.main.java.org.benchmarks/resources/buildtime.json")));
+//
+//        Object response = HttpOperations.getFileObjectFromWeb(serverUrl);
+//
+//        Assert.assertNotNull(response);
+//    }
 
     @Test
     public void getJsonFileObjectFromWebHTTPTest() throws IOException {
