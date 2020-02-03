@@ -16,24 +16,25 @@ import org.json.simple.JSONObject;
 
 public class DailyJobStatusData {
 
-    private DailyBenchmarkEntity getDroolsJenkinsReportRowDB(DailyBenchmarkRow testResultData) {
+    private DailyBenchmarkEntity getBenchmarkEntity(DailyBenchmarkRow testResultData, String product) {
         return new DailyBenchmarkEntity(
                 testResultData.getBenchmark(),
                 testResultData.getName(),
+                product,
                 testResultData.getScore()
         );
     }
 
     public List<DailyBenchmarkEntity> getDroolsBenchmarkData(SourceFileExtension sourceFileExtension, SourceFileLocation jenkinsReportLocation, DailyBenchmarkConfig config) throws IOException {
-        DailyBenchmarkData droolsBenchmarkJenkinsReport = new DailyBenchmarkData(config);
-        List<DailyBenchmarkRow> testResultData = droolsBenchmarkJenkinsReport.getData(config.getLastSuccessfulBuildCsvPath(), sourceFileExtension, jenkinsReportLocation);
-        List<DailyBenchmarkEntity> droolsJenkinsDailyReportRowEntities = new ArrayList();
+        DailyBenchmarkData dailyBenchmarkData = new DailyBenchmarkData(config);
+        List<DailyBenchmarkRow> dailyBenchmarkRows = dailyBenchmarkData.getData(config.getLastSuccessfulBuildCsvPath(), sourceFileExtension, jenkinsReportLocation);
+        List<DailyBenchmarkEntity> dailyBenchmarkEntities = new ArrayList();
 
-        for (int i = 0; i < testResultData.size(); i++) {
-            droolsJenkinsDailyReportRowEntities.add(getDroolsJenkinsReportRowDB(testResultData.get(i)));
+        for (int i = 0; i < dailyBenchmarkRows.size(); i++) {
+            dailyBenchmarkEntities.add(getBenchmarkEntity(dailyBenchmarkRows.get(i), config.getProduct()));
         }
 
-        return droolsJenkinsDailyReportRowEntities;
+        return dailyBenchmarkEntities;
     }
 
     public DailyJobStatusEntity getDroolsStatusData(SourceFileLocation jenkinsReportLocation, DailyBenchmarkConfig config) throws IOException {
@@ -41,15 +42,17 @@ public class DailyJobStatusData {
         JSONObject dataJsonLastBuild = jsonLoader.getDataFromJsonObject(config.getLastBuildApiPath(), jenkinsReportLocation);
         JSONObject dataJsonJob = jsonLoader.getDataFromJsonObject(config.getApiPath(), jenkinsReportLocation);
 
-        DailyJobStatusRow resultRow = parseJenkinsStatus(dataJsonLastBuild, dataJsonJob);
+        DailyJobStatusRow resultRow = parseJenkinsStatus(dataJsonLastBuild, dataJsonJob, config.getProduct());
 
         DailyJobStatusEntity dailyJobStatusEntity = new DailyJobStatusEntity(resultRow);
 
         return dailyJobStatusEntity;
     }
 
-    protected DailyJobStatusRow parseJenkinsStatus(JSONObject dataJsonLastBuild, JSONObject dataJsonJob) {
+    protected DailyJobStatusRow parseJenkinsStatus(JSONObject dataJsonLastBuild, JSONObject dataJsonJob, String product) {
         DailyJobStatusRow droolsJenkinsReportRow = new DailyJobStatusRow();
+
+        droolsJenkinsReportRow.setProduct(product);
 
         if (dataJsonLastBuild.get(SourceStatusColumns.JOB.getColumn()) != null) {
             String displayName = dataJsonLastBuild.get(SourceStatusColumns.JOB.getColumn()).toString();

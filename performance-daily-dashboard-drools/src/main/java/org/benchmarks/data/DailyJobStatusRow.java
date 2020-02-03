@@ -7,6 +7,7 @@ import org.benchmarks.definitions.JobStatus;
 public class DailyJobStatusRow {
 
     private String benchmark;
+    private String product;
     private String url;
     private String lastBuild;
     private String lastSuccessfulBuild;
@@ -82,6 +83,14 @@ public class DailyJobStatusRow {
 
     public void setLastBuildDateOfExecution(Timestamp lastBuildDateOfExecution) {
         this.lastBuildDateOfExecution = lastBuildDateOfExecution;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
     }
 
     @Override

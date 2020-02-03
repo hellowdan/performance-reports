@@ -20,6 +20,7 @@ public class DailyJobStatusEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String job;
+    private String product;
     private String lastBuildNumber;
     private String lastSuccessfulBuildNumber;
     private String lastFailedBuildNumber;
@@ -36,6 +37,7 @@ public class DailyJobStatusEntity {
     public DailyJobStatusEntity(DailyJobStatusRow resultRow) {
         LocalDate localDate = LocalDate.now();
         this.job = resultRow.getBenchmark();
+        this.product = resultRow.getProduct();
         this.lastBuildNumber = resultRow.getLastBuild();
         this.lastSuccessfulBuildNumber = resultRow.getLastSuccessfulBuild();
         this.lastFailedBuildNumber = resultRow.getLastFailedBuild();
@@ -54,6 +56,7 @@ public class DailyJobStatusEntity {
     public String toString() {
         return "DroolsJenkinsDailyStatusEntity{" +
                 "job='" + job + '\'' +
+                ", product='" + product + '\'' +
                 ", lastBuildNumber='" + lastBuildNumber + '\'' +
                 ", lastSuccessfulBuildNumber=" + lastSuccessfulBuildNumber +
                 ", lastFailedBuildNumber=" + lastFailedBuildNumber +

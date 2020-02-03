@@ -19,6 +19,7 @@ public class DailyBenchmarkEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String job;
+    private String product;
     private String name;
     private String score;
     private int day;
@@ -30,9 +31,10 @@ public class DailyBenchmarkEntity {
     public DailyBenchmarkEntity() {
     }
 
-    public DailyBenchmarkEntity(String job, String name, String score) {
+    public DailyBenchmarkEntity(String job, String name, String product, String score) {
         LocalDate localDate = LocalDate.now();
         this.job = job;
+        this.product = product;
         this.name = name;
         this.score = score;
         this.day = localDate.getDayOfMonth();
@@ -46,6 +48,7 @@ public class DailyBenchmarkEntity {
     public String toString() {
         return "DroolsJenkinsDailyReportRowEntity{" +
                 "job='" + job + '\'' +
+                ", product='" + product + '\'' +
                 ", name='" + name + '\'' +
                 ", score=" + score +
                 '}';
