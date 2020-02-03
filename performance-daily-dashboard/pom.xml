@@ -27,12 +27,6 @@
     </dependency>
     <dependency>
       <groupId>org.benchmarks</groupId>
-      <artifactId>performance-reports-drools</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.benchmarks</groupId>
       <artifactId>performance-reports-commons</artifactId>
       <version>1.0-SNAPSHOT</version>
       <scope>compile</scope>

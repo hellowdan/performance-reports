@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DailyProperties extends DroolsReportProperties {
+import org.benchmarks.util.ReportProperties;
+
+public class DailyProperties extends ReportProperties {
 
     private static String DAILY_BENCHMARK_JOB_SUBFOLDER = "daily_benchmark_job_subfolder";
     private static String DAILY_BENCHMARK_JOB_PRODUCTS = "daily_benchmark_job_products";

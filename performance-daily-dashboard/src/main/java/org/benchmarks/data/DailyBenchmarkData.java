@@ -24,16 +24,16 @@ public class DailyBenchmarkData extends ReportData {
     }
 
     @Override
-    protected ReportRow parseJenkinsReportRow(JSONObject testJenkinsReportRow) {
-        DailyBenchmarkRow  dailyBenchmarkRow = new DailyBenchmarkRow();
+    protected ReportRow parseReportRow(JSONObject reportRow) {
+        DailyBenchmarkRow dailyBenchmarkRow = new DailyBenchmarkRow();
 
         dailyBenchmarkRow.setBenchmark(this.benchmark);
 
-        if (testJenkinsReportRow.get(SourceFileColumns.BENCHMARK.getColumn()) != null) {
-            dailyBenchmarkRow.setName((String) testJenkinsReportRow.get(SourceFileColumns.BENCHMARK.getColumn()));
+        if (reportRow.get(SourceFileColumns.BENCHMARK) != null) {
+            dailyBenchmarkRow.setName((String) reportRow.get(SourceFileColumns.BENCHMARK));
         }
-        if (testJenkinsReportRow.get(SourceFileColumns.SCORE.getColumn()) != null) {
-            dailyBenchmarkRow.setScore(testJenkinsReportRow.get(SourceFileColumns.SCORE.getColumn()).toString());
+        if (reportRow.get(SourceFileColumns.SCORE) != null) {
+            dailyBenchmarkRow.setScore(reportRow.get(SourceFileColumns.SCORE).toString());
         }
 
         return dailyBenchmarkRow;

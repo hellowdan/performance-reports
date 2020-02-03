@@ -38,7 +38,7 @@ public class LauncherDailyMonitoring implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         DailyJobStatusData dailyJobStatusData = new DailyJobStatusData();
-        String propertiesFilePath = "/drools-daily-dashboard.properties";
+        String propertiesFilePath = "/daily-dashboard.properties";
 
         DailyProperties propertiesLoader = DailyProperties.getInstance(propertiesFilePath);
 

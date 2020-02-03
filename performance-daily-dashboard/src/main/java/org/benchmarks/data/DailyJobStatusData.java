@@ -16,12 +16,12 @@ import org.json.simple.JSONObject;
 
 public class DailyJobStatusData {
 
-    private DailyBenchmarkEntity getBenchmarkEntity(DailyBenchmarkRow testResultData, String product) {
+    private DailyBenchmarkEntity getBenchmarkEntity(DailyBenchmarkRow dailyBenchmarkRow, String product) {
         return new DailyBenchmarkEntity(
-                testResultData.getBenchmark(),
-                testResultData.getName(),
+                dailyBenchmarkRow.getBenchmark(),
+                dailyBenchmarkRow.getName(),
                 product,
-                testResultData.getScore()
+                dailyBenchmarkRow.getScore()
         );
     }
 

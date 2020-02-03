@@ -33,12 +33,12 @@ public abstract class ReportData {
             throw new InvalidFileExtensionException(fileExtension);
         }
 
-        dataJson.forEach(resultRow -> testResultData.add(parseJenkinsReportRow((JSONObject) resultRow)));
+        dataJson.forEach(resultRow -> testResultData.add(parseReportRow((JSONObject) resultRow)));
 
         return testResultData;
     }
 
     public abstract String getDataSourcePath(StaticVersion staticVersion, ReportProperties reportProperties);
 
-    protected abstract ReportRow parseJenkinsReportRow(JSONObject testJenkinsReportRow);
+    protected abstract ReportRow parseReportRow(JSONObject testJenkinsReportRow);
 }

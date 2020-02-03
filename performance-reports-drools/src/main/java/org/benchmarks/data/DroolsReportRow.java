@@ -2,14 +2,14 @@ package org.benchmarks.data;
 
 public class DroolsReportRow implements ReportRow {
 
-    protected String name;
+    private String name;
     private String fancyName;
     private String numberOfRules;
     private String nrOfRules;
     private String useCanonicalModel;
     private String rulesProviderId;
     private String matchRatio;
-    protected String score;
+    private String score;
 
     public String getName() {
         return name;
