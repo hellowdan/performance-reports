@@ -15,7 +15,7 @@ public class DailyBenchmarkConfig {
         this.product = product;
         this.apiPath = path + "/api/json";
         this.lastBuildApiPath = path + "/lastCompletedBuild/api/json";
-        this.lastSuccessfulBuildCsvPath = path + "/lastSuccessfulBuild/artifact/"+subfolder+"/results.csv";
+        this.lastSuccessfulBuildCsvPath = path + "/lastSuccessfulBuild/artifact/"+subfolder.trim()+"/results.csv";
     }
 
     public String getBenchmark() {

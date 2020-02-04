@@ -10,7 +10,6 @@ import static org.junit.Assert.assertThat;
 public class GoogleAuthorizeAsServiceTest {
 
     private static String serviceAccountJsonPath = "/service_account.json";
-    private static String serviceAccountFailJsonPath = "/test.main.java.org.benchmarks/resources/service_account_auth_fail.json";
 
     @Test
     public void authorizeTest() {

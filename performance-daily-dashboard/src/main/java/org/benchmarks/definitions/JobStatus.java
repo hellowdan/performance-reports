@@ -2,7 +2,8 @@ package org.benchmarks.definitions;
 
 public enum JobStatus {
     SUCCESS("SUCCESS", 1),
-    FAILURE("FAILURE", 0);
+    ABORTED("ABORTED", 0),
+    FAILURE("FAILURE", -1);
 
     private String status;
     private int statusFlag;

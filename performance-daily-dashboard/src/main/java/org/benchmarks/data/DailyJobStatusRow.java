@@ -69,6 +69,8 @@ public class DailyJobStatusRow {
             this.lastBuildStatusFlag = JobStatus.SUCCESS.getStatusFlag();
         } else if(this.lastBuildStatus.equals(JobStatus.FAILURE.getStatus())){
             this.lastBuildStatusFlag = JobStatus.FAILURE.getStatusFlag();
+        } else if(this.lastBuildStatus.equals(JobStatus.ABORTED.getStatus())){
+            this.lastBuildStatusFlag = JobStatus.ABORTED.getStatusFlag();
         }
     }
 
