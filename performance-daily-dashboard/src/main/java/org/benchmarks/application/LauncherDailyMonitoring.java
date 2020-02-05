@@ -7,6 +7,7 @@ import org.benchmarks.dao.DailyBenchmarkRepository;
 import org.benchmarks.dao.DailyJobStatusRepository;
 import org.benchmarks.data.DailyJobStatusData;
 import org.benchmarks.definitions.DailyProperties;
+import org.benchmarks.definitions.Product;
 import org.benchmarks.definitions.SourceFileExtension;
 import org.benchmarks.definitions.SourceFileLocation;
 import org.benchmarks.model.DailyBenchmarkEntity;
@@ -38,9 +39,9 @@ public class LauncherDailyMonitoring implements CommandLineRunner {
     public void run(String... args) throws Exception {
         String propertiesFilePath = null;
 
-        if (args.equals("DROOLS")) {
+        if (args[0].equals(Product.DROOLS.getProduct())) {
             propertiesFilePath = "/drools-daily-dashboard.properties";
-        } else if (args.equals("OPTAPLANNER")) {
+        } else if (args[0].equals(Product.OPTAPLANNER.getProduct())) {
             propertiesFilePath = "/optaplanner-daily-dashboard.properties";
         }
 
