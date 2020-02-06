@@ -23,6 +23,7 @@ public abstract class ExceptionsConstants {
     public static final String FAILED_GENERATE_JSON_FROM_CSV_PARAM = "Failed on generating JSON from CSV file: %s";
     public static final String FAILED_MAP_JSON_FROM_CSV_PARAM = "Failed on mapping JSON from CSV file: %s";
     public static final String FAILED_PREPARING_GOOGLE_DRIVE_FILES = "Failed preparing files to download from Google Drive";
+    public static final String FAILED_SAVING_TO_DATABASE = "Failed saving %s to database";
 
     private ExceptionsConstants() {
     }

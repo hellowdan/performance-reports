@@ -9,13 +9,20 @@ public class DailyBenchmarkConfig {
     private String lastBuildApiPath;
     private String lastSuccessfulBuildCsvPath;
 
-    public DailyBenchmarkConfig(String job, String path, String subfolder, String product) {
+    public DailyBenchmarkConfig(String job, String path, String subfolder, String product, SourceFileLocation sourceFileLocation) {
         this.job = job;
         this.path = path;
         this.product = product;
-        this.apiPath = path + "/api/json";
-        this.lastBuildApiPath = path + "/lastCompletedBuild/api/json";
-        this.lastSuccessfulBuildCsvPath = path + "/lastSuccessfulBuild/artifact/"+subfolder.trim()+"/results.csv";
+
+        if (sourceFileLocation == SourceFileLocation.WEB) {
+            this.lastSuccessfulBuildCsvPath = path + "/lastSuccessfulBuild/artifact/" + subfolder.trim() + "/results.csv";
+            this.apiPath = path + "/api/json";
+            this.lastBuildApiPath = path + "/lastCompletedBuild/api/json";
+        } if (sourceFileLocation == SourceFileLocation.CLASSPATH) {
+            this.lastSuccessfulBuildCsvPath = "/" + path + ".csv";
+            this.apiPath = "/" + path + ".json";
+            this.lastBuildApiPath = "/" + path + "-lastBuild.json";
+        }
     }
 
     public String getBenchmark() {

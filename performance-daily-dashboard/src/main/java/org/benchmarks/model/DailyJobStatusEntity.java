@@ -34,6 +34,9 @@ public class DailyJobStatusEntity {
     private LocalDateTime dateOfRecord;
     private Timestamp dateOfRecordTS;
 
+    public DailyJobStatusEntity() {
+    }
+
     public DailyJobStatusEntity(DailyJobStatusRow resultRow) {
         LocalDate localDate = LocalDate.now();
         this.job = resultRow.getBenchmark();

@@ -12,8 +12,10 @@ public class DailyProperties extends ReportProperties {
     private static String DAILY_BENCHMARK_JOB_PRODUCTS = "daily_benchmark_job_products";
     private static String DAILY_BENCHMARK_JOB_NAMES = "daily_benchmark_job_names";
     private static String DAILY_BENCHMARK_JOB_PATHS = "daily_benchmark_job_paths";
+    private static String FILE_LOCATION = "file_location";
     private static DailyProperties dailyProperties = null;
     private List<DailyBenchmarkConfig> benchmarkConfigs;
+    private SourceFileLocation sourceFileLocation;
 
     public DailyProperties(String filename) throws IOException {
         super(filename);
@@ -22,6 +24,7 @@ public class DailyProperties extends ReportProperties {
         String[] daily_benchmark_job_products = {""};
         String[] daily_benchmark_job_names = {""};
         String[] daily_benchmark_job_paths = {""};
+        this.sourceFileLocation = null;
 
         if (this.properties.containsKey(DAILY_BENCHMARK_JOB_SUBFOLDER)) {
             daily_benchmark_job_subfolder = this.properties.getProperty(DAILY_BENCHMARK_JOB_SUBFOLDER).split(";");
@@ -35,6 +38,9 @@ public class DailyProperties extends ReportProperties {
         if (this.properties.containsKey(DAILY_BENCHMARK_JOB_PATHS)) {
             daily_benchmark_job_paths = this.properties.getProperty(DAILY_BENCHMARK_JOB_PATHS).split(";");
         }
+        if (this.properties.containsKey(FILE_LOCATION)) {
+            this.sourceFileLocation = SourceFileLocation.getLocation(this.properties.getProperty(FILE_LOCATION));
+        }
 
         benchmarkConfigs = new ArrayList();
 
@@ -45,7 +51,8 @@ public class DailyProperties extends ReportProperties {
             ) {
                 for (int i = 0; i < daily_benchmark_job_names.length; i++) {
                     DailyBenchmarkConfig config = new DailyBenchmarkConfig(daily_benchmark_job_names[i], daily_benchmark_job_paths[i],
-                                                                           daily_benchmark_job_subfolder[i], daily_benchmark_job_products[i]);
+                                                                           daily_benchmark_job_subfolder[i], daily_benchmark_job_products[i],
+                                                                           this.sourceFileLocation);
 
                     benchmarkConfigs.add(config);
                 }
@@ -62,5 +69,9 @@ public class DailyProperties extends ReportProperties {
 
     public List<DailyBenchmarkConfig> getBenchmarkConfigs() {
         return benchmarkConfigs;
+    }
+
+    public SourceFileLocation getSourceFileLocation() {
+        return this.sourceFileLocation;
     }
 }

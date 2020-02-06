@@ -32,7 +32,7 @@
     <module>performance-reports-commons</module>
     <module>performance-reports-drools</module>
     <module>performance-dashboard-drools</module>
-    <module>performance-daily-dashboard-drools</module>
+    <module>performance-daily-dashboard</module>
   </modules>
 
 </project>

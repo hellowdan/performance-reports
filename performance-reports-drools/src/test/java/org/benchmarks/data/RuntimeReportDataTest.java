@@ -18,6 +18,7 @@ public class RuntimeReportDataTest {
     private static String currentVersionRuntimePath = "/runtimeCurrentVersion.json";
     private static String previousVersionRuntimePath = "/runtimePreviousVersion.json";
     private static String olderVersionRuntimePath = "/runtimeOlderVersion.json";
+
     @Test
     public void getDataCurrentVersionTest() throws IOException {
         RuntimeReportData droolsRuntimeJenkinsReport = new RuntimeReportData();

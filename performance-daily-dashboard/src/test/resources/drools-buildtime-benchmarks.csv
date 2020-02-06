@@ -1,0 +1,11 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: numberOfRules","Param: rulesProviderId","Param: useCanonicalModel"
+"org.drools.benchmarks.buildtime.BuildKJarFromResourceBenchmark.createKJarFromResource","avgt",1,20,4797.490255,37.789567,"ms/op",500,,true
+"org.drools.benchmarks.buildtime.BuildKJarFromResourceBenchmark.createKJarFromResource","avgt",1,20,242.928447,9.740928,"ms/op",500,,false
+"org.drools.benchmarks.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer","avgt",1,45,0.227891,0.002033,"ms/op",100,SimpleRulesWithConstraintsProvider,true
+"org.drools.benchmarks.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer","avgt",1,45,27.845679,0.324166,"ms/op",100,SimpleRulesWithConstraintsProvider,false
+"org.drools.benchmarks.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer","avgt",1,45,0.723305,0.013495,"ms/op",100,RulesWithJoinsProvider,true
+"org.drools.benchmarks.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer","avgt",1,45,32.758534,0.375215,"ms/op",100,RulesWithJoinsProvider,false
+"org.drools.benchmarks.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer","avgt",1,45,1.262094,0.015198,"ms/op",500,SimpleRulesWithConstraintsProvider,true
+"org.drools.benchmarks.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer","avgt",1,45,136.190343,1.140974,"ms/op",500,SimpleRulesWithConstraintsProvider,false
+"org.drools.benchmarks.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer","avgt",1,45,3.586211,0.057914,"ms/op",500,RulesWithJoinsProvider,true
+"org.drools.benchmarks.buildtime.BuildKieBaseFromContainerBenchmark.getKieBaseFromContainer","avgt",1,45,146.751083,1.556469,"ms/op",500,RulesWithJoinsProvider,false
