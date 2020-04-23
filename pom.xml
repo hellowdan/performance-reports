@@ -33,6 +33,7 @@
     <module>performance-reports-drools</module>
     <module>performance-dashboard-drools</module>
     <module>performance-daily-dashboard</module>
+    <module>jobs-daily-dashboards</module>
   </modules>
 
 </project>

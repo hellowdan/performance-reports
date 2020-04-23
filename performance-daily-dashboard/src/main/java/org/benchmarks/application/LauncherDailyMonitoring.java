@@ -4,15 +4,12 @@ import java.io.IOException;
 import java.util.List;
 
 import org.benchmarks.dao.DailyBenchmarkRepository;
-import org.benchmarks.dao.DailyJobStatusRepository;
-import org.benchmarks.data.DailyJobStatusData;
-import org.benchmarks.definitions.DailyProperties;
+import org.benchmarks.data.DailyBenchmarkData;
+import org.benchmarks.definitions.DailyBenchmarkProperties;
 import org.benchmarks.definitions.Product;
 import org.benchmarks.definitions.SourceFileExtension;
-import org.benchmarks.definitions.SourceFileLocation;
 import org.benchmarks.exceptions.ExceptionsConstants;
 import org.benchmarks.model.DailyBenchmarkEntity;
-import org.benchmarks.model.DailyJobStatusEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +30,6 @@ public class LauncherDailyMonitoring implements CommandLineRunner {
 
     @Autowired
     DailyBenchmarkRepository reportRepository;
-    @Autowired
-    DailyJobStatusRepository statusRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(LauncherDailyMonitoring.class, args);
@@ -51,22 +46,15 @@ public class LauncherDailyMonitoring implements CommandLineRunner {
         }
 
         if (propertiesFilePath != null) {
-            DailyProperties dailyProperties = DailyProperties.getInstance(propertiesFilePath);
-            DailyJobStatusData dailyJobStatusData = new DailyJobStatusData();
+            DailyBenchmarkProperties dailyBenchmarkProperties = DailyBenchmarkProperties.getInstance(propertiesFilePath);
 
-            dailyProperties.getBenchmarkConfigs().forEach(config -> {
+            dailyBenchmarkProperties.getBenchmarkConfigs().forEach(config -> {
                 try {
-                    List<DailyBenchmarkEntity> benchmarkEntity = dailyJobStatusData.getDroolsBenchmarkData(SourceFileExtension.CSV, dailyProperties.getSourceFileLocation(), config);
+                    DailyBenchmarkData dailyBenchmarkData = new DailyBenchmarkData(config);
+                    List<DailyBenchmarkEntity> benchmarkEntity = dailyBenchmarkData.getDroolsBenchmarkData(SourceFileExtension.CSV, dailyBenchmarkProperties.getSourceFileLocation());
                     benchmarkEntity.forEach(row -> reportRepository.save(row));
                 } catch (IOException e) {
                     LOGGER.debug(String.format(ExceptionsConstants.FAILED_SAVING_TO_DATABASE, reportRepository.getClass().getCanonicalName()), e);
-                }
-
-                try {
-                    DailyJobStatusEntity statusEntity = dailyJobStatusData.getDroolsStatusData(dailyProperties.getSourceFileLocation(), config);
-                    statusRepository.save(statusEntity);
-                } catch (IOException e) {
-                    LOGGER.debug(String.format(ExceptionsConstants.FAILED_SAVING_TO_DATABASE, statusRepository.getClass().getCanonicalName()), e);
                 }
             });
         }

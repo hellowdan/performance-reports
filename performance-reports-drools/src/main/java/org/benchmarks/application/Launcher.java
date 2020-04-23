@@ -1,6 +1,7 @@
-package org.benchmarks.documents;
+package org.benchmarks.application;
 
 import org.benchmarks.definitions.DroolsReportProperties;
+import org.benchmarks.documents.DroolsReport;
 
 public class Launcher {
 

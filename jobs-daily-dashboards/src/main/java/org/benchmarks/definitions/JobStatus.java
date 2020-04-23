@@ -1,7 +1,8 @@
 package org.benchmarks.definitions;
 
 public enum JobStatus {
-    SUCCESS("SUCCESS", 1),
+    SUCCESS("SUCCESS", 2),
+    UNSTABLE("UNSTABLE", 1),
     ABORTED("ABORTED", 0),
     FAILURE("FAILURE", -1);
 

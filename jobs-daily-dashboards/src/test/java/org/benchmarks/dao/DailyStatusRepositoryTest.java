@@ -5,12 +5,11 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import org.benchmarks.data.DailyJobStatusData;
-import org.benchmarks.definitions.DailyProperties;
-import org.benchmarks.definitions.SourceFileExtension;
-import org.benchmarks.definitions.SourceFileLocation;
+import org.benchmarks.definitions.DailyJobProperties;
 import org.benchmarks.exceptions.ExceptionsConstants;
-import org.benchmarks.model.DailyBenchmarkEntity;
 import org.benchmarks.model.DailyJobStatusEntity;
+import org.hamcrest.CoreMatchers;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,10 +20,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 @RunWith(SpringRunner.class)
 @TestPropertySource(locations="classpath:application-test.properties")
@@ -46,39 +41,39 @@ public class DailyStatusRepositoryTest {
     public void testSave() throws IOException {
         String propertiesFilePath = "/drools-daily-dashboard-test.properties";
 
-        DailyProperties dailyProperties = DailyProperties.getInstance(propertiesFilePath);
-        DailyJobStatusData dailyJobStatusData = new DailyJobStatusData();
+        DailyJobProperties dailyJobProperties = DailyJobProperties.getInstance(propertiesFilePath);
 
-        dailyProperties.getBenchmarkConfigs().forEach(config -> {
+        dailyJobProperties.getBenchmarkConfigs().forEach(config -> {
             try {
-                DailyJobStatusEntity statusEntity = dailyJobStatusData.getDroolsStatusData(dailyProperties.getSourceFileLocation(), config);
+                DailyJobStatusData dailyJobStatusData = new DailyJobStatusData(config);
+                DailyJobStatusEntity statusEntity = dailyJobStatusData.getDroolsStatusData();
                 statusRepository.save(statusEntity);
             } catch (IOException e) {
-                fail(String.format(ExceptionsConstants.FAILED_SAVING_TO_DATABASE, statusRepository.getClass().getCanonicalName()));
+                Assert.fail(String.format(ExceptionsConstants.FAILED_SAVING_TO_DATABASE, statusRepository.getClass().getCanonicalName()));
             }
         });
 
         List<DailyJobStatusEntity> dailyJobStatusEntities = Lists.newArrayList(statusRepository.findAll());
-        assertThat(dailyJobStatusEntities.size(), is(1));
+        Assert.assertThat(dailyJobStatusEntities.size(), CoreMatchers.is(1));
     }
 
     @Test
     public void testLiveSave() throws IOException {
         String propertiesFilePath = "/drools-daily-dashboard-live-test.properties";
 
-        DailyProperties dailyProperties = DailyProperties.getInstance(propertiesFilePath);
-        DailyJobStatusData dailyJobStatusData = new DailyJobStatusData();
+        DailyJobProperties dailyJobProperties = DailyJobProperties.getInstance(propertiesFilePath);
 
-        dailyProperties.getBenchmarkConfigs().forEach(config -> {
+        dailyJobProperties.getBenchmarkConfigs().forEach(config -> {
             try {
-                DailyJobStatusEntity statusEntity = dailyJobStatusData.getDroolsStatusData(dailyProperties.getSourceFileLocation(), config);
+                DailyJobStatusData dailyJobStatusData = new DailyJobStatusData(config);
+                DailyJobStatusEntity statusEntity = dailyJobStatusData.getDroolsStatusData();
                 statusRepository.save(statusEntity);
             } catch (IOException e) {
-                fail(String.format(ExceptionsConstants.FAILED_SAVING_TO_DATABASE, statusRepository.getClass().getCanonicalName()));
+                Assert.fail(String.format(ExceptionsConstants.FAILED_SAVING_TO_DATABASE, statusRepository.getClass().getCanonicalName()));
             }
         });
 
         List<DailyJobStatusEntity> dailyJobStatusEntities = Lists.newArrayList(statusRepository.findAll());
-        assertThat(dailyJobStatusEntities.size(), is(7));
+        Assert.assertThat(dailyJobStatusEntities.size(), CoreMatchers.is(7));
     }
 }

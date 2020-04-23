@@ -2,57 +2,50 @@ package org.benchmarks.data;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.benchmarks.definitions.DailyBenchmarkConfig;
-import org.benchmarks.definitions.SourceStatusColumns;
-import org.benchmarks.definitions.SourceFileExtension;
+import org.benchmarks.definitions.DailyJobConfig;
 import org.benchmarks.definitions.SourceFileLocation;
-import org.benchmarks.model.DailyBenchmarkEntity;
+import org.benchmarks.definitions.SourceStatusColumns;
 import org.benchmarks.model.DailyJobStatusEntity;
 import org.benchmarks.util.JsonLoader;
 import org.json.simple.JSONObject;
 
 public class DailyJobStatusData {
 
-    private DailyBenchmarkEntity getBenchmarkEntity(DailyBenchmarkRow dailyBenchmarkRow, String product) {
-        return new DailyBenchmarkEntity(
-                dailyBenchmarkRow.getBenchmark(),
-                dailyBenchmarkRow.getName(),
-                product,
-                dailyBenchmarkRow.getScore()
-        );
+    private String benchmark;
+    private String lastBuildApiPath;
+    private String apiPath;
+    private String product;
+    private String branch;
+
+    public DailyJobStatusData(DailyJobConfig config) {
+        super();
+
+        this.benchmark = config.getBenchmark();
+        this.lastBuildApiPath = config.getLastBuildApiPath();
+        this.apiPath = config.getApiPath();
+        this.product = config.getProduct();
+        this.branch = config.getBranch();
     }
 
-    public List<DailyBenchmarkEntity> getDroolsBenchmarkData(SourceFileExtension sourceFileExtension, SourceFileLocation jenkinsReportLocation, DailyBenchmarkConfig config) throws IOException {
-        DailyBenchmarkData dailyBenchmarkData = new DailyBenchmarkData(config);
-        List<DailyBenchmarkRow> dailyBenchmarkRows = dailyBenchmarkData.getData(config.getLastSuccessfulBuildCsvPath(), sourceFileExtension, jenkinsReportLocation);
-        List<DailyBenchmarkEntity> dailyBenchmarkEntities = new ArrayList();
-
-        for (int i = 0; i < dailyBenchmarkRows.size(); i++) {
-            dailyBenchmarkEntities.add(getBenchmarkEntity(dailyBenchmarkRows.get(i), config.getProduct()));
-        }
-
-        return dailyBenchmarkEntities;
-    }
-
-    public DailyJobStatusEntity getDroolsStatusData(SourceFileLocation jenkinsReportLocation, DailyBenchmarkConfig config) throws IOException {
+    public DailyJobStatusEntity getDroolsStatusData() throws IOException {
         JsonLoader jsonLoader = new JsonLoader();
-        JSONObject dataJsonLastBuild = jsonLoader.getDataFromJsonObject(config.getLastBuildApiPath(), jenkinsReportLocation);
-        JSONObject dataJsonJob = jsonLoader.getDataFromJsonObject(config.getApiPath(), jenkinsReportLocation);
+        JSONObject dataJsonLastBuild = jsonLoader.getDataFromJsonObject(this.lastBuildApiPath, SourceFileLocation.WEB);
+        JSONObject dataJsonJob = jsonLoader.getDataFromJsonObject(this.apiPath, SourceFileLocation.WEB);
 
-        DailyJobStatusRow resultRow = parseJenkinsStatus(dataJsonLastBuild, dataJsonJob, config.getProduct());
+        DailyJobStatusRow resultRow = parseJenkinsStatus(dataJsonLastBuild, dataJsonJob);
 
         DailyJobStatusEntity dailyJobStatusEntity = new DailyJobStatusEntity(resultRow);
 
         return dailyJobStatusEntity;
     }
 
-    protected DailyJobStatusRow parseJenkinsStatus(JSONObject dataJsonLastBuild, JSONObject dataJsonJob, String product) {
+    protected DailyJobStatusRow parseJenkinsStatus(JSONObject dataJsonLastBuild, JSONObject dataJsonJob) {
         DailyJobStatusRow droolsJenkinsReportRow = new DailyJobStatusRow();
 
-        droolsJenkinsReportRow.setProduct(product);
+        droolsJenkinsReportRow.setBenchmark(this.benchmark);
+        droolsJenkinsReportRow.setProduct(this.product);
+        droolsJenkinsReportRow.setBranch(this.branch);
 
         if (dataJsonLastBuild.get(SourceStatusColumns.JOB.getColumn()) != null) {
             String displayName = dataJsonLastBuild.get(SourceStatusColumns.JOB.getColumn()).toString();
@@ -85,6 +78,10 @@ public class DailyJobStatusData {
         if (dataJsonLastBuild.get(SourceStatusColumns.LAST_BUILD_TIMESTAMP.getColumn()) != null) {
             Long lastBuildDateOfExecution = Long.parseLong(dataJsonLastBuild.get(SourceStatusColumns.LAST_BUILD_TIMESTAMP.getColumn()).toString());
             droolsJenkinsReportRow.setLastBuildDateOfExecution(new Timestamp(lastBuildDateOfExecution));
+        }
+        if (dataJsonLastBuild.get(SourceStatusColumns.LAST_BUILD_DURATION.getColumn()) != null) {
+            Double lastBuildDuration = Double.parseDouble(dataJsonLastBuild.get(SourceStatusColumns.LAST_BUILD_DURATION.getColumn()).toString());
+            droolsJenkinsReportRow.setLastBuildDuration(lastBuildDuration);
         }
 
         return droolsJenkinsReportRow;

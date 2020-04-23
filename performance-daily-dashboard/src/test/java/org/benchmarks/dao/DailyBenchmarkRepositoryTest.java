@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import org.benchmarks.data.DailyJobStatusData;
-import org.benchmarks.definitions.DailyProperties;
+import org.benchmarks.data.DailyBenchmarkData;
+import org.benchmarks.definitions.DailyBenchmarkProperties;
 import org.benchmarks.definitions.SourceFileExtension;
 import org.benchmarks.exceptions.ExceptionsConstants;
 import org.benchmarks.model.DailyBenchmarkEntity;
@@ -44,12 +44,12 @@ public class DailyBenchmarkRepositoryTest {
     public void testSave() throws IOException {
         String propertiesFilePath = "/drools-daily-dashboard-test.properties";
 
-        DailyProperties dailyProperties = DailyProperties.getInstance(propertiesFilePath);
-        DailyJobStatusData dailyJobStatusData = new DailyJobStatusData();
+        DailyBenchmarkProperties dailyBenchmarkProperties = DailyBenchmarkProperties.getInstance(propertiesFilePath);
 
-        dailyProperties.getBenchmarkConfigs().forEach(config -> {
+        dailyBenchmarkProperties.getBenchmarkConfigs().forEach(config -> {
             try {
-                List<DailyBenchmarkEntity> benchmarkEntity = dailyJobStatusData.getDroolsBenchmarkData(SourceFileExtension.CSV, dailyProperties.getSourceFileLocation(), config);
+                DailyBenchmarkData dailyBenchmarkData = new DailyBenchmarkData(config);
+                List<DailyBenchmarkEntity> benchmarkEntity = dailyBenchmarkData.getDroolsBenchmarkData(SourceFileExtension.CSV, dailyBenchmarkProperties.getSourceFileLocation());
                 benchmarkEntity.forEach(row -> reportRepository.save(row));
             } catch (IOException e) {
                 fail(String.format(ExceptionsConstants.FAILED_SAVING_TO_DATABASE, reportRepository.getClass().getCanonicalName()));
@@ -64,12 +64,12 @@ public class DailyBenchmarkRepositoryTest {
     public void testLiveSave() throws IOException {
         String propertiesFilePath = "/drools-daily-dashboard-live-test.properties";
 
-        DailyProperties dailyProperties = DailyProperties.getInstance(propertiesFilePath);
-        DailyJobStatusData dailyJobStatusData = new DailyJobStatusData();
+        DailyBenchmarkProperties dailyBenchmarkProperties = DailyBenchmarkProperties.getInstance(propertiesFilePath);
 
-        dailyProperties.getBenchmarkConfigs().forEach(config -> {
+        dailyBenchmarkProperties.getBenchmarkConfigs().forEach(config -> {
             try {
-                List<DailyBenchmarkEntity> benchmarkEntity = dailyJobStatusData.getDroolsBenchmarkData(SourceFileExtension.CSV, dailyProperties.getSourceFileLocation(), config);
+                DailyBenchmarkData dailyBenchmarkData = new DailyBenchmarkData(config);
+                List<DailyBenchmarkEntity> benchmarkEntity = dailyBenchmarkData.getDroolsBenchmarkData(SourceFileExtension.CSV, dailyBenchmarkProperties.getSourceFileLocation());
                 benchmarkEntity.forEach(row -> reportRepository.save(row));
             } catch (IOException e) {
                 fail(String.format(ExceptionsConstants.FAILED_SAVING_TO_DATABASE, reportRepository.getClass().getCanonicalName()));

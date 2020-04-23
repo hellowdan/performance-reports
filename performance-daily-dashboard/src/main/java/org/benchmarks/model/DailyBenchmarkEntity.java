@@ -20,6 +20,7 @@ public class DailyBenchmarkEntity {
     private Long id;
     private String job;
     private String product;
+    private String branch;
     private String name;
     private String score;
     private int day;
@@ -31,11 +32,12 @@ public class DailyBenchmarkEntity {
     public DailyBenchmarkEntity() {
     }
 
-    public DailyBenchmarkEntity(String job, String name, String product, String score) {
+    public DailyBenchmarkEntity(String job, String name, String product, String branch, String score) {
         LocalDate localDate = LocalDate.now();
         this.job = job;
-        this.product = product;
         this.name = name;
+        this.product = product;
+        this.branch = branch;
         this.score = score;
         this.day = localDate.getDayOfMonth();
         this.month = localDate.getMonthValue();
@@ -48,8 +50,9 @@ public class DailyBenchmarkEntity {
     public String toString() {
         return "DroolsJenkinsDailyReportRowEntity{" +
                 "job='" + job + '\'' +
-                ", product='" + product + '\'' +
                 ", name='" + name + '\'' +
+                ", product='" + product + '\'' +
+                ", branch='" + branch + '\'' +
                 ", score=" + score +
                 '}';
     }

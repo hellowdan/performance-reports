@@ -8,6 +8,7 @@ package org.benchmarks.definitions;
         LAST_FAILED_BUILD("lastFailedBuild"),
         LAST_BUILD_STATUS("result"),
         LAST_BUILD_TIMESTAMP("timestamp"),
+        LAST_BUILD_DURATION("duration"),
         BUILD_NUMBER("number");
 
         private String column;

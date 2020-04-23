@@ -1,6 +1,6 @@
 package org.benchmarks.definitions;
 
-public class DailyBenchmarkConfig {
+public class DailyJobConfig {
 
     private String job;
     private String product;
@@ -8,23 +8,14 @@ public class DailyBenchmarkConfig {
     private String path;
     private String apiPath;
     private String lastBuildApiPath;
-    private String lastSuccessfulBuildCsvPath;
 
-    public DailyBenchmarkConfig(String job, String path, String subfolder, String product, String branch, SourceFileLocation sourceFileLocation) {
+    public DailyJobConfig(String job, String path, String product, String branch) {
         this.job = job;
         this.path = path;
         this.product = product;
         this.branch = branch;
-
-        if (sourceFileLocation == SourceFileLocation.WEB) {
-            this.lastSuccessfulBuildCsvPath = path + "/lastSuccessfulBuild/artifact/" + subfolder.trim() + "/results.csv";
-            this.apiPath = path + "/api/json";
-            this.lastBuildApiPath = path + "/lastCompletedBuild/api/json";
-        } if (sourceFileLocation == SourceFileLocation.CLASSPATH) {
-            this.lastSuccessfulBuildCsvPath = "/" + path + ".csv";
-            this.apiPath = "/" + path + ".json";
-            this.lastBuildApiPath = "/" + path + "-lastBuild.json";
-        }
+        this.apiPath = path + "/api/json";
+        this.lastBuildApiPath = path + "/lastCompletedBuild/api/json";
     }
 
     public String getBenchmark() {
@@ -49,14 +40,6 @@ public class DailyBenchmarkConfig {
 
     public void setLastBuildApiPath(String lastBuildApiPath) {
         this.lastBuildApiPath = lastBuildApiPath;
-    }
-
-    public String getLastSuccessfulBuildCsvPath() {
-        return lastSuccessfulBuildCsvPath;
-    }
-
-    public void setLastSuccessfulBuildCsvPath(String lastSuccessfulBuildCsvPath) {
-        this.lastSuccessfulBuildCsvPath = lastSuccessfulBuildCsvPath;
     }
 
     public String getApiPath() {

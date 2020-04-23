@@ -8,12 +8,14 @@ public class DailyJobStatusRow {
 
     private String benchmark;
     private String product;
+    private String branch;
     private String url;
     private String lastBuild;
     private String lastSuccessfulBuild;
     private String lastFailedBuild;
     private String lastBuildStatus;
     private int lastBuildStatusFlag;
+    private Double lastBuildDuration;
     private Timestamp lastBuildDateOfExecution;
 
     public DailyJobStatusRow() {
@@ -65,12 +67,14 @@ public class DailyJobStatusRow {
 
     public void setLastBuildStatus(String lastBuildStatus) {
         this.lastBuildStatus = lastBuildStatus;
-        if(this.lastBuildStatus.equals(JobStatus.SUCCESS.getStatus())){
+        if (this.lastBuildStatus.equals(JobStatus.SUCCESS.getStatus())) {
             this.lastBuildStatusFlag = JobStatus.SUCCESS.getStatusFlag();
-        } else if(this.lastBuildStatus.equals(JobStatus.FAILURE.getStatus())){
+        } else if (this.lastBuildStatus.equals(JobStatus.FAILURE.getStatus())) {
             this.lastBuildStatusFlag = JobStatus.FAILURE.getStatusFlag();
-        } else if(this.lastBuildStatus.equals(JobStatus.ABORTED.getStatus())){
+        } else if (this.lastBuildStatus.equals(JobStatus.ABORTED.getStatus())) {
             this.lastBuildStatusFlag = JobStatus.ABORTED.getStatusFlag();
+        } else if (this.lastBuildStatus.equals(JobStatus.UNSTABLE.getStatus())) {
+            this.lastBuildStatusFlag = JobStatus.UNSTABLE.getStatusFlag();
         }
     }
 
@@ -78,6 +82,13 @@ public class DailyJobStatusRow {
         return lastBuildStatusFlag;
     }
 
+    public Double getLastBuildDuration() {
+        return lastBuildDuration;
+    }
+
+    public void setLastBuildDuration(Double lastBuildDuration) {
+        this.lastBuildDuration = lastBuildDuration;
+    }
 
     public Timestamp getLastBuildDateOfExecution() {
         return lastBuildDateOfExecution;
@@ -95,10 +106,20 @@ public class DailyJobStatusRow {
         this.product = product;
     }
 
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
     @Override
     public String toString() {
         return "TestResults{" +
                 "benchmark='" + benchmark + '\'' +
+                "product='" + product + '\'' +
+                "branch='" + branch + '\'' +
                 "url='" + url + '\'' +
                 "lastBuild='" + lastBuild + '\'' +
                 "lastSuccessfulBuild='" + lastSuccessfulBuild + '\'' +
