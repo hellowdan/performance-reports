@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.benchmarks.data.BuildtimeReportData;
-import org.benchmarks.data.RuntimeReportData;
+import org.benchmarks.data.turtle.buildtime.BuildtimeReportData;
+import org.benchmarks.data.turtle.runtime.RuntimeReportData;
 import org.benchmarks.data.ReportRow;
 import org.benchmarks.definitions.SheetPositionsTest;
 import org.benchmarks.definitions.SourceFileExtension;

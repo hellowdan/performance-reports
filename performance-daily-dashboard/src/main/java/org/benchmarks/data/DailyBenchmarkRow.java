@@ -2,27 +2,23 @@ package org.benchmarks.data;
 
 public class DailyBenchmarkRow implements ReportRow {
 
+    private String job;
     private String benchmark;
-    private String name;
     private String score;
-
-    public DailyBenchmarkRow(String benchmark) {
-        this.benchmark = benchmark;
-    }
 
     public DailyBenchmarkRow() {
     }
 
-    public String getBenchmark() {
-        return benchmark;
+    public String getJob() {
+        return this.job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
     }
 
     public void setBenchmark(String benchmark) {
         this.benchmark = benchmark;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setScore(String score) {
@@ -31,13 +27,13 @@ public class DailyBenchmarkRow implements ReportRow {
 
     @Override
     public String getUniqueID() {
-        return "benchmark" + this.benchmark +
-                "|name=" + this.name;
+        return "benchmark" + this.job +
+                "|name=" + this.benchmark;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public String getBenchmark() {
+        return benchmark;
     }
 
     @Override
@@ -48,8 +44,8 @@ public class DailyBenchmarkRow implements ReportRow {
     @Override
     public String toString() {
         return "TestResults{" +
-                "benchmark='" + benchmark + '\'' +
-                ", name='" + name + '\'' +
+                "benchmark='" + job + '\'' +
+                ", name='" + benchmark + '\'' +
                 ", score=" + score +
                 '}';
     }

@@ -18,6 +18,7 @@ import org.benchmarks.util.ReportProperties;
 
 public class DroolsGoogleDriveDocument extends GoogleDriveDocument {
 
+    static String nextVersion = "{{next_version}}";
     static String currentVersion = "{{current_version}}";
     static String previousVersion = "{{previous_version}}";
     static String olderVersion = "{{older_version}}";
@@ -35,6 +36,7 @@ public class DroolsGoogleDriveDocument extends GoogleDriveDocument {
 
         List<Request> requests = new ArrayList<>();
 
+        requests.add(getReplaceTextBodyRequest(nextVersion, droolsReportProperties.getNextVersion()));
         requests.add(getReplaceTextBodyRequest(currentVersion, droolsReportProperties.getCurrentVersion()));
         requests.add(getReplaceTextBodyRequest(previousVersion, droolsReportProperties.getPreviousVersion()));
         requests.add(getReplaceTextBodyRequest(olderVersion, droolsReportProperties.getOlderVersion()));

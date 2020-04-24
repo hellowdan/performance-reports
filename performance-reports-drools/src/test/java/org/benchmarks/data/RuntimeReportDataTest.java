@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.benchmarks.data.turtle.runtime.RuntimeReportData;
 import org.benchmarks.definitions.SheetPositionsTest;
 import org.benchmarks.definitions.SourceFileExtension;
 import org.benchmarks.definitions.SourceFileLocation;

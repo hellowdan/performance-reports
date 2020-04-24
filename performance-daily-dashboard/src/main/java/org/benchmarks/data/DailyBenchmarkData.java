@@ -15,27 +15,27 @@ import org.json.simple.JSONObject;
 
 public class DailyBenchmarkData extends ReportData {
 
-    private String benchmark;
-    private String benchmarkPath;
+    private String job;
+    private String jobPath;
     private String product;
     private String branch;
 
     public DailyBenchmarkData(DailyBenchmarkConfig config) {
         super();
 
-        this.benchmark = config.getBenchmark();
-        this.benchmarkPath = config.getLastSuccessfulBuildCsvPath();
+        this.job = config.getJob();
+        this.jobPath = config.getLastSuccessfulBuildCsvPath();
         this.product = config.getProduct();
         this.branch = config.getBranch();
     }
 
     @Override
     public String getDataSourcePath(StaticVersion staticVersion, ReportProperties reportProperties) {
-        return this.benchmarkPath;
+        return this.jobPath;
     }
 
     public List<DailyBenchmarkEntity> getDroolsBenchmarkData(SourceFileExtension sourceFileExtension, SourceFileLocation jenkinsReportLocation) throws IOException {
-        List<DailyBenchmarkRow> dailyBenchmarkRows = getData(this.benchmarkPath, sourceFileExtension, jenkinsReportLocation);
+        List<DailyBenchmarkRow> dailyBenchmarkRows = getData(this.jobPath, sourceFileExtension, jenkinsReportLocation);
         List<DailyBenchmarkEntity> dailyBenchmarkEntities = new ArrayList();
 
         for (int i = 0; i < dailyBenchmarkRows.size(); i++) {
@@ -47,8 +47,8 @@ public class DailyBenchmarkData extends ReportData {
 
     private DailyBenchmarkEntity getBenchmarkEntity(DailyBenchmarkRow dailyBenchmarkRow, String product, String branch) {
         return new DailyBenchmarkEntity(
+                dailyBenchmarkRow.getJob(),
                 dailyBenchmarkRow.getBenchmark(),
-                dailyBenchmarkRow.getName(),
                 product,
                 branch,
                 dailyBenchmarkRow.getScore()
@@ -59,10 +59,10 @@ public class DailyBenchmarkData extends ReportData {
     protected ReportRow parseReportRow(JSONObject reportRow) {
         DailyBenchmarkRow dailyBenchmarkRow = new DailyBenchmarkRow();
 
-        dailyBenchmarkRow.setBenchmark(this.benchmark);
+        dailyBenchmarkRow.setJob(this.job);
 
         if (reportRow.get(SourceFileColumns.BENCHMARK) != null) {
-            dailyBenchmarkRow.setName((String) reportRow.get(SourceFileColumns.BENCHMARK));
+            dailyBenchmarkRow.setBenchmark((String) reportRow.get(SourceFileColumns.BENCHMARK));
         }
         if (reportRow.get(SourceFileColumns.SCORE) != null) {
             dailyBenchmarkRow.setScore(reportRow.get(SourceFileColumns.SCORE).toString());

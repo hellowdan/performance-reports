@@ -24,13 +24,14 @@ public class DroolsReport {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DroolsReport.class);
 
-    private static String startingCellCurrentVersion = "K2";
-    private static String startingCellPreviousVersion = "J2";
-    private static String startingCellOlderVersion = "I2";
-    private static String spreadsheetBuildtimeSheetName = "Charts - buildtime Oracle JDK8";
-    private static String spreadsheetBuildtimeRange = "A3:F24";
-    private static String spreadsheetRuntimeSheetName = "Charts - runtime Oracle JDK8";
-    private static String spreadsheetRuntimeRange = "A3:F25";
+    private static final String STARTING_CELL_NEXT_VERSION = "L2";
+    private static final String STARTING_CELL_CURRENT_VERSION = "K2";
+    private static final String STARTING_CELL_PREVIOUS_VERSION = "J2";
+    private static final String STARTING_CELL_OLDER_VERSION = "I2";
+    private static final String SPREADSHEET_BUILDTIME_SHEET_NAME = "Charts - buildtime Oracle JDK8";
+    private static final String SPREADSHEET_BUILDTIME_RANGE = "A3:F24";
+    private static final String SPREADSHEET_RUNTIME_SHEET_NAME = "Charts - runtime Oracle JDK8";
+    private static final String SPREADSHEET_RUNTIME_RANGE = "A3:F25";
     private DroolsReportProperties droolsReportProperties;
     private String folderNewId;
     private String spreadSheetNewId;
@@ -80,9 +81,10 @@ public class DroolsReport {
 
             DroolsGoogleDriveSpreadSheet droolsFileSpreadSheet = new DroolsGoogleDriveSpreadSheet();
             droolsFileSpreadSheet.updateSpreadSheetInfo(this.droolsReportProperties, this.sheetsService, this.spreadSheetNewId);
-            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getCurrentVersionSourceFileExtension(), StaticVersion.CURRENT, this.droolsReportProperties.getCurrentVersionSourceFileLocation(), startingCellCurrentVersion, this.droolsReportProperties, this.sheetsService, this.spreadSheetNewId);
-            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getPreviousVersionSourceFileExtension(), StaticVersion.PREVIOUS, this.droolsReportProperties.getPreviousVersionSourceFileLocation(), startingCellPreviousVersion, this.droolsReportProperties, this.sheetsService, this.spreadSheetNewId);
-            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getOlderVersionSourceFileExtension(), StaticVersion.OLDER, this.droolsReportProperties.getOlderVersionSourceFileLocation(), startingCellOlderVersion, this.droolsReportProperties, this.sheetsService, this.spreadSheetNewId);
+            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getNextVersionSourceFileExtension(), StaticVersion.NEXT, this.droolsReportProperties.getNextVersionSourceFileLocation(), STARTING_CELL_NEXT_VERSION, this.droolsReportProperties, this.sheetsService, this.spreadSheetNewId);
+            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getCurrentVersionSourceFileExtension(), StaticVersion.CURRENT, this.droolsReportProperties.getCurrentVersionSourceFileLocation(), STARTING_CELL_CURRENT_VERSION, this.droolsReportProperties, this.sheetsService, this.spreadSheetNewId);
+            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getPreviousVersionSourceFileExtension(), StaticVersion.PREVIOUS, this.droolsReportProperties.getPreviousVersionSourceFileLocation(), STARTING_CELL_PREVIOUS_VERSION, this.droolsReportProperties, this.sheetsService, this.spreadSheetNewId);
+            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getOlderVersionSourceFileExtension(), StaticVersion.OLDER, this.droolsReportProperties.getOlderVersionSourceFileLocation(), STARTING_CELL_OLDER_VERSION, this.droolsReportProperties, this.sheetsService, this.spreadSheetNewId);
 
             GoogleDriveHelper.moveFile(this.driveService, this.spreadSheetNewId, this.folderNewId);
 
@@ -107,8 +109,8 @@ public class DroolsReport {
 
             droolsFileDoc.updateChartsWithLinks(docNewId, this.docsService, this.sheetsService, this.spreadSheetNewId);
 
-            ValueRange buildTimeValueRange = droolsFileDoc.getValueRangeFromSheet(sheetsService, this.spreadSheetNewId, spreadsheetBuildtimeSheetName, spreadsheetBuildtimeRange);
-            ValueRange runTimeValueRange = droolsFileDoc.getValueRangeFromSheet(sheetsService, this.spreadSheetNewId, spreadsheetRuntimeSheetName, spreadsheetRuntimeRange);
+            ValueRange buildTimeValueRange = droolsFileDoc.getValueRangeFromSheet(sheetsService, this.spreadSheetNewId, SPREADSHEET_BUILDTIME_SHEET_NAME, SPREADSHEET_BUILDTIME_RANGE);
+            ValueRange runTimeValueRange = droolsFileDoc.getValueRangeFromSheet(sheetsService, this.spreadSheetNewId, SPREADSHEET_RUNTIME_SHEET_NAME, SPREADSHEET_RUNTIME_RANGE);
 
             List<Request> requestsTables = droolsFileDoc.getReplaceAllTables(buildTimeValueRange, runTimeValueRange);
             droolsFileDoc.requestsExecute(requestsTables, docNewId, this.docsService);

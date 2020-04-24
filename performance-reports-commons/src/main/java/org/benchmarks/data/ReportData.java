@@ -20,7 +20,7 @@ public abstract class ReportData {
     }
 
     public List getData(String filePath, SourceFileExtension fileExtension, SourceFileLocation sourceFileLocation) throws IOException {
-        List<ReportRow> testResultData = new ArrayList<>();
+        List<ReportRow> reportRows = new ArrayList<>();
         JSONArray dataJson;
 
         if (fileExtension.equals(SourceFileExtension.CSV)) {
@@ -33,9 +33,9 @@ public abstract class ReportData {
             throw new InvalidFileExtensionException(fileExtension);
         }
 
-        dataJson.forEach(resultRow -> testResultData.add(parseReportRow((JSONObject) resultRow)));
+        dataJson.forEach(resultRow -> reportRows.add(parseReportRow((JSONObject) resultRow)));
 
-        return testResultData;
+        return reportRows;
     }
 
     public abstract String getDataSourcePath(StaticVersion staticVersion, ReportProperties reportProperties);

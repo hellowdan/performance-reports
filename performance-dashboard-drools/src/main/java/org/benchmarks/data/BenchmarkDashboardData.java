@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.benchmarks.data.turtle.buildtime.BuildtimeReportData;
+import org.benchmarks.data.turtle.runtime.RuntimeReportData;
 import org.benchmarks.definitions.DroolsReportProperties;
-import org.benchmarks.definitions.SheetPositions;
+import org.benchmarks.definitions.RowDataToMap;
 import org.benchmarks.definitions.SourceFileExtension;
 import org.benchmarks.definitions.SourceFileLocation;
 import org.benchmarks.definitions.ReportType;
@@ -18,7 +20,7 @@ public class BenchmarkDashboardData {
     private BenchmarkDashboardEntity getDroolsJenkinsReportRowDB(DroolsReportRow testResultData, ReportType reportType, Integer key, StaticVersion staticVersion, String version) {
         return new BenchmarkDashboardEntity(
                 testResultData.getName(),
-                SheetPositions.getFancyNames().get(key),
+                RowDataToMap.getFancyNames().get(key),
                 testResultData.getNumberOfRules(),
                 testResultData.getNrOfRules(),
                 testResultData.getUseCanonicalModel(),
@@ -38,9 +40,9 @@ public class BenchmarkDashboardData {
         List<DroolsReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(buildtimePath, sourceFileExtension, reportLocation);
         List<BenchmarkDashboardEntity> DroolsJenkinsReportRows = new ArrayList();
 
-        for (Integer key : SheetPositions.getPositions().keySet()) {
+        for (Integer key : RowDataToMap.getPositions().keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
-                if (testResultData.get(i).getUniqueID().equals(SheetPositions.getPositions().get(key))) {
+                if (testResultData.get(i).getUniqueID().equals(RowDataToMap.getPositions().get(key))) {
                     DroolsJenkinsReportRows.add(getDroolsJenkinsReportRowDB(testResultData.get(i), ReportType.BUILDTIME, key, staticVersion, version));
                     break;
                 }
@@ -57,9 +59,9 @@ public class BenchmarkDashboardData {
         List<DroolsReportRow> testResultData = droolsRuntimeJenkinsReport.getData(runtimePath, sourceFileExtension, reportLocation);
         List<BenchmarkDashboardEntity> DroolsJenkinsReportRows = new ArrayList();
 
-        for (Integer key : SheetPositions.getPositions().keySet()) {
+        for (Integer key : RowDataToMap.getPositions().keySet()) {
             for (int i = 0; i < testResultData.size(); i++) {
-                if (testResultData.get(i).getUniqueID().equals(SheetPositions.getPositions().get(key))) {
+                if (testResultData.get(i).getUniqueID().equals(RowDataToMap.getPositions().get(key))) {
                     DroolsJenkinsReportRows.add(getDroolsJenkinsReportRowDB(testResultData.get(i), ReportType.RUNTIME, key, staticVersion, version));
                     break;
                 }

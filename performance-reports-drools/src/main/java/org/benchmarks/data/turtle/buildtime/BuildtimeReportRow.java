@@ -1,22 +1,23 @@
-package org.benchmarks.data;
+package org.benchmarks.data.turtle.buildtime;
 
-public class DroolsReportRow implements ReportRow {
+import org.benchmarks.data.ReportRow;
 
-    private String name;
-    private String fancyName;
-    private String numberOfRules;
-    private String nrOfRules;
-    private String useCanonicalModel;
-    private String rulesProviderId;
-    private String matchRatio;
-    private String score;
+public class BuildtimeReportRow implements ReportRow {
 
-    public String getName() {
-        return name;
+    private String benchmark = "";
+    private String fancyName = "";
+    private String numberOfRules = "";
+    private String nrOfRules = "";
+    private String useCanonicalModel = "";
+    private String rulesProviderId = "";
+    private String score = "";
+
+    public String getBenchmark() {
+        return benchmark;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBenchmark(String benchmark) {
+        this.benchmark = benchmark;
     }
 
     public String getFancyName() {
@@ -59,14 +60,6 @@ public class DroolsReportRow implements ReportRow {
         this.rulesProviderId = rulesProviderId;
     }
 
-    public String getMatchRatio() {
-        return matchRatio;
-    }
-
-    public void setMatchRatio(String matchRatio) {
-        this.matchRatio = matchRatio;
-    }
-
     public String getScore() {
         return score;
     }
@@ -77,24 +70,22 @@ public class DroolsReportRow implements ReportRow {
 
     @Override
     public String getUniqueID() {
-        return "name=" + this.name +
+        return "benchmark=" + this.benchmark +
                 "|numberOfRules=" + this.numberOfRules +
                 "|nrOfRules=" + this.nrOfRules +
                 "|useCanonicalModel=" + this.useCanonicalModel +
-                "|rulesProviderId=" + this.rulesProviderId +
-                "|matchRatio=" + this.matchRatio;
+                "|rulesProviderId=" + this.rulesProviderId;
     }
 
     @Override
     public String toString() {
-        return "TestResults{" +
-                "name='" + name + '\'' +
+        return "BuildtimeReportRow{" +
+                "benchmark='" + benchmark + '\'' +
                 ", fancyName=" + fancyName + '\'' +
                 ", numberOfRules='" + numberOfRules + '\'' +
                 ", nrOfRules='" + nrOfRules + '\'' +
                 ", useCanonicalModel=" + useCanonicalModel +
                 ", rulesProviderId='" + rulesProviderId + '\'' +
-                ", matchRatio='" + matchRatio + '\'' +
                 ", score=" + score +
                 '}';
     }

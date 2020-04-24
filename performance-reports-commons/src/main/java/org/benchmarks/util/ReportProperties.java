@@ -9,6 +9,7 @@ import org.benchmarks.exceptions.FileCannotBeFoundException;
 
 public class ReportProperties {
 
+    private static String NEXT_VERSION = "next_version";
     private static String CURRENT_VERSION = "current_version";
     private static String PREVIOUS_VERSION = "previous_version";
     private static String OLDER_VERSION = "older_version";
@@ -25,6 +26,7 @@ public class ReportProperties {
 
     protected Properties properties = null;
     protected String fileName;
+    private String nextVersion;
     private String currentVersion;
     private String previousVersion;
     private String olderVersion;
@@ -44,6 +46,9 @@ public class ReportProperties {
         this.fileName = fileName;
         loadPropertiesFile();
 
+        if (this.properties.containsKey(NEXT_VERSION)) {
+            this.nextVersion = this.properties.getProperty(NEXT_VERSION);
+        }
         if (this.properties.containsKey(CURRENT_VERSION)) {
             this.currentVersion = this.properties.getProperty(CURRENT_VERSION);
         }
@@ -160,5 +165,9 @@ public class ReportProperties {
 
     public String getGoogleAppApiKeyFile() {
         return googleAppApiKeyFile;
+    }
+
+    public String getNextVersion() {
+        return nextVersion;
     }
 }

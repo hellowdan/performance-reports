@@ -20,74 +20,26 @@ public class DailyBenchmarkConfig {
             this.lastSuccessfulBuildCsvPath = path + "/lastSuccessfulBuild/artifact/" + subfolder.trim() + "/results.csv";
             this.apiPath = path + "/api/json";
             this.lastBuildApiPath = path + "/lastCompletedBuild/api/json";
-        } if (sourceFileLocation == SourceFileLocation.CLASSPATH) {
+        } else if (sourceFileLocation == SourceFileLocation.CLASSPATH) {
             this.lastSuccessfulBuildCsvPath = "/" + path + ".csv";
             this.apiPath = "/" + path + ".json";
             this.lastBuildApiPath = "/" + path + "-lastBuild.json";
         }
     }
 
-    public String getBenchmark() {
-        return job;
-    }
-
-    public void setBenchmark(String benchmark) {
-        this.job = benchmark;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getLastBuildApiPath() {
-        return lastBuildApiPath;
-    }
-
-    public void setLastBuildApiPath(String lastBuildApiPath) {
-        this.lastBuildApiPath = lastBuildApiPath;
-    }
-
     public String getLastSuccessfulBuildCsvPath() {
         return lastSuccessfulBuildCsvPath;
     }
 
-    public void setLastSuccessfulBuildCsvPath(String lastSuccessfulBuildCsvPath) {
-        this.lastSuccessfulBuildCsvPath = lastSuccessfulBuildCsvPath;
-    }
-
-    public String getApiPath() {
-        return apiPath;
-    }
-
-    public void setApiPath(String apiPath) {
-        this.apiPath = apiPath;
-    }
-
     public String getJob() {
-        return job;
-    }
-
-    public void setJob(String job) {
-        this.job = job;
+        return this.job;
     }
 
     public String getProduct() {
-        return product;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
+        return this.product;
     }
 
     public String getBranch() {
-        return branch;
-    }
-
-    public void setBranch(String branch) {
-        this.branch = branch;
+        return this.branch;
     }
 }
