@@ -11,8 +11,8 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import org.benchmarks.definitions.DroolsReportProperties;
-import org.benchmarks.definitions.SourceFileLocation;
 import org.benchmarks.definitions.ReportType;
+import org.benchmarks.definitions.SourceFileLocation;
 import org.benchmarks.definitions.StaticVersion;
 import org.benchmarks.exceptions.ExceptionsConstants;
 import org.benchmarks.helper.GoogleDriveHelper;
@@ -34,10 +34,20 @@ public class DroolsReport {
     private static final String SPREADSHEET_RUNTIME_RANGE = "A3:F25";
     private DroolsReportProperties droolsReportProperties;
     private String folderNewId;
-    private String spreadSheetNewId;
+    //    private String spreadSheetNewId;
     private Drive driveService;
     private Docs docsService;
     private Sheets sheetsService;
+    private String spreadsheetDmnNewID;
+    private String spreadsheetEventProcessingNewID;
+    private String spreadsheetEventProcessingMultithreadedNewID;
+    private String spreadsheetOopathNewID;
+    private String spreadsheetOperatorsNewID;
+    private String spreadsheetSessionNewID;
+    private String spreadsheetThroughputNewID;
+    private String spreadsheetBuildtimeNewID;
+    private String spreadsheetRuntimeNewID;
+    private String spreadsheetRuntimeMultithreadedNewID;
 
     /*for tests purposes*/
     public DroolsReport(DroolsReportProperties droolsReportProperties) {
@@ -64,7 +74,7 @@ public class DroolsReport {
         try {
             this.folderNewId = GoogleDriveHelper.createNewDir(this.driveService, this.droolsReportProperties.getFolderTitle(), this.droolsReportProperties.getResultParentFolderID());
             getGoogleDriveFiles(this.droolsReportProperties, this.driveService, localDir);
-            createSpreadSheet();
+            createSpreadSheets();
             createDoc();
             result = true;
         } catch (IOException e) {
@@ -74,26 +84,56 @@ public class DroolsReport {
         return result;
     }
 
-    protected Boolean createSpreadSheet() {
+    protected Boolean createSpreadSheets() {
+        this.spreadsheetDmnNewID = createSpreadSheet(this.droolsReportProperties.getTemplateDmnID(), ReportType.DMN);
+        setPublish(this.spreadsheetDmnNewID);
+
+        this.spreadsheetBuildtimeNewID = createSpreadSheet(this.droolsReportProperties.getTemplateBuildtimeID(), ReportType.BUILDTIME);
+        setPublish(this.spreadsheetBuildtimeNewID);
+
+        this.spreadsheetRuntimeNewID = createSpreadSheet(this.droolsReportProperties.getTemplateRuntimeID(), ReportType.RUNTIME);
+        return setPublish(this.spreadsheetRuntimeNewID);
+    }
+
+    private Boolean setPublish(String spreadSheetNewID) {
         Boolean result = false;
+
         try {
-            this.spreadSheetNewId = GoogleDriveHelper.copyFile(this.driveService, this.droolsReportProperties.getFilesTitle(), this.droolsReportProperties.getTemplateSheetID());
+            result = GoogleDriveHelper.setPublishFile(this.driveService, spreadSheetNewID);
+        } catch (IOException e) {
+            LOGGER.debug(ExceptionsConstants.FILE_CANNOT_BE_READ, e);
+        }
+        return result;
+    }
+
+    private String createSpreadSheet(String templateID, ReportType reportType) {
+        String newID = "";
+
+        try {
+            String newTitle = this.droolsReportProperties.getFilesTitle() + " - " + reportType.getFileTitle();
+            newID = GoogleDriveHelper.copyFile(this.driveService, newTitle, templateID);
 
             DroolsGoogleDriveSpreadSheet droolsFileSpreadSheet = new DroolsGoogleDriveSpreadSheet();
-            droolsFileSpreadSheet.updateSpreadSheetInfo(this.droolsReportProperties, this.sheetsService, this.spreadSheetNewId);
-            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getNextVersionSourceFileExtension(), StaticVersion.NEXT, this.droolsReportProperties.getNextVersionSourceFileLocation(), STARTING_CELL_NEXT_VERSION, this.droolsReportProperties, this.sheetsService, this.spreadSheetNewId);
-            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getCurrentVersionSourceFileExtension(), StaticVersion.CURRENT, this.droolsReportProperties.getCurrentVersionSourceFileLocation(), STARTING_CELL_CURRENT_VERSION, this.droolsReportProperties, this.sheetsService, this.spreadSheetNewId);
-            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getPreviousVersionSourceFileExtension(), StaticVersion.PREVIOUS, this.droolsReportProperties.getPreviousVersionSourceFileLocation(), STARTING_CELL_PREVIOUS_VERSION, this.droolsReportProperties, this.sheetsService, this.spreadSheetNewId);
-            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getOlderVersionSourceFileExtension(), StaticVersion.OLDER, this.droolsReportProperties.getOlderVersionSourceFileLocation(), STARTING_CELL_OLDER_VERSION, this.droolsReportProperties, this.sheetsService, this.spreadSheetNewId);
+            droolsFileSpreadSheet.updateSpreadSheetInfo(this.droolsReportProperties, this.sheetsService, newID);
+            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getNextVersionSourceFileExtension(), StaticVersion.NEXT,
+                                                          this.droolsReportProperties.getNextVersionSourceFileLocation(), STARTING_CELL_NEXT_VERSION,
+                                                          this.droolsReportProperties, this.sheetsService, newID, reportType);
+            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getCurrentVersionSourceFileExtension(), StaticVersion.CURRENT,
+                                                          this.droolsReportProperties.getCurrentVersionSourceFileLocation(), STARTING_CELL_CURRENT_VERSION,
+                                                          this.droolsReportProperties, this.sheetsService, newID, reportType);
+            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getPreviousVersionSourceFileExtension(), StaticVersion.PREVIOUS,
+                                                          this.droolsReportProperties.getPreviousVersionSourceFileLocation(), STARTING_CELL_PREVIOUS_VERSION,
+                                                          this.droolsReportProperties, this.sheetsService, newID, reportType);
+            droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getOlderVersionSourceFileExtension(), StaticVersion.OLDER,
+                                                          this.droolsReportProperties.getOlderVersionSourceFileLocation(), STARTING_CELL_OLDER_VERSION,
+                                                          this.droolsReportProperties, this.sheetsService, newID, reportType);
 
-            GoogleDriveHelper.moveFile(this.driveService, this.spreadSheetNewId, this.folderNewId);
-
-            return GoogleDriveHelper.setPublishFile(this.driveService, this.spreadSheetNewId);
+            GoogleDriveHelper.moveFile(this.driveService, newID, this.folderNewId);
         } catch (IOException e) {
             LOGGER.debug(ExceptionsConstants.FILE_CANNOT_BE_READ, e);
         }
 
-        return result;
+        return newID;
     }
 
     protected String createDoc() {
@@ -107,10 +147,11 @@ public class DroolsReport {
             List<Request> requestsBody = droolsFileDoc.getReplaceAllBody(this.droolsReportProperties);
             droolsFileDoc.requestsExecute(requestsBody, docNewId, this.docsService);
 
-            droolsFileDoc.updateChartsWithLinks(docNewId, this.docsService, this.sheetsService, this.spreadSheetNewId);
+            droolsFileDoc.updateChartsWithLinks(docNewId, this.docsService, this.sheetsService, this.spreadsheetBuildtimeNewID);
+            droolsFileDoc.updateChartsWithLinks(docNewId, this.docsService, this.sheetsService, this.spreadsheetRuntimeNewID);
 
-            ValueRange buildTimeValueRange = droolsFileDoc.getValueRangeFromSheet(sheetsService, this.spreadSheetNewId, SPREADSHEET_BUILDTIME_SHEET_NAME, SPREADSHEET_BUILDTIME_RANGE);
-            ValueRange runTimeValueRange = droolsFileDoc.getValueRangeFromSheet(sheetsService, this.spreadSheetNewId, SPREADSHEET_RUNTIME_SHEET_NAME, SPREADSHEET_RUNTIME_RANGE);
+            ValueRange buildTimeValueRange = droolsFileDoc.getValueRangeFromSheet(sheetsService, this.spreadsheetBuildtimeNewID, SPREADSHEET_BUILDTIME_SHEET_NAME, SPREADSHEET_BUILDTIME_RANGE);
+            ValueRange runTimeValueRange = droolsFileDoc.getValueRangeFromSheet(sheetsService, this.spreadsheetRuntimeNewID, SPREADSHEET_RUNTIME_SHEET_NAME, SPREADSHEET_RUNTIME_RANGE);
 
             List<Request> requestsTables = droolsFileDoc.getReplaceAllTables(buildTimeValueRange, runTimeValueRange);
             droolsFileDoc.requestsExecute(requestsTables, docNewId, this.docsService);
@@ -130,20 +171,30 @@ public class DroolsReport {
         try {
             if (droolsReportProperties.getCurrentVersionSourceFileLocation() == SourceFileLocation.DRIVE) {
                 droolsReportProperties.setCurrentVersionSourceFileLocation(SourceFileLocation.LOCAL);
+                droolsReportProperties.setCurrentVersionBuildtimePath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, ReportType.BUILDTIME.getFileType(), droolsReportProperties.getCurrentVersionBuildtimePath(), localDir, StaticVersion.NEXT, droolsReportProperties.getCurrentVersionSourceFileExtension()));
+                droolsReportProperties.setCurrentVersionRuntimePath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, ReportType.RUNTIME.getFileType(), droolsReportProperties.getCurrentVersionRuntimePath(), localDir, StaticVersion.NEXT, droolsReportProperties.getCurrentVersionSourceFileExtension()));
+                droolsReportProperties.setCurrentVersionDMNPath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, ReportType.DMN.getFileType(), droolsReportProperties.getCurrentVersionDMNPath(), localDir, StaticVersion.NEXT, droolsReportProperties.getCurrentVersionSourceFileExtension()));
+            }
+
+            if (droolsReportProperties.getCurrentVersionSourceFileLocation() == SourceFileLocation.DRIVE) {
+                droolsReportProperties.setCurrentVersionSourceFileLocation(SourceFileLocation.LOCAL);
                 droolsReportProperties.setCurrentVersionBuildtimePath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, ReportType.BUILDTIME.getFileType(), droolsReportProperties.getCurrentVersionBuildtimePath(), localDir, StaticVersion.CURRENT, droolsReportProperties.getCurrentVersionSourceFileExtension()));
                 droolsReportProperties.setCurrentVersionRuntimePath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, ReportType.RUNTIME.getFileType(), droolsReportProperties.getCurrentVersionRuntimePath(), localDir, StaticVersion.CURRENT, droolsReportProperties.getCurrentVersionSourceFileExtension()));
+                droolsReportProperties.setCurrentVersionDMNPath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, ReportType.DMN.getFileType(), droolsReportProperties.getCurrentVersionDMNPath(), localDir, StaticVersion.CURRENT, droolsReportProperties.getCurrentVersionSourceFileExtension()));
             }
 
             if (droolsReportProperties.getPreviousVersionSourceFileLocation() == SourceFileLocation.DRIVE) {
                 droolsReportProperties.setPreviousVersionSourceFileLocation(SourceFileLocation.LOCAL);
                 droolsReportProperties.setPreviousVersionBuildtimePath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, ReportType.BUILDTIME.getFileType(), droolsReportProperties.getPreviousVersionBuildtimePath(), localDir, StaticVersion.PREVIOUS, droolsReportProperties.getPreviousVersionSourceFileExtension()));
                 droolsReportProperties.setPreviousVersionRuntimePath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, ReportType.RUNTIME.getFileType(), droolsReportProperties.getPreviousVersionRuntimePath(), localDir, StaticVersion.PREVIOUS, droolsReportProperties.getPreviousVersionSourceFileExtension()));
+                droolsReportProperties.setCurrentVersionDMNPath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, ReportType.DMN.getFileType(), droolsReportProperties.getCurrentVersionDMNPath(), localDir, StaticVersion.PREVIOUS, droolsReportProperties.getCurrentVersionSourceFileExtension()));
             }
 
             if (droolsReportProperties.getOlderVersionSourceFileLocation() == SourceFileLocation.DRIVE) {
                 droolsReportProperties.setOlderVersionSourceFileLocation(SourceFileLocation.LOCAL);
                 droolsReportProperties.setOlderVersionBuildtimePath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, ReportType.BUILDTIME.getFileType(), droolsReportProperties.getOlderVersionBuildtimePath(), localDir, StaticVersion.OLDER, droolsReportProperties.getOlderVersionSourceFileExtension()));
                 droolsReportProperties.setOlderVersionRuntimePath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, ReportType.RUNTIME.getFileType(), droolsReportProperties.getOlderVersionRuntimePath(), localDir, StaticVersion.OLDER, droolsReportProperties.getOlderVersionSourceFileExtension()));
+                droolsReportProperties.setCurrentVersionDMNPath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, ReportType.DMN.getFileType(), droolsReportProperties.getCurrentVersionDMNPath(), localDir, StaticVersion.OLDER, droolsReportProperties.getCurrentVersionSourceFileExtension()));
             }
         } catch (IOException e) {
             LOGGER.debug(ExceptionsConstants.FAILED_PREPARING_GOOGLE_DRIVE_FILES, e);

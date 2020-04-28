@@ -1,13 +1,9 @@
 package org.benchmarks.definitions.turtle.runtime;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.benchmarks.definitions.ReportSheetPositions;
 import org.benchmarks.definitions.RowDataToMap;
 
-public class RuntimeMultithreadedSheetPositions {
-
-    private static final Map<Integer, RowDataToMap> positions = new HashMap<>();
+public class RuntimeMultithreadedSheetPositions extends ReportSheetPositions {
 
     static {
         positions.put(747,new RowDataToMap("benchmark=org.drools.benchmarks.turtle.runtime.StandardOperatorsExpertBenchmark.timeFactsInsertionAndRulesFiring|matchRatio=",
@@ -61,10 +57,6 @@ public class RuntimeMultithreadedSheetPositions {
                                           "Basic facts match ratio 100 % - real facts – stateless"));
     }
 
-    private RuntimeMultithreadedSheetPositions() {
-    }
-
-    public static Map<Integer, RowDataToMap> getPositions() {
-        return positions;
+    public RuntimeMultithreadedSheetPositions() {
     }
 }

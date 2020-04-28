@@ -533,4 +533,143 @@ public class DroolsReportProperties extends ReportProperties {
         return olderVersionDMNPath;
     }
 
+    public void setNextVersionDMNPath(String nextVersionDMNPath) {
+        this.nextVersionDMNPath = nextVersionDMNPath;
+    }
+
+    public void setNextVersionEventProcessingPath(String nextVersionEventProcessingPath) {
+        this.nextVersionEventProcessingPath = nextVersionEventProcessingPath;
+    }
+
+    public void setNextVersionEventProcessingMultithreadedPath(String nextVersionEventProcessingMultithreadedPath) {
+        this.nextVersionEventProcessingMultithreadedPath = nextVersionEventProcessingMultithreadedPath;
+    }
+
+    public void setNextVersionOopathPath(String nextVersionOopathPath) {
+        this.nextVersionOopathPath = nextVersionOopathPath;
+    }
+
+    public void setNextVersionOperatorsPath(String nextVersionOperatorsPath) {
+        this.nextVersionOperatorsPath = nextVersionOperatorsPath;
+    }
+
+    public void setNextVersionSessionPath(String nextVersionSessionPath) {
+        this.nextVersionSessionPath = nextVersionSessionPath;
+    }
+
+    public void setNextVersionThroughputPath(String nextVersionThroughputPath) {
+        this.nextVersionThroughputPath = nextVersionThroughputPath;
+    }
+
+    public void setNextVersionBuildtimePath(String nextVersionBuildtimePath) {
+        this.nextVersionBuildtimePath = nextVersionBuildtimePath;
+    }
+
+    public void setNextVersionRuntimePath(String nextVersionRuntimePath) {
+        this.nextVersionRuntimePath = nextVersionRuntimePath;
+    }
+
+    public void setNextVersionRuntimeMultithreadedPath(String nextVersionRuntimeMultithreadedPath) {
+        this.nextVersionRuntimeMultithreadedPath = nextVersionRuntimeMultithreadedPath;
+    }
+
+    public void setNextVersionSourceFileLocation(SourceFileLocation nextVersionSourceFileLocation) {
+        this.nextVersionSourceFileLocation = nextVersionSourceFileLocation;
+    }
+
+    public void setCurrentVersionDMNPath(String currentVersionDMNPath) {
+        this.currentVersionDMNPath = currentVersionDMNPath;
+    }
+
+    public void setCurrentVersionEventProcessingPath(String currentVersionEventProcessingPath) {
+        this.currentVersionEventProcessingPath = currentVersionEventProcessingPath;
+    }
+
+    public void setCurrentVersionEventProcessingMultithreadedPath(String currentVersionEventProcessingMultithreadedPath) {
+        this.currentVersionEventProcessingMultithreadedPath = currentVersionEventProcessingMultithreadedPath;
+    }
+
+    public void setCurrentVersionOopathPath(String currentVersionOopathPath) {
+        this.currentVersionOopathPath = currentVersionOopathPath;
+    }
+
+    public void setCurrentVersionOperatorsPath(String currentVersionOperatorsPath) {
+        this.currentVersionOperatorsPath = currentVersionOperatorsPath;
+    }
+
+    public void setCurrentVersionSessionPath(String currentVersionSessionPath) {
+        this.currentVersionSessionPath = currentVersionSessionPath;
+    }
+
+    public void setCurrentVersionThroughputPath(String currentVersionThroughputPath) {
+        this.currentVersionThroughputPath = currentVersionThroughputPath;
+    }
+
+    public void setCurrentVersionRuntimeMultithreadedPath(String currentVersionRuntimeMultithreadedPath) {
+        this.currentVersionRuntimeMultithreadedPath = currentVersionRuntimeMultithreadedPath;
+    }
+
+    public void setPreviousVersionDMNPath(String previousVersionDMNPath) {
+        this.previousVersionDMNPath = previousVersionDMNPath;
+    }
+
+    public void setPreviousVersionEventProcessingPath(String previousVersionEventProcessingPath) {
+        this.previousVersionEventProcessingPath = previousVersionEventProcessingPath;
+    }
+
+    public void setPreviousVersionEventProcessingMultithreadedPath(String previousVersionEventProcessingMultithreadedPath) {
+        this.previousVersionEventProcessingMultithreadedPath = previousVersionEventProcessingMultithreadedPath;
+    }
+
+    public void setPreviousVersionOopathPath(String previousVersionOopathPath) {
+        this.previousVersionOopathPath = previousVersionOopathPath;
+    }
+
+    public void setPreviousVersionOperatorsPath(String previousVersionOperatorsPath) {
+        this.previousVersionOperatorsPath = previousVersionOperatorsPath;
+    }
+
+    public void setPreviousVersionSessionPath(String previousVersionSessionPath) {
+        this.previousVersionSessionPath = previousVersionSessionPath;
+    }
+
+    public void setPreviousVersionThroughputPath(String previousVersionThroughputPath) {
+        this.previousVersionThroughputPath = previousVersionThroughputPath;
+    }
+
+    public void setPreviousVersionRuntimeMultithreadedPath(String previousVersionRuntimeMultithreadedPath) {
+        this.previousVersionRuntimeMultithreadedPath = previousVersionRuntimeMultithreadedPath;
+    }
+
+    public void setOlderVersionDMNPath(String olderVersionDMNPath) {
+        this.olderVersionDMNPath = olderVersionDMNPath;
+    }
+
+    public void setOlderVersionEventProcessingPath(String olderVersionEventProcessingPath) {
+        this.olderVersionEventProcessingPath = olderVersionEventProcessingPath;
+    }
+
+    public void setOlderVersionEventProcessingMultithreadedPath(String olderVersionEventProcessingMultithreadedPath) {
+        this.olderVersionEventProcessingMultithreadedPath = olderVersionEventProcessingMultithreadedPath;
+    }
+
+    public void setOlderVersionOopathPath(String olderVersionOopathPath) {
+        this.olderVersionOopathPath = olderVersionOopathPath;
+    }
+
+    public void setOlderVersionOperatorsPath(String olderVersionOperatorsPath) {
+        this.olderVersionOperatorsPath = olderVersionOperatorsPath;
+    }
+
+    public void setOlderVersionSessionPath(String olderVersionSessionPath) {
+        this.olderVersionSessionPath = olderVersionSessionPath;
+    }
+
+    public void setOlderVersionThroughputPath(String olderVersionThroughputPath) {
+        this.olderVersionThroughputPath = olderVersionThroughputPath;
+    }
+
+    public void setOlderVersionRuntimeMultithreadedPath(String olderVersionRuntimeMultithreadedPath) {
+        this.olderVersionRuntimeMultithreadedPath = olderVersionRuntimeMultithreadedPath;
+    }
 }

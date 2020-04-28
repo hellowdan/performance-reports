@@ -1,13 +1,9 @@
 package org.benchmarks.definitions.dmn;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.benchmarks.definitions.ReportSheetPositions;
 import org.benchmarks.definitions.RowDataToMap;
 
-public class DMNSheetPositions {
-
-    private static final Map<Integer, RowDataToMap> positions = new HashMap<>();
+public class DMNSheetPositions extends ReportSheetPositions {
 
     static {
         positions.put(47, new RowDataToMap("benchmark=org.drools.benchmarks.dmn.buildtime.DMNBuildBusinessKnowledgeModelBenchmark.testBuildKieBase|expression=|numberOfDecisionTableRules=|numberOfDecisions=|numberOfDecisionsWithBKM=3000|numberOfDecisionsWithContext=|numberOfElements=|param=|resourceName=|sparseness=","Build Business Knowledge Model With 3000 Decisions"));
@@ -562,9 +558,5 @@ public class DMNSheetPositions {
     }
 
     public DMNSheetPositions() {
-    }
-
-    public static Map<Integer, RowDataToMap> getPositions() {
-        return positions;
     }
 }

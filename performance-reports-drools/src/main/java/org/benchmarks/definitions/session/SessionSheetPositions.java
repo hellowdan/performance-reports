@@ -1,13 +1,9 @@
 package org.benchmarks.definitions.session;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.benchmarks.definitions.ReportSheetPositions;
 import org.benchmarks.definitions.RowDataToMap;
 
-public class SessionSheetPositions {
-
-    private static final Map<Integer, RowDataToMap> positions = new HashMap<>();
+public class SessionSheetPositions extends ReportSheetPositions {
 
     static {
         positions.put(770, new RowDataToMap("benchmark=org.drools.benchmarks.session.FactTypeBenchmark.fireAllRules|async=|asyncInserts=|batchFire=|cep=|doUpdate=|exerciseSession=|factsNr=|initialSessionPoolSize=|joinsNr=|loopCount=|multithread=|numberOfFacts=|numberOfRules=|rulelinked=|rulesNr=|treesNr=|typesNr=10|useCanonicalModel=true|useNotExistingField=true|usePool=","Fact Type With 10 Types With Executable Model Using Not Existing Field"));
@@ -845,10 +841,6 @@ public class SessionSheetPositions {
 
     }
 
-    private SessionSheetPositions() {
-    }
-
-    public static Map<Integer, RowDataToMap> getPositions() {
-        return positions;
+    public SessionSheetPositions() {
     }
 }

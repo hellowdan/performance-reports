@@ -19,7 +19,20 @@ public class ReportProperties {
     private static String FILES_TITLE = "files_title";
     private static String TEMPLATE_TITLE = "template_title";
     private static String TEMPLATE_DOC_ID = "template_doc_id";
-    private static String TEMPLATE_SHEET_ID = "template_sheet_id";
+
+//    private static String TEMPLATE_SHEET_ID = "template_sheet_id";
+
+    private static String TEMPLATE_DMN_SHEET_ID = "template_dmn_id";
+    private static String TEMPLATE_EVENT_PROCESSING_SHEET_ID = "template_event-processing_id";
+    private static String TEMPLATE_EVENT_PROCESSING_MULTITHREADED_SHEET_ID = "template_event-processing-multithreaded_id";
+    private static String TEMPLATE_OOPATH_SHEET_ID = "template_oopath_id";
+    private static String TEMPLATE_OPERATORS_SHEET_ID = "template_operators_id";
+    private static String TEMPLATE_SESSION_SHEET_ID = "template_session_id";
+    private static String TEMPLATE_THROUGHPUT_SHEET_ID = "template_throughput_id";
+    private static String TEMPLATE_BUILDTIME_SHEET_ID = "template_buildtime_id";
+    private static String TEMPLATE_RUNTIME_SHEET_ID = "template_runtime_id";
+    private static String TEMPLATE_RUNTIME_MULTITHREADED_SHEET_ID = "template_runtime-multithreaded_id";
+
     private static String RESULT_PARENT_FOLDER_ID = "result_parent_folder_id";
     private static String FOLDER_TITLE = "folder_title";
     private static String GOOGLE_APP_API_KEY_FILE = "google_app_api_key_file";
@@ -36,7 +49,20 @@ public class ReportProperties {
     private String filesTitle;
     private String templateTitle;
     private String templateDocID;
-    private String templateSheetID;
+
+    private String templateDmnID;
+    private String templateEventProcessingID;
+    private String templateEventProcessingMultithreadedID;
+    private String templateOopathID;
+    private String templateOperatorsID;
+    private String templateSessionID;
+    private String templateThroughputID;
+    private String templateBuildtimeID;
+    private String templateRuntimeID;
+    private String templateRuntimeMultithreadedID;
+
+//    private String templateSheetID;
+
     private String resultParentFolderID;
     private String folderTitle;
     private String googleAppApiKeyFile;
@@ -76,9 +102,50 @@ public class ReportProperties {
         if (this.properties.containsKey(TEMPLATE_DOC_ID)) {
             this.templateDocID = this.properties.getProperty(TEMPLATE_DOC_ID);
         }
-        if (this.properties.containsKey(TEMPLATE_SHEET_ID)) {
-            this.templateSheetID = this.properties.getProperty(TEMPLATE_SHEET_ID);
+//        if (this.properties.containsKey(TEMPLATE_SHEET_ID)) {
+//            this.templateSheetID = this.properties.getProperty(TEMPLATE_SHEET_ID);
+//        }
+
+        if (this.properties.containsKey(TEMPLATE_DMN_SHEET_ID)) {
+            this.templateDmnID = this.properties.getProperty(TEMPLATE_DMN_SHEET_ID);
         }
+
+        if (this.properties.containsKey(TEMPLATE_EVENT_PROCESSING_SHEET_ID)) {
+            this.templateEventProcessingID = this.properties.getProperty(TEMPLATE_EVENT_PROCESSING_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_EVENT_PROCESSING_MULTITHREADED_SHEET_ID)) {
+            this.templateEventProcessingMultithreadedID = this.properties.getProperty(TEMPLATE_EVENT_PROCESSING_MULTITHREADED_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_OOPATH_SHEET_ID)) {
+            this.templateOopathID = this.properties.getProperty(TEMPLATE_OOPATH_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_OPERATORS_SHEET_ID)) {
+            this.templateOperatorsID = this.properties.getProperty(TEMPLATE_OPERATORS_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_SESSION_SHEET_ID)) {
+            this.templateSessionID = this.properties.getProperty(TEMPLATE_SESSION_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_THROUGHPUT_SHEET_ID)) {
+            this.templateThroughputID = this.properties.getProperty(TEMPLATE_THROUGHPUT_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_BUILDTIME_SHEET_ID)) {
+            this.templateBuildtimeID = this.properties.getProperty(TEMPLATE_BUILDTIME_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_RUNTIME_SHEET_ID)) {
+            this.templateRuntimeID = this.properties.getProperty(TEMPLATE_RUNTIME_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_RUNTIME_MULTITHREADED_SHEET_ID)) {
+            this.templateRuntimeMultithreadedID = this.properties.getProperty(TEMPLATE_RUNTIME_MULTITHREADED_SHEET_ID);
+        }
+
         if (this.properties.containsKey(RESULT_PARENT_FOLDER_ID)) {
             this.resultParentFolderID = this.properties.getProperty(RESULT_PARENT_FOLDER_ID);
         }
@@ -151,10 +218,6 @@ public class ReportProperties {
         return templateDocID;
     }
 
-    public String getTemplateSheetID() {
-        return templateSheetID;
-    }
-
     public String getResultParentFolderID() {
         return resultParentFolderID;
     }
@@ -169,5 +232,45 @@ public class ReportProperties {
 
     public String getNextVersion() {
         return nextVersion;
+    }
+
+    public String getTemplateDmnID() {
+        return templateDmnID;
+    }
+
+    public String getTemplateEventProcessingID() {
+        return templateEventProcessingID;
+    }
+
+    public String getTemplateEventProcessingMultithreadedID() {
+        return templateEventProcessingMultithreadedID;
+    }
+
+    public String getTemplateOopathID() {
+        return templateOopathID;
+    }
+
+    public String getTemplateOperatorsID() {
+        return templateOperatorsID;
+    }
+
+    public String getTemplateSessionID() {
+        return templateSessionID;
+    }
+
+    public String getTemplateThroughputID() {
+        return templateThroughputID;
+    }
+
+    public String getTemplateBuildtimeID() {
+        return templateBuildtimeID;
+    }
+
+    public String getTemplateRuntimeID() {
+        return templateRuntimeID;
+    }
+
+    public String getTemplateRuntimeMultithreadedID() {
+        return templateRuntimeMultithreadedID;
     }
 }

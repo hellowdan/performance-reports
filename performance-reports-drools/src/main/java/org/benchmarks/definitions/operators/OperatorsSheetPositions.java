@@ -1,13 +1,9 @@
 package org.benchmarks.definitions.operators;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.benchmarks.definitions.ReportSheetPositions;
 import org.benchmarks.definitions.RowDataToMap;
 
-public class OperatorsSheetPositions {
-
-    private static final Map<Integer, RowDataToMap> positions = new HashMap<>();
+public class OperatorsSheetPositions extends ReportSheetPositions {
 
     static {
         positions.put(735, new RowDataToMap("benchmark=org.drools.benchmarks.operators.AccumulateBenchmark.test|rulesAndFactsNumber=2","Accumulate Test With 2 Rules And Facts"));
@@ -24,10 +20,6 @@ public class OperatorsSheetPositions {
         positions.put(746, new RowDataToMap("benchmark=org.drools.benchmarks.operators.ExistsBenchmark.test|rulesAndFactsNumber=32","Exists Test With 32 Rules And Facts"));
     }
 
-    private OperatorsSheetPositions() {
-    }
-
-    public static Map<Integer, RowDataToMap> getPositions() {
-        return positions;
+    public OperatorsSheetPositions() {
     }
 }

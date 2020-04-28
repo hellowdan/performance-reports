@@ -1,13 +1,9 @@
 package org.benchmarks.definitions.turtle.buildtime;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.benchmarks.definitions.ReportSheetPositions;
 import org.benchmarks.definitions.RowDataToMap;
 
-public class BuildtimeSheetPositions {
-
-    private static final Map<Integer, RowDataToMap> positions = new HashMap<>();
+public class BuildtimeSheetPositions extends ReportSheetPositions {
 
     static {
         positions.put(2, new RowDataToMap("benchmark=org.drools.benchmarks.turtle.buildtime.KBaseCreationFromDTablesBenchmark.timeKBaseCreationFromOneBigAndOneSmallDTable|numberOfRules=|nrOfRules=|useCanonicalModel=|rulesProviderId=",
@@ -56,10 +52,7 @@ public class BuildtimeSheetPositions {
                                            "Create KieContainer and KieBase from KJar – 10000 rules, without model"));
     }
 
-    private BuildtimeSheetPositions() {
+    public BuildtimeSheetPositions() {
     }
 
-    public static Map<Integer, RowDataToMap> getPositions() {
-        return positions;
-    }
 }

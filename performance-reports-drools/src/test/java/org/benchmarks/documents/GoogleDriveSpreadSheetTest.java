@@ -10,6 +10,7 @@ import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetResponse;
 import com.google.api.services.sheets.v4.model.Request;
 import com.google.api.services.sheets.v4.model.UpdateValuesResponse;
 import org.benchmarks.definitions.DroolsReportProperties;
+import org.benchmarks.definitions.ReportType;
 import org.benchmarks.definitions.StaticVersion;
 import org.benchmarks.helper.GoogleDriveHelper;
 import org.benchmarks.helper.GoogleDriveService;
@@ -55,7 +56,7 @@ public class GoogleDriveSpreadSheetTest {
         final String startingCellCurrentVersion = "K2";
 
         String spreadSheetNewId = GoogleDriveHelper.copyFile(this.driveService, this.droolsReportProperties.getFilesTitle(), this.sheetTemplateId);
-        response = this.droolsGoogleDriveSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getCurrentVersionSourceFileExtension(), StaticVersion.CURRENT, this.droolsReportProperties.getCurrentVersionSourceFileLocation(), startingCellCurrentVersion, this.droolsReportProperties, this.sheetsService, spreadSheetNewId);
+        response = this.droolsGoogleDriveSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getCurrentVersionSourceFileExtension(), StaticVersion.CURRENT, this.droolsReportProperties.getCurrentVersionSourceFileLocation(), startingCellCurrentVersion, this.droolsReportProperties, this.sheetsService, spreadSheetNewId, ReportType.RUNTIME);
 
         assertThat(response.getUpdatedRows(), is(45));
     }

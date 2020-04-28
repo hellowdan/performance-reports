@@ -1,13 +1,9 @@
 package org.benchmarks.definitions.oopath;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.benchmarks.definitions.ReportSheetPositions;
 import org.benchmarks.definitions.RowDataToMap;
 
-public class OopathSheetPositions {
-
-    private static final Map<Integer, RowDataToMap> positions = new HashMap<>();
+public class OopathSheetPositions extends ReportSheetPositions {
 
     static {
         positions.put(673, new RowDataToMap("benchmark=org.drools.benchmarks.oopath.buildtime.OOPathBuildCSVBenchmark.testBuildKieBase|accumulateFunction=|numberOfFacts=|numberOfParentFacts=|numberOfRules=","Build KieBase CSV"));
@@ -76,10 +72,6 @@ public class OopathSheetPositions {
 
     }
 
-    private OopathSheetPositions() {
-    }
-
-    public static Map<Integer, RowDataToMap> getPositions() {
-        return positions;
+    public OopathSheetPositions() {
     }
 }

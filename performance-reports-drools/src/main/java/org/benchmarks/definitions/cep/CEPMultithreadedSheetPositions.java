@@ -1,13 +1,9 @@
 package org.benchmarks.definitions.cep;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.benchmarks.definitions.ReportSheetPositions;
 import org.benchmarks.definitions.RowDataToMap;
 
-public class CEPMultithreadedSheetPositions {
-
-    private static final Map<Integer, RowDataToMap> positions = new HashMap<>();
+public class CEPMultithreadedSheetPositions extends ReportSheetPositions {
 
     static {
         positions.put(634, new RowDataToMap("benchmark=org.drools.benchmarks.cep.AfterBenchmark.testAfterOperator|rulesAndEventsNumber=8","Test After Operator With 8 Events"));
@@ -51,10 +47,6 @@ public class CEPMultithreadedSheetPositions {
         positions.put(672, new RowDataToMap("benchmark=org.drools.benchmarks.cep.StartsBenchmark.testStartsOperator|rulesAndEventsNumber=32","Test Starts Operator With 32 Events"));
     }
 
-    private CEPMultithreadedSheetPositions() {
-    }
-
-    public static Map<Integer, RowDataToMap> getPositions() {
-        return positions;
+    public CEPMultithreadedSheetPositions() {
     }
 }
