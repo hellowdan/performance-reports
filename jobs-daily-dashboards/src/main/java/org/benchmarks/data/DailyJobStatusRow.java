@@ -6,9 +6,6 @@ import org.benchmarks.definitions.JobStatus;
 
 public class DailyJobStatusRow {
 
-    private String benchmark;
-    private String product;
-    private String branch;
     private String url;
     private String lastBuild;
     private String lastSuccessfulBuild;
@@ -19,22 +16,6 @@ public class DailyJobStatusRow {
     private Timestamp lastBuildDateOfExecution;
 
     public DailyJobStatusRow() {
-    }
-
-    public String getBenchmark() {
-        return benchmark;
-    }
-
-    public void setBenchmark(String benchmark) {
-        this.benchmark = benchmark;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getLastBuild() {
@@ -63,6 +44,14 @@ public class DailyJobStatusRow {
 
     public String getLastBuildStatus() {
         return lastBuildStatus;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public void setLastBuildStatus(String lastBuildStatus) {
@@ -98,28 +87,9 @@ public class DailyJobStatusRow {
         this.lastBuildDateOfExecution = lastBuildDateOfExecution;
     }
 
-    public String getProduct() {
-        return product;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
-    }
-
-    public String getBranch() {
-        return branch;
-    }
-
-    public void setBranch(String branch) {
-        this.branch = branch;
-    }
-
     @Override
     public String toString() {
         return "TestResults{" +
-                "benchmark='" + benchmark + '\'' +
-                "product='" + product + '\'' +
-                "branch='" + branch + '\'' +
                 "url='" + url + '\'' +
                 "lastBuild='" + lastBuild + '\'' +
                 "lastSuccessfulBuild='" + lastSuccessfulBuild + '\'' +

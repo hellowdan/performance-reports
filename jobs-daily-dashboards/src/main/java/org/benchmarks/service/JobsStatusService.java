@@ -12,25 +12,25 @@ import org.springframework.stereotype.Service;
 public class JobsStatusService {
 
     @Autowired
-    JobsStatusRepository repository;
+    JobsStatusRepository jobsStatusRepository;
 
     public List<JobsStatusEntity> getAllJobs(){
         List<JobsStatusEntity> jobsStatus = new ArrayList<>();
-        repository.findAll().forEach(e -> jobsStatus.add(e));
+        jobsStatusRepository.findAll().forEach(e -> jobsStatus.add(e));
         return jobsStatus;
     }
 
     public JobsStatusEntity getJobById(long jobsStatusId) {
-        JobsStatusEntity jobsStatusEntity = repository.findById(jobsStatusId).get();
+        JobsStatusEntity jobsStatusEntity = jobsStatusRepository.findById(jobsStatusId).get();
         return jobsStatusEntity;
     }
 
     public void saveJob(JobsStatusEntity jobsStatusEntity) {
-        repository.save(jobsStatusEntity);
+        jobsStatusRepository.save(jobsStatusEntity);
     }
 
     public void deleteJob(int jobsStatusId) {
-        repository.delete(getJobById(jobsStatusId));
+        jobsStatusRepository.delete(getJobById(jobsStatusId));
     }
 
 }

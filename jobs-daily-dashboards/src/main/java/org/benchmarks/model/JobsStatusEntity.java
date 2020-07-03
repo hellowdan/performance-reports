@@ -1,15 +1,16 @@
 package org.benchmarks.model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.benchmarks.data.JobsStatusRow;
 
 @Entity
 @Table(name = "jobs_status_drools")
@@ -55,6 +56,10 @@ public class JobsStatusEntity {
         return active;
     }
 
+    public String getFolder() {
+        return folder;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -69,6 +74,9 @@ public class JobsStatusEntity {
     @Column(name="branch")
     private String branch;
 
+    @Column(name="folder")
+    private String folder;
+
     @Column(name="url")
     private String url;
 
@@ -81,25 +89,19 @@ public class JobsStatusEntity {
     @Column(name="active")
     private int active;
 
-    public JobsStatusEntity() {
-    }
+    @OneToMany(mappedBy = "jobsStatusEntity", cascade = CascadeType.ALL)
+    private List<DailyJobStatusEntity> dailyJobStatusEntities;
 
-    public JobsStatusEntity(JobsStatusRow resultRow) {
-        this.job = resultRow.getJob();
-        this.product = resultRow.getProduct();
-        this.branch = resultRow.getBranch();
-        this.url = resultRow.getUrl();
-        this.apiUrl = resultRow.getApiUrl();
-        this.lastBuildApiUrl = resultRow.getLastBuildApiUrl();
-        this.active = resultRow.getActive();
+    public JobsStatusEntity() {
     }
 
     @Override
     public String toString() {
-        return "DroolsJenkinsDailyStatusEntity{" +
+        return "JobsStatusEntity{" +
                 "job='" + job + '\'' +
                 ", product='" + product + '\'' +
                 ", branch='" + branch + '\'' +
+                ", folder='" + folder + '\'' +
                 ", url='" + url + '\'' +
                 ", apiUrl=" + apiUrl +
                 ", lastBuildApiUrl=" + lastBuildApiUrl +
