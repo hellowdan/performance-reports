@@ -1,6 +1,9 @@
 package org.benchmarks.definitions;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.benchmarks.util.ReportProperties;
 
@@ -63,6 +66,25 @@ public class DroolsReportProperties extends ReportProperties {
     private static final String PREVIOUS_VERSION_REPOSITORY_FOLDER_ID = "previous_version_repository_folder_id";
     private static final String OLDER_VERSION_REPOSITORY_FOLDER_ID = "older_version_repository_folder_id";
 
+    private static String TEMPLATE_DMN_SHEET_ID = "template_dmn_id";
+    private static String TEMPLATE_EVENT_PROCESSING_SHEET_ID = "template_event-processing_id";
+    private static String TEMPLATE_EVENT_PROCESSING_MULTITHREADED_SHEET_ID = "template_event-processing-multithreaded_id";
+    private static String TEMPLATE_OOPATH_SHEET_ID = "template_oopath_id";
+    private static String TEMPLATE_OPERATORS_SHEET_ID = "template_operators_id";
+    private static String TEMPLATE_SESSION_SHEET_ID = "template_session_id";
+    private static String TEMPLATE_THROUGHPUT_SHEET_ID = "template_throughput_id";
+    private static String TEMPLATE_BUILDTIME_SHEET_ID = "template_buildtime_id";
+    private static String TEMPLATE_RUNTIME_SHEET_ID = "template_runtime_id";
+    private static String TEMPLATE_RUNTIME_MULTITHREADED_SHEET_ID = "template_runtime-multithreaded_id";
+
+    private static final String REPORT_TYPES = "report_types";
+    protected List<String> reportTypesText;
+    protected List<ReportType> reportTypes = new ArrayList<ReportType>();
+
+    public List<ReportType> getReportTypes() {
+        return reportTypes;
+    }
+
     private static DroolsReportProperties droolsReportProperties = null;
 
     protected String nextVersionDMNPath;
@@ -122,8 +144,26 @@ public class DroolsReportProperties extends ReportProperties {
     private String previousVersionRepositoryFolderID;
     private String olderVersionRepositoryFolderID;
 
+    private String templateDmnID;
+    private String templateEventProcessingID;
+    private String templateEventProcessingMultithreadedID;
+    private String templateOopathID;
+    private String templateOperatorsID;
+    private String templateSessionID;
+    private String templateThroughputID;
+    private String templateBuildtimeID;
+    private String templateRuntimeID;
+    private String templateRuntimeMultithreadedID;
+
     public DroolsReportProperties(String filename) throws IOException {
         super(filename);
+
+        if (this.properties.containsKey(REPORT_TYPES)) {
+            this.reportTypesText = Arrays.asList(this.properties.getProperty(REPORT_TYPES).split(","));
+            for(String s: this.reportTypesText){
+                this.reportTypes.add(ReportType.valueOf(s));
+            }
+        }
 
         /*NEXT VERSION PROPERTIES*/
         if (this.properties.containsKey(NEXT_VERSION_DMN_PATH)) {
@@ -287,6 +327,47 @@ public class DroolsReportProperties extends ReportProperties {
         }
         if (this.properties.containsKey(OLDER_VERSION_REPOSITORY_FOLDER_ID)) {
             this.olderVersionRepositoryFolderID = this.properties.getProperty(OLDER_VERSION_REPOSITORY_FOLDER_ID);
+        }
+
+        /*TEMPLATES*/
+        if (this.properties.containsKey(TEMPLATE_DMN_SHEET_ID)) {
+            this.templateDmnID = this.properties.getProperty(TEMPLATE_DMN_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_EVENT_PROCESSING_SHEET_ID)) {
+            this.templateEventProcessingID = this.properties.getProperty(TEMPLATE_EVENT_PROCESSING_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_EVENT_PROCESSING_MULTITHREADED_SHEET_ID)) {
+            this.templateEventProcessingMultithreadedID = this.properties.getProperty(TEMPLATE_EVENT_PROCESSING_MULTITHREADED_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_OOPATH_SHEET_ID)) {
+            this.templateOopathID = this.properties.getProperty(TEMPLATE_OOPATH_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_OPERATORS_SHEET_ID)) {
+            this.templateOperatorsID = this.properties.getProperty(TEMPLATE_OPERATORS_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_SESSION_SHEET_ID)) {
+            this.templateSessionID = this.properties.getProperty(TEMPLATE_SESSION_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_THROUGHPUT_SHEET_ID)) {
+            this.templateThroughputID = this.properties.getProperty(TEMPLATE_THROUGHPUT_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_BUILDTIME_SHEET_ID)) {
+            this.templateBuildtimeID = this.properties.getProperty(TEMPLATE_BUILDTIME_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_RUNTIME_SHEET_ID)) {
+            this.templateRuntimeID = this.properties.getProperty(TEMPLATE_RUNTIME_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_RUNTIME_MULTITHREADED_SHEET_ID)) {
+            this.templateRuntimeMultithreadedID = this.properties.getProperty(TEMPLATE_RUNTIME_MULTITHREADED_SHEET_ID);
         }
     }
 
@@ -671,5 +752,58 @@ public class DroolsReportProperties extends ReportProperties {
 
     public void setOlderVersionRuntimeMultithreadedPath(String olderVersionRuntimeMultithreadedPath) {
         this.olderVersionRuntimeMultithreadedPath = olderVersionRuntimeMultithreadedPath;
+    }
+
+    public String getTemplateDmnID() {return templateDmnID;}
+
+    public String getTemplateEventProcessingID() {
+        return templateEventProcessingID;
+    }
+
+    public String getTemplateEventProcessingMultithreadedID() {
+        return templateEventProcessingMultithreadedID;
+    }
+
+    public String getTemplateOopathID() {
+        return templateOopathID;
+    }
+
+    public String getTemplateOperatorsID() {
+        return templateOperatorsID;
+    }
+
+    public String getTemplateSessionID() {
+        return templateSessionID;
+    }
+
+    public String getTemplateThroughputID() {
+        return templateThroughputID;
+    }
+
+    public String getTemplateBuildtimeID() {
+        return templateBuildtimeID;
+    }
+
+    public String getTemplateRuntimeID() {return templateRuntimeID;    }
+
+    public String getTemplateRuntimeMultithreadedID() {
+        return templateRuntimeMultithreadedID;
+    }
+
+    public String getTemplateIdByReportType(ReportType reportType){
+        switch (reportType)
+        {
+            case DMN: return getTemplateDmnID();
+            case EVENT_PROCESSING: return getTemplateEventProcessingID();
+            case EVENT_PROCESSING_MULTITHREADED: return getTemplateEventProcessingMultithreadedID();
+            case OOPATH: return getTemplateOopathID();
+            case OPERATORS: return getTemplateOperatorsID();
+            case SESSION: return getTemplateSessionID();
+            case THROUGHPUT: return getTemplateThroughputID();
+            case BUILDTIME: return getTemplateBuildtimeID();
+            case RUNTIME: return getTemplateRuntimeID();
+            case RUNTIME_MULTITHREADED: return getTemplateRuntimeMultithreadedID();
+            default: return null;
+        }
     }
 }

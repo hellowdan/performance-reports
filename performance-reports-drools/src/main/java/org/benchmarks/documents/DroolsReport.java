@@ -85,14 +85,61 @@ public class DroolsReport {
     }
 
     protected Boolean createSpreadSheets() {
-        this.spreadsheetDmnNewID = createSpreadSheet(this.droolsReportProperties.getTemplateDmnID(), ReportType.DMN);
-        setPublish(this.spreadsheetDmnNewID);
+        Boolean result = false;
+        String newSpreadSheetID = null;
 
-        this.spreadsheetBuildtimeNewID = createSpreadSheet(this.droolsReportProperties.getTemplateBuildtimeID(), ReportType.BUILDTIME);
-        setPublish(this.spreadsheetBuildtimeNewID);
+        for (ReportType r : this.droolsReportProperties.getReportTypes()) {
+            String newId = createSpreadSheet(this.droolsReportProperties.getTemplateIdByReportType(r), r);
+            setIdByReportType(r, newId);
+            result = setPublish(newId);
+        }
 
-        this.spreadsheetRuntimeNewID = createSpreadSheet(this.droolsReportProperties.getTemplateRuntimeID(), ReportType.RUNTIME);
-        return setPublish(this.spreadsheetRuntimeNewID);
+        return result;
+    }
+
+    private void setIdByReportType(ReportType reportType, String newID) {
+        switch (reportType) {
+            case DMN: {
+                this.spreadsheetDmnNewID = newID;
+                break;
+            }
+            case EVENT_PROCESSING: {
+                this.spreadsheetEventProcessingNewID = newID;
+                break;
+            }
+            case EVENT_PROCESSING_MULTITHREADED: {
+                this.spreadsheetEventProcessingMultithreadedNewID = newID;
+                break;
+            }
+            case OOPATH: {
+                this.spreadsheetOopathNewID = newID;
+                break;
+            }
+            case OPERATORS: {
+                this.spreadsheetOperatorsNewID = newID;
+                break;
+            }
+            case SESSION: {
+                this.spreadsheetSessionNewID = newID;
+                break;
+            }
+            case THROUGHPUT: {
+                this.spreadsheetThroughputNewID = newID;
+                break;
+            }
+            case BUILDTIME: {
+                this.spreadsheetBuildtimeNewID = newID;
+                break;
+            }
+            case RUNTIME: {
+                this.spreadsheetRuntimeNewID = newID;
+                break;
+            }
+            case RUNTIME_MULTITHREADED: {
+                this.spreadsheetRuntimeMultithreadedNewID = newID;
+                break;
+            }
+        }
     }
 
     private Boolean setPublish(String spreadSheetNewID) {
@@ -115,6 +162,7 @@ public class DroolsReport {
 
             DroolsGoogleDriveSpreadSheet droolsFileSpreadSheet = new DroolsGoogleDriveSpreadSheet();
             droolsFileSpreadSheet.updateSpreadSheetInfo(this.droolsReportProperties, this.sheetsService, newID);
+
             droolsFileSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getNextVersionSourceFileExtension(), StaticVersion.NEXT,
                                                           this.droolsReportProperties.getNextVersionSourceFileLocation(), STARTING_CELL_NEXT_VERSION,
                                                           this.droolsReportProperties, this.sheetsService, newID, reportType);

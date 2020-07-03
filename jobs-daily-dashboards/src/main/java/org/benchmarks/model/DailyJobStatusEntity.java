@@ -1,6 +1,5 @@
 package org.benchmarks.model;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -65,7 +64,7 @@ public class DailyJobStatusEntity {
         return "DroolsJenkinsDailyStatusEntity{" +
                 "job='" + job + '\'' +
                 ", product='" + product + '\'' +
-                ", product='" + branch + '\'' +
+                ", branch='" + branch + '\'' +
                 ", lastBuildNumber='" + lastBuildNumber + '\'' +
                 ", lastSuccessfulBuildNumber=" + lastSuccessfulBuildNumber +
                 ", lastFailedBuildNumber=" + lastFailedBuildNumber +

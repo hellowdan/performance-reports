@@ -29,6 +29,11 @@ import org.json.simple.JSONArray;
 public class CsvLoader {
 
     public JSONArray getDataFromCSV(String csvFile, SourceFileLocation sourceFileLocation) throws IOException {
+
+        if (csvFile.equals("")) {
+            throw new FileNotFoundException();
+        }
+
         JSONArray result;
         String outputFileName = "output.json";
         File output = new File(outputFileName);
@@ -42,10 +47,6 @@ public class CsvLoader {
                 input = this.getClass().getResourceAsStream(csvFile);
             } else if (sourceFileLocation == SourceFileLocation.LOCAL) {
                 input = new File(csvFile);
-            }
-
-            if (input == null) {
-                throw new FileNotFoundException();
             }
 
             CsvSchema csvSchema = CsvSchema.builder().setUseHeader(true).build();

@@ -67,24 +67,43 @@ public class DroolsGoogleDriveSpreadSheet extends GoogleDriveSpreadSheet {
 
         ValueRange body = new ValueRange();
 
-        if (reportType == ReportType.BUILDTIME) {
-            body.setValues(getBodyValues(new BuildtimeReportData(), new BuildtimeSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
-        } else if (reportType == ReportType.RUNTIME) {
-            body.setValues(getBodyValues(new RuntimeReportData(), new RuntimeSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
-        } else if (reportType == ReportType.DMN) {
-            body.setValues(getBodyValues(new DMNReportData(), new DMNSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
-        } else if (reportType == ReportType.EVENT_PROCESSING) {
-            body.setValues(getBodyValues(new CEPReportData(), new CEPSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
-        } else if (reportType == ReportType.EVENT_PROCESSING_MULTITHREADED) {
-            body.setValues(getBodyValues(new CEPReportData(true), new CEPMultithreadedSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
-        } else if (reportType == ReportType.OOPATH) {
-            body.setValues(getBodyValues(new OopathReportData(), new OopathSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
-        } else if (reportType == ReportType.OPERATORS) {
-            body.setValues(getBodyValues(new OperatorsReportData(), new OperatorsSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
-        } else if (reportType == ReportType.RUNTIME_MULTITHREADED) {
-            body.setValues(getBodyValues(new RuntimeReportData(true), new RuntimeMultithreadedSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
-        } else if (reportType == ReportType.SESSION) {
-            body.setValues(getBodyValues(new SessionReportData(), new SessionSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
+        switch (reportType) {
+            case DMN: {
+                body.setValues(getBodyValues(new DMNReportData(), new DMNSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
+                break;
+            }
+            case EVENT_PROCESSING: {
+                body.setValues(getBodyValues(new CEPReportData(), new CEPSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
+                break;
+            }
+            case EVENT_PROCESSING_MULTITHREADED: {
+                body.setValues(getBodyValues(new CEPReportData(true), new CEPMultithreadedSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
+                break;
+            }
+            case OOPATH: {
+                body.setValues(getBodyValues(new OopathReportData(), new OopathSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
+                break;
+            }
+            case OPERATORS: {
+                body.setValues(getBodyValues(new OperatorsReportData(), new OperatorsSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
+                break;
+            }
+            case SESSION: {
+                body.setValues(getBodyValues(new SessionReportData(), new SessionSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
+                break;
+            }
+            case BUILDTIME: {
+                body.setValues(getBodyValues(new BuildtimeReportData(), new BuildtimeSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
+                break;
+            }
+            case RUNTIME: {
+                body.setValues(getBodyValues(new RuntimeReportData(), new RuntimeSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
+                break;
+            }
+            case RUNTIME_MULTITHREADED: {
+                body.setValues(getBodyValues(new RuntimeReportData(true), new RuntimeMultithreadedSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
+                break;
+            }
         }
 
         return body;
@@ -96,7 +115,9 @@ public class DroolsGoogleDriveSpreadSheet extends GoogleDriveSpreadSheet {
         List values = new ArrayList();
 
         String path = reportData.getDataSourcePath(staticVersion, droolsReportProperties);
-        values.addAll(filterValues(reportSheetPositions.getPositions(), reportData.getData(path, sourceFileExtension, sourceFileLocation)));
+        if (!path.isEmpty()) {
+            values.addAll(filterValues(reportSheetPositions.getPositions(), reportData.getData(path, sourceFileExtension, sourceFileLocation)));
+        }
 
         return values;
     }
