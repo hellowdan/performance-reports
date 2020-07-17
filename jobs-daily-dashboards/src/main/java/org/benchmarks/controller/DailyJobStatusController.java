@@ -21,9 +21,13 @@ public class DailyJobStatusController {
     @PostMapping(value = "run-status")
     public ResponseEntity<Void> runStatus() {
         HttpHeaders headers = new HttpHeaders();
-        if (dailyJobStatusService.runStatus()) {
+
+        String result = dailyJobStatusService.runStatus();
+
+        if (result.equals("SUCCESS")) {
             return new ResponseEntity<Void>(headers, HttpStatus.OK);
         } else {
+            headers.add("FAIL", result);
             return new ResponseEntity<Void>(headers, HttpStatus.NOT_FOUND);
         }
     }

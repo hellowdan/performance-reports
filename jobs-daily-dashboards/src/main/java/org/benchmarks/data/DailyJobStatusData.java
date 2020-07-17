@@ -30,6 +30,18 @@ public class DailyJobStatusData {
         return dailyJobStatusEntity;
     }
 
+    public DailyJobStatusEntity getDroolsStatusDataOld() throws IOException {
+        JsonLoader jsonLoader = new JsonLoader();
+        JSONObject dataJsonLastBuild = jsonLoader.getDataFromJsonObject(this.jobsStatusEntity.getLastBuildApiUrl(), SourceFileLocation.WEB);
+        JSONObject dataJsonJob = jsonLoader.getDataFromJsonObject(this.jobsStatusEntity.getApiUrl(), SourceFileLocation.WEB);
+
+        DailyJobStatusRow resultRow = parseJenkinsStatus(dataJsonLastBuild, dataJsonJob);
+
+        DailyJobStatusEntity dailyJobStatusEntity = new DailyJobStatusEntity(resultRow, this.jobsStatusEntity);
+
+        return dailyJobStatusEntity;
+    }
+
     protected DailyJobStatusRow parseJenkinsStatus(JSONObject dataJsonLastBuild, JSONObject dataJsonJob) {
         DailyJobStatusRow jobStatusRow = new DailyJobStatusRow();
 

@@ -37,18 +37,40 @@ public class HttpOperations {
 
     public static Reader getFileReaderFromWeb(String url) throws IOException {
         Reader input = null;
+        System.out.println("getFileReaderFromWeb");
 
         try {
             URL urlFile = new URL(url);
-            input = getFileReaderFromHTTP(urlFile);
+            if ("https".equals(urlFile.getProtocol())) {
+                input = getFileReaderFromHTTPS(urlFile);
+            } else if ("http".equals(urlFile.getProtocol())) {
+                input = getFileReaderFromHTTP(urlFile);
+            }
+
         } catch (MalformedURLException e) {
             throw new InvalidURLException(url, e);
         }
         return input;
     }
 
+    private static Reader getFileReaderFromHTTPS(URL url) throws IOException {
+        Reader input;
+        System.out.println("getFileReaderFromHTTPS-Reader");
+
+        try {
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            input = new BufferedReader(in);
+        } catch (IOException e) {
+            throw new InvalidContentFromURLException(url.getPath(), e);
+        }
+
+        return input;
+    }
+
     private static Reader getFileReaderFromHTTP(URL url) throws IOException {
         Reader input;
+        System.out.println("getFileReaderFromHTTP-Reader");
 
         try {
             URLConnection urlConn = url.openConnection();
@@ -63,6 +85,7 @@ public class HttpOperations {
 
     private static Object getFileObjectFromHTTPS(URL url) throws IOException {
         Object input;
+        System.out.println("getFileReaderFromHTTPS");
 
         try {
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
@@ -77,6 +100,7 @@ public class HttpOperations {
 
     private static Object getFileObjectFromHTTP(URL url) throws IOException {
         Object input;
+        System.out.println("getFileReaderFromHTTP-Object");
 
         try {
             URLConnection urlConn = url.openConnection();

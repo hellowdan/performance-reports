@@ -26,27 +26,28 @@ public class DailyJobStatusService {
 
     private List<JobsStatusEntity> jobsStatusEntities;
 
-    private Boolean result;
+    private String result = "";
 
-    private void setResult(Boolean result) {
+    private void setResult(String result) {
         this.result = result;
     }
 
-    private Boolean getResult(){
+    private String getResult(){
         return this.result;
     }
 
-    public Boolean runStatus(){
-        setResult(false);
+    public String runStatus(){
         this.jobsStatusEntities = jobsStatusService.getAllJobs();
+        setResult("FAIL");
 
         jobsStatusEntities.forEach(j -> {
             try {
                 DailyJobStatusData dailyJobStatusData = new DailyJobStatusData(j);
                 DailyJobStatusEntity statusEntity = dailyJobStatusData.getDroolsStatusData();
                 dailyJobStatusRepository.save(statusEntity);
-                setResult(true);
+                setResult("SUCCESS");
             } catch (IOException e) {
+                setResult(e.toString());
                 LOGGER.debug(String.format(ExceptionsConstants.FAILED_SAVING_TO_DATABASE, dailyJobStatusRepository.getClass().getCanonicalName()), e);
             }
         });

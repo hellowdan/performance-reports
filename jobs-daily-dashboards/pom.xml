@@ -57,6 +57,13 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <profiles>
+            <profile>production</profile>
+            <profile>dev</profile>
+            <profile>dev-new</profile>
+          </profiles>
+        </configuration>
       </plugin>
     </plugins>
     <resources>
