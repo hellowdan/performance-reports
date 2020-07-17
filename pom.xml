@@ -6,7 +6,8 @@
 
   <groupId>org.benchmarks</groupId>
   <artifactId>performance-reports</artifactId>
-  <packaging>pom</packaging>
+<!--  <packaging>pom</packaging>-->
+  <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
 
   <name>Performance Reports</name>
