@@ -8,7 +8,6 @@ import org.benchmarks.definitions.SourceFileExtension;
 import org.benchmarks.definitions.SourceFileLocation;
 import org.benchmarks.definitions.StaticVersion;
 import org.benchmarks.exceptions.ExceptionsConstants;
-import org.benchmarks.exceptions.GoogleSpreadsheetUpdateTextException;
 import org.benchmarks.exceptions.InvalidFileExtensionException;
 import org.benchmarks.util.CsvLoader;
 import org.benchmarks.util.JsonLoader;
