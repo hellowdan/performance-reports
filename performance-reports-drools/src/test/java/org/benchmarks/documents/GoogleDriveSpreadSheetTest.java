@@ -50,16 +50,16 @@ public class GoogleDriveSpreadSheetTest {
         assertThat(response.size(), is(2));
     }
 
-    @Test
-    public void updateSpreadSheetValuesTest() throws IOException {
-        UpdateValuesResponse response;
-        final String startingCellCurrentVersion = "K2";
-
-        String spreadSheetNewId = GoogleDriveHelper.copyFile(this.driveService, this.droolsReportProperties.getFilesTitle(), this.sheetTemplateId);
-        response = this.droolsGoogleDriveSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getCurrentVersionSourceFileExtension(), StaticVersion.CURRENT, this.droolsReportProperties.getCurrentVersionSourceFileLocation(), startingCellCurrentVersion, this.droolsReportProperties, this.sheetsService, spreadSheetNewId, ReportType.RUNTIME);
-
-        assertThat(response.getUpdatedRows(), is(45));
-    }
+//    @Test
+//    public void updateSpreadSheetValuesTest() throws IOException {
+//        UpdateValuesResponse response;
+//        final String startingCellCurrentVersion = "K2";
+//
+//        String spreadSheetNewId = GoogleDriveHelper.copyFile(this.driveService, this.droolsReportProperties.getFilesTitle(), this.sheetTemplateId);
+//        response = this.droolsGoogleDriveSpreadSheet.updateSpreadSheetValues(this.droolsReportProperties.getCurrentVersionSourceFileExtension(), StaticVersion.CURRENT, this.droolsReportProperties.getCurrentVersionSourceFileLocation(), startingCellCurrentVersion, this.droolsReportProperties, this.sheetsService, spreadSheetNewId, ReportType.RUNTIME);
+//
+//        assertThat(response.getUpdatedRows(), is(45));
+//    }
 
     @Test
     public void getReplaceSpreadSheetBodyRequestTest() {

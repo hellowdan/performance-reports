@@ -13,7 +13,7 @@ import org.benchmarks.data.ReportRow;
 import org.benchmarks.definitions.SheetPositionsTest;
 import org.benchmarks.definitions.SourceFileExtension;
 import org.benchmarks.definitions.SourceFileLocation;
-import org.benchmarks.definitions.ReportType;
+import org.benchmarks.definitions.DroolsReportType;
 import org.benchmarks.definitions.StaticVersion;
 import org.benchmarks.exceptions.GoogleCredentialException;
 import org.benchmarks.helper.GoogleDriveHelper;
@@ -104,8 +104,8 @@ public class DataChangesCsvTest {
         BuildtimeReportData droolsBuildtimeJenkinsReport = new BuildtimeReportData();
         RuntimeReportData droolsRuntimeJenkinsReport = new RuntimeReportData();
 
-        olderVersionBuildtimePath = GoogleDriveHelper.prepareGoogleDriveFile(driveService, ReportType.BUILDTIME.getFileType(), olderVersionBuildtimePath, localDir, StaticVersion.OLDER, SourceFileExtension.CSV);
-        olderVersionRuntimePath = GoogleDriveHelper.prepareGoogleDriveFile(driveService, ReportType.RUNTIME.getFileType(), olderVersionRuntimePath, localDir, StaticVersion.OLDER, SourceFileExtension.CSV);
+        olderVersionBuildtimePath = GoogleDriveHelper.prepareGoogleDriveFile(driveService, DroolsReportType.BUILDTIME.getFileType(), olderVersionBuildtimePath, localDir, StaticVersion.OLDER, SourceFileExtension.CSV);
+        olderVersionRuntimePath = GoogleDriveHelper.prepareGoogleDriveFile(driveService, DroolsReportType.RUNTIME.getFileType(), olderVersionRuntimePath, localDir, StaticVersion.OLDER, SourceFileExtension.CSV);
 
         List values = new ArrayList();
         List<ReportRow> testResultData = droolsBuildtimeJenkinsReport.getData(olderVersionBuildtimePath, SourceFileExtension.CSV, SourceFileLocation.LOCAL);

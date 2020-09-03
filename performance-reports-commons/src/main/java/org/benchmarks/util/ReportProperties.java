@@ -3,6 +3,8 @@ package org.benchmarks.util;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
 import org.benchmarks.exceptions.FileCannotBeFoundException;
@@ -60,6 +62,11 @@ public class ReportProperties {
         }
         if (this.properties.containsKey(REPORT_DATE)) {
             this.reportDate = this.properties.getProperty(REPORT_DATE);
+            if(this.reportDate.equals("")){
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDateTime now = LocalDateTime.now();
+                this.reportDate = dtf.format(now);
+            }
         }
         if (this.properties.containsKey(AUTHOR)) {
             this.author = this.properties.getProperty(AUTHOR);
@@ -82,6 +89,11 @@ public class ReportProperties {
         }
         if (this.properties.containsKey(FOLDER_TITLE)) {
             this.folderTitle = this.properties.getProperty(FOLDER_TITLE);
+            if(this.folderTitle.equals("")){
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
+                this.folderTitle = dtf.format(now);
+            }
         }
         if (this.properties.containsKey(GOOGLE_APP_API_KEY_FILE)) {
             this.googleAppApiKeyFile = this.properties.getProperty(GOOGLE_APP_API_KEY_FILE);

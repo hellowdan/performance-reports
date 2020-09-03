@@ -79,9 +79,9 @@ public class DroolsReportProperties extends ReportProperties {
 
     private static final String REPORT_TYPES = "report_types";
     protected List<String> reportTypesText;
-    protected List<ReportType> reportTypes = new ArrayList<ReportType>();
+    protected List<DroolsReportType> reportTypes = new ArrayList<DroolsReportType>();
 
-    public List<ReportType> getReportTypes() {
+    public List<DroolsReportType> getReportTypes() {
         return reportTypes;
     }
 
@@ -161,7 +161,7 @@ public class DroolsReportProperties extends ReportProperties {
         if (this.properties.containsKey(REPORT_TYPES)) {
             this.reportTypesText = Arrays.asList(this.properties.getProperty(REPORT_TYPES).split(","));
             for(String s: this.reportTypesText){
-                this.reportTypes.add(ReportType.valueOf(s));
+                this.reportTypes.add(DroolsReportType.valueOf(s));
             }
         }
 
@@ -790,7 +790,7 @@ public class DroolsReportProperties extends ReportProperties {
         return templateRuntimeMultithreadedID;
     }
 
-    public String getTemplateIdByReportType(ReportType reportType){
+    public String getTemplateIdByReportType(DroolsReportType reportType){
         switch (reportType)
         {
             case DMN: return getTemplateDmnID();
