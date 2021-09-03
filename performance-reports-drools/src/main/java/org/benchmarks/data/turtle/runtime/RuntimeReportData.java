@@ -28,8 +28,23 @@ public class RuntimeReportData extends ReportData {
         if (jenkinsReportRow.get(RuntimeSourceFileColumns.BENCHMARK) != null) {
             runtimeReportRow.setBenchmark(jenkinsReportRow.get(RuntimeSourceFileColumns.BENCHMARK).toString());
         }
+        if (jenkinsReportRow.get(RuntimeSourceFileColumns.JOIN_COUNT.getColumn()) != null) {
+            runtimeReportRow.setJoinCount(jenkinsReportRow.get(RuntimeSourceFileColumns.JOIN_COUNT.getColumn()).toString());
+        }
         if (jenkinsReportRow.get(RuntimeSourceFileColumns.MATCH_RATIO.getColumn()) != null) {
             runtimeReportRow.setMatchRatio(jenkinsReportRow.get(RuntimeSourceFileColumns.MATCH_RATIO.getColumn()).toString());
+        }
+        if (jenkinsReportRow.get(RuntimeSourceFileColumns.NESTED_ACCUMULATES.getColumn()) != null) {
+            runtimeReportRow.setNestedAccumulates(jenkinsReportRow.get(RuntimeSourceFileColumns.NESTED_ACCUMULATES.getColumn()).toString());
+        }
+        if (jenkinsReportRow.get(RuntimeSourceFileColumns.OBJECTS_PER_SEGMENT.getColumn()) != null) {
+            runtimeReportRow.setObjectsPerSegment(jenkinsReportRow.get(RuntimeSourceFileColumns.OBJECTS_PER_SEGMENT.getColumn()).toString());
+        }
+        if (jenkinsReportRow.get(RuntimeSourceFileColumns.PER_SEGMENT_UPDATE.getColumn()) != null) {
+            runtimeReportRow.setPerSegmentUpdate(jenkinsReportRow.get(RuntimeSourceFileColumns.PER_SEGMENT_UPDATE.getColumn()).toString());
+        }
+        if (jenkinsReportRow.get(RuntimeSourceFileColumns.SEGMENT_COUNT.getColumn()) != null) {
+            runtimeReportRow.setSegmentCount(jenkinsReportRow.get(RuntimeSourceFileColumns.SEGMENT_COUNT.getColumn()).toString());
         }
         if (jenkinsReportRow.get(RuntimeSourceFileColumns.SCORE) != null) {
             runtimeReportRow.setScore(jenkinsReportRow.get(RuntimeSourceFileColumns.SCORE).toString());
