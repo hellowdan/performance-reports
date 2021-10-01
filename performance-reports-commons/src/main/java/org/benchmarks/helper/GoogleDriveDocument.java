@@ -1,6 +1,7 @@
 package org.benchmarks.helper;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,14 +48,30 @@ public abstract class GoogleDriveDocument {
 
     protected abstract List<Request> getReplaceAllBody(ReportProperties reportProperties);
 
-    public BatchUpdateDocumentResponse requestsExecute(List<Request> requests, String docNewId, Docs docService) throws IOException {
-        BatchUpdateDocumentResponse response;
+    public List<BatchUpdateDocumentResponse> processRequests(List<Request> requests, String docNewId, Docs docService) throws IOException {
+        List<BatchUpdateDocumentResponse> responses = new ArrayList<>();
 
         try {
-            BatchUpdateDocumentRequest body = new BatchUpdateDocumentRequest();
-            response = docService.documents().batchUpdate(docNewId, body.setRequests(requests)).execute();
+            if (requests.size() > 0) {
+                responses.add(requestsBatchExecution(requests, docNewId, docService));
+            }
         } catch (IOException e) {
             throw new FileCannotBeReadException(e);
+        }
+
+        return responses;
+    }
+
+    public BatchUpdateDocumentResponse requestsBatchExecution(List<Request> requests, String docNewId, Docs docService) throws IOException {
+        BatchUpdateDocumentResponse response = null;
+
+        if (requests.size() > 0) {
+            try {
+                BatchUpdateDocumentRequest body = new BatchUpdateDocumentRequest();
+                response = docService.documents().batchUpdate(docNewId, body.setRequests(requests)).execute();
+            } catch (IOException e) {
+                throw new FileCannotBeReadException(e);
+            }
         }
 
         return response;
@@ -63,10 +80,10 @@ public abstract class GoogleDriveDocument {
     protected Request getReplaceTextBodyRequest(String placeHolder, String newValue) {
         return new Request()
                 .setReplaceAllText(new ReplaceAllTextRequest().
-                        setContainsText(new SubstringMatchCriteria().
-                                setText(placeHolder).
-                                setMatchCase(true)).
-                        setReplaceText(newValue));
+                                           setContainsText(new SubstringMatchCriteria().
+                                                                   setText(placeHolder).
+                                                                   setMatchCase(true)).
+                                           setReplaceText(newValue));
     }
 
     protected Request getFormatTextColorRequest(String text, RgbColor color, String indexOf) {
@@ -74,12 +91,11 @@ public abstract class GoogleDriveDocument {
                 .setUpdateTextStyle(new UpdateTextStyleRequest()
                                             .setRange(new Range()
                                                               .setStartIndex(Integer.parseInt(indexOf))
-                                                              .setEndIndex(Integer.parseInt(indexOf) + text.length()))
+                                                              .setEndIndex(Integer.parseInt(indexOf) + text.length()+1))
                                             .setTextStyle(new TextStyle()
                                                                   .setForegroundColor(new OptionalColor()
                                                                                               .setColor(new Color().setRgbColor(color))))
                                             .setFields("foregroundColor"));
-
     }
 
     protected Request getReplaceLinkBodyRequest(String title, String linkValue, String indexOf) {
@@ -136,8 +152,8 @@ public abstract class GoogleDriveDocument {
         return GOOGLE_SPREADSHEET_URL_PREFIX + spreadSheetID + "/pubchart?oid=" + chartID + "&format=image";
     }
 
-    private BatchUpdateDocumentResponse executeChartRequests(String docNewId, Docs docService, String chartTitle, String tabUrl, String chartUrl) throws IOException {
-        BatchUpdateDocumentResponse result = null;
+    private List<BatchUpdateDocumentResponse> executeChartRequests(String docNewId, Docs docService, String chartTitle, String tabUrl, String chartUrl) throws IOException {
+        List<BatchUpdateDocumentResponse> results = new ArrayList<>();
 
         try {
             Document documentMetadata = loadMetadataFromDocument(docNewId, docService);
@@ -147,13 +163,13 @@ public abstract class GoogleDriveDocument {
                 requests.add(getReplaceLinkBodyRequest(chartTitle, tabUrl, googleDocumentElementPosition.getStartIndex()));
                 requests.add(getImageUpdateRequest(googleDocumentElementPosition.getEndIndex(), chartUrl));
 
-                result = requestsExecute(requests, docNewId, docService);
+                results = processRequests(requests, docNewId, docService);
             }
         } catch (IOException e) {
             throw new FileCannotBeReadException(e);
         }
 
-        return result;
+        return results;
     }
 
     public ValueRange getValueRangeFromSheet(Sheets sheetsService, String spreadSheetID, String sheetName, String rangeCells) throws IOException {
@@ -176,19 +192,63 @@ public abstract class GoogleDriveDocument {
     }
 
     public List<Request> getTableUpdateRequest(ValueRange jsonTableFromSheets, String cellFormat, String tableName, int startingCol, int startingRow) throws IOException {
-        int col = startingCol;
-        int row = startingRow;
+        int row = startingRow + jsonTableFromSheets.getValues().size() - 1;
         List<Request> requests = new ArrayList<>();
 
         try {
             for (int i = 0; i < jsonTableFromSheets.getValues().size(); i++) {
+                int col = startingCol;
                 for (int j = 0; j < jsonTableFromSheets.getValues().get(i).size(); j++) {
                     String cellToFind = String.format(cellFormat, tableName, col, row);
                     requests.add(this.getReplaceTextBodyRequest(cellToFind, jsonTableFromSheets.getValues().get(i).get(j).toString()));
                     col++;
                 }
-                col = startingCol;
-                row++;
+                row--;
+            }
+        } catch (Exception e) {
+            throw new FileCannotBeReadException(e);
+        }
+
+        return requests;
+    }
+
+    public List<Request> getTableUpdateCellColorRequests(String docNewId, Docs docService, ValueRange jsonTableFromSheets) throws IOException {
+        List<Request> requests = new ArrayList<>();
+        Document documentMetadata = loadMetadataFromDocument(docNewId, docService);
+
+        try {
+            for (int i = 0; i < jsonTableFromSheets.getValues().size(); i++) {
+                for (int j = 4; j < jsonTableFromSheets.getValues().get(i).size(); j++) {
+                    String stringValue = jsonTableFromSheets.getValues().get(i).get(j).toString();
+
+                    BigDecimal value = new BigDecimal(stringValue.trim().replace("%", "")).divide(BigDecimal.valueOf(100));
+                    String stringValueWithLineBreak = stringValue + "\n";
+
+                    if (value.doubleValue() > 0.05) {
+                        GoogleDocumentElementPosition googleDocumentElementPosition = searchForTableCellContent(documentMetadata.getBody().getContent(), stringValue);
+                        if (googleDocumentElementPosition == null) {
+                            googleDocumentElementPosition = searchForTableCellContent(documentMetadata.getBody().getContent(), stringValueWithLineBreak);
+
+                            if (googleDocumentElementPosition != null) {
+                                requests.add(this.getFormatTextColorRequest(stringValueWithLineBreak, new RgbColor().setBlue(0.11F).setGreen(0.46F).setRed(0.22F), googleDocumentElementPosition.getStartIndex()));
+                            }
+                        } else {
+                            requests.add(this.getFormatTextColorRequest(stringValue, new RgbColor().setBlue(0.11F).setGreen(0.46F).setRed(0.22F), googleDocumentElementPosition.getStartIndex()));
+                        }
+                    } else if (value.doubleValue() < -0.05) {
+                        GoogleDocumentElementPosition googleDocumentElementPosition = searchForTableCellContent(documentMetadata.getBody().getContent(), stringValue);
+
+                        if (googleDocumentElementPosition == null) {
+                            googleDocumentElementPosition = searchForTableCellContent(documentMetadata.getBody().getContent(), stringValueWithLineBreak);
+
+                            if (googleDocumentElementPosition != null) {
+                                requests.add(this.getFormatTextColorRequest(stringValue, new RgbColor().setBlue(0.0F).setGreen(0.0F).setRed(1.0F), googleDocumentElementPosition.getStartIndex()));
+                            }
+                        } else {
+                            requests.add(this.getFormatTextColorRequest(stringValue, new RgbColor().setBlue(0.0F).setGreen(0.0F).setRed(1.0F), googleDocumentElementPosition.getStartIndex()));
+                        }
+                    }
+                }
             }
         } catch (Exception e) {
             throw new FileCannotBeReadException(e);
@@ -211,7 +271,7 @@ public abstract class GoogleDriveDocument {
                         String tabID = spreadsheetMetadata.getSheets().get(i).getProperties().getSheetId().toString();
                         String tabUrl = this.getSpreadSheetTabUrl(spreadSheetNewId, tabID);
 
-                        responses.add(executeChartRequests(docNewId, docsService, chartTitle, tabUrl, chartUrl));
+                        responses = executeChartRequests(docNewId, docsService, chartTitle, tabUrl, chartUrl);
                     }
                 }
             }
@@ -229,7 +289,7 @@ public abstract class GoogleDriveDocument {
             if (element.getTable() != null) {
                 for (TableRow row : element.getTable().getTableRows()) {
                     for (TableCell cell : row.getTableCells()) {
-                        if(textToSearch.equals(cell.getContent().get(0).getParagraph().getElements().get(0).getTextRun().getContent())){
+                        if (textToSearch.equals(cell.getContent().get(0).getParagraph().getElements().get(0).getTextRun().getContent())) {
                             String startIndex = cell.getStartIndex().toString();
                             String endIndex = cell.getEndIndex().toString();
 

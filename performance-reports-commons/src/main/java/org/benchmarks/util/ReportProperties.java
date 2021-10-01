@@ -18,9 +18,12 @@ public class ReportProperties {
     private static String REPORT_DATE = "report_date";
     private static String AUTHOR = "author";
     private static String EMAIL_AUTHOR = "email_author";
+
     private static String FILES_TITLE = "files_title";
     private static String TEMPLATE_TITLE = "template_title";
-    private static String TEMPLATE_DOC_ID = "template_doc_id";
+    private static String TEMPLATE_BRE_DOC_ID = "template_bre_doc_id";
+    private static String TEMPLATE_DMN_DOC_ID = "template_dmn_doc_id";
+
 
     private static String RESULT_PARENT_FOLDER_ID = "result_parent_folder_id";
     private static String FOLDER_TITLE = "folder_title";
@@ -35,9 +38,11 @@ public class ReportProperties {
     private String reportDate;
     private String author;
     private String emailAuthor;
+
     private String filesTitle;
     private String templateTitle;
-    private String templateDocID;
+    private String templateBreDocID;
+    private String templateDmnDocID;
 
     private String resultParentFolderID;
     private String folderTitle;
@@ -80,8 +85,11 @@ public class ReportProperties {
         if (this.properties.containsKey(TEMPLATE_TITLE)) {
             this.templateTitle = this.properties.getProperty(TEMPLATE_TITLE);
         }
-        if (this.properties.containsKey(TEMPLATE_DOC_ID)) {
-            this.templateDocID = this.properties.getProperty(TEMPLATE_DOC_ID);
+        if (this.properties.containsKey(TEMPLATE_BRE_DOC_ID)) {
+            this.templateBreDocID = this.properties.getProperty(TEMPLATE_BRE_DOC_ID);
+        }
+        if (this.properties.containsKey(TEMPLATE_DMN_DOC_ID)) {
+            this.templateDmnDocID = this.properties.getProperty(TEMPLATE_DMN_DOC_ID);
         }
 
         if (this.properties.containsKey(RESULT_PARENT_FOLDER_ID)) {
@@ -157,9 +165,9 @@ public class ReportProperties {
         return templateTitle;
     }
 
-    public String getTemplateDocID() {
-        return templateDocID;
-    }
+    public String getTemplateBreDocID() { return templateBreDocID; }
+
+    public String getTemplateDmnDocID() { return templateDmnDocID; }
 
     public String getResultParentFolderID() {
         return resultParentFolderID;

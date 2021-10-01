@@ -77,9 +77,11 @@ public class GoogleDriveDocumentTest {
         requests.add(request1);
         requests.add(request2);
 
-        BatchUpdateDocumentResponse response = this.googleDriveDocument.requestsExecute(requests, this.docTestId, this.docsService);
+        List<BatchUpdateDocumentResponse> responses = this.googleDriveDocument.processRequests(requests, this.docTestId, this.docsService);
 
-        assertThat(response.getReplies().size(), is(2));
+        for(int i=0; i< responses.size(); i++) {
+            assertThat(responses.get(i).getReplies().size(), is(2));
+        }
     }
 
     @Test

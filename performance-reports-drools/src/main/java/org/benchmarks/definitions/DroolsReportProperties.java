@@ -77,12 +77,20 @@ public class DroolsReportProperties extends ReportProperties {
     private static String TEMPLATE_RUNTIME_SHEET_ID = "template_runtime_id";
     private static String TEMPLATE_RUNTIME_MULTITHREADED_SHEET_ID = "template_runtime-multithreaded_id";
 
-    private static final String REPORT_TYPES = "report_types";
-    protected List<String> reportTypesText;
-    protected List<DroolsReportType> reportTypes = new ArrayList<DroolsReportType>();
+    private static final String SPREADSHEETS_TO_GENERATE = "spreadsheets_to_generate";
+    protected List<String> spreadsheetsToGenerateText;
+    protected List<DroolsSpreadsheetsToGenerate> droolsSpreadsheetsToGenerate = new ArrayList<DroolsSpreadsheetsToGenerate>();
 
-    public List<DroolsReportType> getReportTypes() {
-        return reportTypes;
+    private static final String DOCUMENTS_TO_GENERATE = "documents_to_generate";
+    protected List<String> documentsToGenerateText;
+    protected List<DroolsDocumentsToGenerate> droolsDocumentsToGenerate = new ArrayList<DroolsDocumentsToGenerate>();
+
+    public List<DroolsSpreadsheetsToGenerate> getDroolsSpreadsheetsToGenerate() {
+        return droolsSpreadsheetsToGenerate;
+    }
+
+    public List<DroolsDocumentsToGenerate> getDroolsDocumentsToGenerate() {
+        return droolsDocumentsToGenerate;
     }
 
     private static DroolsReportProperties droolsReportProperties = null;
@@ -158,10 +166,17 @@ public class DroolsReportProperties extends ReportProperties {
     public DroolsReportProperties(String filename) throws IOException {
         super(filename);
 
-        if (this.properties.containsKey(REPORT_TYPES)) {
-            this.reportTypesText = Arrays.asList(this.properties.getProperty(REPORT_TYPES).split(","));
-            for(String s: this.reportTypesText){
-                this.reportTypes.add(DroolsReportType.valueOf(s));
+        if (this.properties.containsKey(SPREADSHEETS_TO_GENERATE)) {
+            this.spreadsheetsToGenerateText = Arrays.asList(this.properties.getProperty(SPREADSHEETS_TO_GENERATE).split(","));
+            for(String s: this.spreadsheetsToGenerateText){
+                this.droolsSpreadsheetsToGenerate.add(DroolsSpreadsheetsToGenerate.valueOf(s));
+            }
+        }
+
+        if (this.properties.containsKey(DOCUMENTS_TO_GENERATE)) {
+            this.documentsToGenerateText = Arrays.asList(this.properties.getProperty(DOCUMENTS_TO_GENERATE).split(","));
+            for(String s: this.documentsToGenerateText){
+                this.droolsDocumentsToGenerate.add(DroolsDocumentsToGenerate.valueOf(s));
             }
         }
 
@@ -790,8 +805,8 @@ public class DroolsReportProperties extends ReportProperties {
         return templateRuntimeMultithreadedID;
     }
 
-    public String getTemplateIdByReportType(DroolsReportType reportType){
-        switch (reportType)
+    public String getTemplateIdBySpreadsheetToGenerate(DroolsSpreadsheetsToGenerate droolsSpreadsheetsToGenerate){
+        switch (droolsSpreadsheetsToGenerate)
         {
             case DMN: return getTemplateDmnID();
             case EVENT_PROCESSING: return getTemplateEventProcessingID();

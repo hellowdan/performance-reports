@@ -1,6 +1,6 @@
 package org.benchmarks.definitions;
 
-public enum DroolsReportType implements ReportType {
+public enum DroolsSpreadsheetsToGenerate implements SpreadsheetsToGenerate {
 
     DMN("dmn", "DMN"),
     EVENT_PROCESSING("event_processing","Event Processing"),
@@ -16,7 +16,7 @@ public enum DroolsReportType implements ReportType {
     private String fileType;
     private String fileTitle;
 
-    DroolsReportType(String fileType, String fileTitle) {
+    DroolsSpreadsheetsToGenerate(String fileType, String fileTitle) {
         this.fileType = fileType;
         this.fileTitle = fileTitle;
     }
