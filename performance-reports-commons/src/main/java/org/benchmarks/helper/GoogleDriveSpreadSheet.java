@@ -10,7 +10,7 @@ import com.google.api.services.sheets.v4.model.FindReplaceRequest;
 import com.google.api.services.sheets.v4.model.Request;
 import com.google.api.services.sheets.v4.model.UpdateValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
-import org.benchmarks.definitions.ReportType;
+import org.benchmarks.definitions.SpreadsheetsToGenerate;
 import org.benchmarks.definitions.SourceFileExtension;
 import org.benchmarks.definitions.SourceFileLocation;
 import org.benchmarks.definitions.StaticVersion;
@@ -25,7 +25,7 @@ public abstract class GoogleDriveSpreadSheet {
 
     protected abstract List<Request> getUpdateInfoRequestsBody(ReportProperties reportProperties);
 
-    protected abstract ValueRange getUpdateDataRequestsBody(SourceFileExtension sourceFileExtension, StaticVersion staticVersion, SourceFileLocation sourceFileLocation, ReportProperties reportProperties, ReportType reportType) throws IOException;
+    protected abstract ValueRange getUpdateDataRequestsBody(SourceFileExtension sourceFileExtension, StaticVersion staticVersion, SourceFileLocation sourceFileLocation, ReportProperties reportProperties, SpreadsheetsToGenerate spreadsheetsToGenerate) throws IOException;
 
     public BatchUpdateSpreadsheetResponse updateSpreadSheetInfo(ReportProperties reportProperties, Sheets sheetsService, String spreadSheetNewId) throws IOException {
         BatchUpdateSpreadsheetResponse response = null;
@@ -43,11 +43,11 @@ public abstract class GoogleDriveSpreadSheet {
 
     public UpdateValuesResponse updateSpreadSheetValues(SourceFileExtension sourceFileExtension, StaticVersion staticVersion, SourceFileLocation sourceFileLocation,
                                                         String startingCell, ReportProperties reportProperties, Sheets sheetsService, String spreadSheetNewId,
-                                                        ReportType reportType) throws IOException {
+                                                        SpreadsheetsToGenerate spreadsheetsToGenerate) throws IOException {
         UpdateValuesResponse response = null;
 
         try {
-            ValueRange body = getUpdateDataRequestsBody(sourceFileExtension, staticVersion, sourceFileLocation, reportProperties, reportType);
+            ValueRange body = getUpdateDataRequestsBody(sourceFileExtension, staticVersion, sourceFileLocation, reportProperties, spreadsheetsToGenerate);
 
             response = sheetsService.spreadsheets().values()
                     .update(spreadSheetNewId, startingCell, body)

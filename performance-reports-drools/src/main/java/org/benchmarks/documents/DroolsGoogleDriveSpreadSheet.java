@@ -17,9 +17,9 @@ import org.benchmarks.data.session.SessionReportData;
 import org.benchmarks.data.turtle.buildtime.BuildtimeReportData;
 import org.benchmarks.data.turtle.runtime.RuntimeReportData;
 import org.benchmarks.definitions.DroolsReportProperties;
-import org.benchmarks.definitions.DroolsReportType;
+import org.benchmarks.definitions.DroolsSpreadsheetsToGenerate;
 import org.benchmarks.definitions.ReportSheetPositions;
-import org.benchmarks.definitions.ReportType;
+import org.benchmarks.definitions.SpreadsheetsToGenerate;
 import org.benchmarks.definitions.RowDataToMap;
 import org.benchmarks.definitions.SourceFileExtension;
 import org.benchmarks.definitions.SourceFileLocation;
@@ -63,14 +63,14 @@ public class DroolsGoogleDriveSpreadSheet extends GoogleDriveSpreadSheet {
 
     @Override
     protected ValueRange getUpdateDataRequestsBody(SourceFileExtension sourceFileExtension, StaticVersion staticVersion, SourceFileLocation sourceFileLocation,
-                                                   ReportProperties reportProperties, ReportType reportType) {
+                                                   ReportProperties reportProperties, SpreadsheetsToGenerate spreadsheetsToGenerate) {
         DroolsReportProperties droolsReportProperties = (DroolsReportProperties) reportProperties;
 
-        DroolsReportType droolsReportType = (DroolsReportType) reportType;
+        DroolsSpreadsheetsToGenerate droolsSpreadsheetsToGenerate = (DroolsSpreadsheetsToGenerate) spreadsheetsToGenerate;
 
         ValueRange body = new ValueRange();
 
-        switch (droolsReportType) {
+        switch (droolsSpreadsheetsToGenerate) {
             case DMN: {
                 body.setValues(getBodyValues(new DMNReportData(), new DMNSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
                 break;

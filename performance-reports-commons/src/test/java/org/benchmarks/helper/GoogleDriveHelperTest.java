@@ -1,14 +1,10 @@
 package org.benchmarks.helper;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 
 import com.google.api.services.drive.Drive;
 
-import org.benchmarks.definitions.SourceFileExtension;
-import org.benchmarks.definitions.ReportType;
-import org.benchmarks.definitions.StaticVersion;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -87,14 +83,4 @@ public class GoogleDriveHelperTest {
 
         assertThat(result, is(true));
     }
-
-    //TO-DO move test to Drools package
-//    @Test
-//    public void prepareGoogleDriveFileTest() throws IOException {
-//        final String localDir = "target/";
-//        this.filePathPrepareGoogleDriveFile = GoogleDriveHelper.prepareGoogleDriveFile(this.driveService, DroolsReportType.BUILDTIME.getFileType(), fileToDownloadID, localDir, StaticVersion.CURRENT, SourceFileExtension.CSV);
-//        File downloadedFile = new File(this.filePathPrepareGoogleDriveFile);
-//
-//        assertThat(downloadedFile.exists(), is(true));
-//    }
 }

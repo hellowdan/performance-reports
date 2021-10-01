@@ -3,7 +3,10 @@ package org.benchmarks.helper;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.docs.v1.Docs;
 import com.google.api.services.drive.Drive;
@@ -28,7 +31,20 @@ public class GoogleDriveService {
                 credentials = googleAuthorizeAsService.getCredentials();
             }
 
-            this.docs = new Docs.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), new HttpCredentialsAdapter(credentials)).setApplicationName(applicationName).build();
+            GoogleCredentials finalCredentials = credentials;
+
+            this.docs = new Docs.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), new HttpCredentialsAdapter(credentials)).setHttpRequestInitializer(new HttpRequestInitializer() {
+
+                @Override
+                public void initialize(HttpRequest httpRequest) throws IOException {
+
+                    new HttpCredentialsAdapter(finalCredentials).initialize(httpRequest);
+                    httpRequest.setConnectTimeout(300 * 60000);
+                    httpRequest.setReadTimeout(300 * 60000);
+
+                }
+            }).setApplicationName(applicationName).build();
+
             this.sheets = new Sheets.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), new HttpCredentialsAdapter(credentials)).setApplicationName(applicationName).build();
             this.drive = new Drive.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), new HttpCredentialsAdapter(credentials)).setApplicationName(applicationName).build();
         } catch (GeneralSecurityException | IOException e) {
