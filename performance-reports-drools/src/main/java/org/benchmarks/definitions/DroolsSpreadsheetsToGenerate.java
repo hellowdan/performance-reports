@@ -11,7 +11,8 @@ public enum DroolsSpreadsheetsToGenerate implements SpreadsheetsToGenerate {
     THROUGHPUT("throughput", "Throughput"),
     BUILDTIME("buildtime", "Buildtime"),
     RUNTIME("runtime", "Runtime"),
-    RUNTIME_MULTITHREADED("runtime__multithreaded", "Runtime Multithreaded");
+    RUNTIME_MULTITHREADED("runtime__multithreaded", "Runtime Multithreaded"),
+    PMML("pmml", "PMML");
 
     private String fileType;
     private String fileTitle;

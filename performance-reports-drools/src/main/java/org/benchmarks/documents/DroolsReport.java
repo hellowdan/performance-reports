@@ -282,6 +282,9 @@ public class DroolsReport {
                 if (droolsReportProperties.getDroolsSpreadsheetsToGenerate().contains(DroolsSpreadsheetsToGenerate.DMN)) {
                     droolsReportProperties.setNextVersionDMNPath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, DroolsSpreadsheetsToGenerate.DMN.getFileType(), droolsReportProperties.getNextVersionDMNPath(), localDir, StaticVersion.NEXT, droolsReportProperties.getNextVersionSourceFileExtension()));
                 }
+                if (droolsReportProperties.getDroolsSpreadsheetsToGenerate().contains(DroolsSpreadsheetsToGenerate.PMML)) {
+                    droolsReportProperties.setNextVersionPMMLPath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, DroolsSpreadsheetsToGenerate.PMML.getFileType(), droolsReportProperties.getNextVersionPMMLPath(), localDir, StaticVersion.NEXT, droolsReportProperties.getNextVersionSourceFileExtension()));
+                }
             }
 
             if (droolsReportProperties.getCurrentVersionSourceFileLocation() == SourceFileLocation.DRIVE) {
@@ -294,6 +297,9 @@ public class DroolsReport {
                 }
                 if (droolsReportProperties.getDroolsSpreadsheetsToGenerate().contains(DroolsSpreadsheetsToGenerate.DMN)) {
                     droolsReportProperties.setCurrentVersionDMNPath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, DroolsSpreadsheetsToGenerate.DMN.getFileType(), droolsReportProperties.getCurrentVersionDMNPath(), localDir, StaticVersion.CURRENT, droolsReportProperties.getCurrentVersionSourceFileExtension()));
+                }
+                if (droolsReportProperties.getDroolsSpreadsheetsToGenerate().contains(DroolsSpreadsheetsToGenerate.PMML)) {
+                    droolsReportProperties.setCurrentVersionPMMLPath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, DroolsSpreadsheetsToGenerate.PMML.getFileType(), droolsReportProperties.getCurrentVersionPMMLPath(), localDir, StaticVersion.CURRENT, droolsReportProperties.getCurrentVersionSourceFileExtension()));
                 }
             }
 
@@ -308,6 +314,9 @@ public class DroolsReport {
                 if (droolsReportProperties.getDroolsSpreadsheetsToGenerate().contains(DroolsSpreadsheetsToGenerate.DMN)) {
                     droolsReportProperties.setPreviousVersionDMNPath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, DroolsSpreadsheetsToGenerate.DMN.getFileType(), droolsReportProperties.getPreviousVersionDMNPath(), localDir, StaticVersion.PREVIOUS, droolsReportProperties.getPreviousVersionSourceFileExtension()));
                 }
+                if (droolsReportProperties.getDroolsSpreadsheetsToGenerate().contains(DroolsSpreadsheetsToGenerate.PMML)) {
+                    droolsReportProperties.setPreviousVersionPMMLPath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, DroolsSpreadsheetsToGenerate.PMML.getFileType(), droolsReportProperties.getPreviousVersionPMMLPath(), localDir, StaticVersion.PREVIOUS, droolsReportProperties.getPreviousVersionSourceFileExtension()));
+                }
             }
 
             if (droolsReportProperties.getOlderVersionSourceFileLocation() == SourceFileLocation.DRIVE) {
@@ -320,6 +329,9 @@ public class DroolsReport {
                 }
                 if (droolsReportProperties.getDroolsSpreadsheetsToGenerate().contains(DroolsSpreadsheetsToGenerate.DMN)) {
                     droolsReportProperties.setOlderVersionDMNPath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, DroolsSpreadsheetsToGenerate.DMN.getFileType(), droolsReportProperties.getOlderVersionDMNPath(), localDir, StaticVersion.OLDER, droolsReportProperties.getOlderVersionSourceFileExtension()));
+                }
+                if (droolsReportProperties.getDroolsSpreadsheetsToGenerate().contains(DroolsSpreadsheetsToGenerate.PMML)) {
+                    droolsReportProperties.setOlderVersionPMMLPath(GoogleDriveHelper.prepareGoogleDriveFile(driveService, DroolsSpreadsheetsToGenerate.PMML.getFileType(), droolsReportProperties.getOlderVersionPMMLPath(), localDir, StaticVersion.OLDER, droolsReportProperties.getOlderVersionSourceFileExtension()));
                 }
             }
         } catch (IOException e) {
