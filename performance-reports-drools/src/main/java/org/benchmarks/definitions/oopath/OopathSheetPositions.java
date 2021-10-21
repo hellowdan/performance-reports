@@ -8,7 +8,7 @@ import org.benchmarks.definitions.cep.CEPSheetPositions;
 public final class OopathSheetPositions extends ReportSheetPositions {
 
     static {
-        positions.put(getNextKeyValue(), new RowDataToMap("benchmark=org.drools.benchmarks.oopath.buildtime.OOPathBuildCSVBenchmark.testBuildKieBase|accumulateFunction=|numberOfFacts=|numberOfParentFacts=|numberOfRules=","Build KieBase CSV"));
+        positions.put(getFirstKeyValue(), new RowDataToMap("benchmark=org.drools.benchmarks.oopath.buildtime.OOPathBuildCSVBenchmark.testBuildKieBase|accumulateFunction=|numberOfFacts=|numberOfParentFacts=|numberOfRules=","Build KieBase CSV"));
         positions.put(getNextKeyValue(), new RowDataToMap("benchmark=org.drools.benchmarks.oopath.buildtime.OOPathBuildDRLBenchmark.testBuildKieBase|accumulateFunction=|numberOfFacts=|numberOfParentFacts=|numberOfRules=32","Build KieBase DRL With 32 Rules"));
         positions.put(getNextKeyValue(), new RowDataToMap("benchmark=org.drools.benchmarks.oopath.buildtime.OOPathBuildDRLBenchmark.testBuildKieBase|accumulateFunction=|numberOfFacts=|numberOfParentFacts=|numberOfRules=64","Build KieBase DRL With 64 Rules"));
         positions.put(getNextKeyValue(), new RowDataToMap("benchmark=org.drools.benchmarks.oopath.buildtime.OOPathBuildDRLBenchmark.testBuildKieBase|accumulateFunction=|numberOfFacts=|numberOfParentFacts=|numberOfRules=128","Build KieBase DRL With 128 Rules"));

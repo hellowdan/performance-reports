@@ -19,6 +19,7 @@ public class DroolsReportProperties extends ReportProperties {
     private static final String NEXT_VERSION_BUILDTIME_PATH ="next_version_buildtime_path";
     private static final String NEXT_VERSION_RUNTIME_PATH ="next_version_runtime_path";
     private static final String NEXT_VERSION_RUNTIME_MULTITHREADED_PATH ="next_version_runtime-multithreaded_path";
+    private static final String NEXT_VERSION_PMML_PATH ="next_version_pmml_path";
     private static final String NEXT_VERSION_FILE_LOCATION = "next_version_file_location";
     private static final String NEXT_VERSION_FILE_EXTENSION = "next_version_file_extension";
 
@@ -32,6 +33,7 @@ public class DroolsReportProperties extends ReportProperties {
     private static final String CURRENT_VERSION_BUILDTIME_PATH ="current_version_buildtime_path";
     private static final String CURRENT_VERSION_RUNTIME_PATH ="current_version_runtime_path";
     private static final String CURRENT_VERSION_RUNTIME_MULTITHREADED_PATH ="current_version_runtime-multithreaded_path";
+    private static final String CURRENT_VERSION_PMML_PATH ="current_version_pmml_path";
     private static final String CURRENT_VERSION_FILE_LOCATION = "current_version_file_location";
     private static final String CURRENT_VERSION_FILE_EXTENSION = "current_version_file_extension";
 
@@ -45,6 +47,7 @@ public class DroolsReportProperties extends ReportProperties {
     private static final String PREVIOUS_VERSION_BUILDTIME_PATH ="previous_version_buildtime_path";
     private static final String PREVIOUS_VERSION_RUNTIME_PATH ="previous_version_runtime_path";
     private static final String PREVIOUS_VERSION_RUNTIME_MULTITHREADED_PATH ="previous_version_runtime-multithreaded_path";
+    private static final String PREVIOUS_VERSION_PMML_PATH ="previous_version_pmml_path";
     private static final String PREVIOUS_VERSION_FILE_LOCATION = "previous_version_file_location";
     private static final String PREVIOUS_VERSION_FILE_EXTENSION = "previous_version_file_extension";
 
@@ -58,6 +61,7 @@ public class DroolsReportProperties extends ReportProperties {
     private static final String OLDER_VERSION_BUILDTIME_PATH ="older_version_buildtime_path";
     private static final String OLDER_VERSION_RUNTIME_PATH ="older_version_runtime_path";
     private static final String OLDER_VERSION_RUNTIME_MULTITHREADED_PATH ="older_version_runtime-multithreaded_path";
+    private static final String OLDER_VERSION_PMML_PATH ="older_version_pmml_path";
     private static final String OLDER_VERSION_FILE_LOCATION = "older_version_file_location";
     private static final String OLDER_VERSION_FILE_EXTENSION = "older_version_file_extension";
 
@@ -76,6 +80,7 @@ public class DroolsReportProperties extends ReportProperties {
     private static String TEMPLATE_BUILDTIME_SHEET_ID = "template_buildtime_id";
     private static String TEMPLATE_RUNTIME_SHEET_ID = "template_runtime_id";
     private static String TEMPLATE_RUNTIME_MULTITHREADED_SHEET_ID = "template_runtime-multithreaded_id";
+    private static String TEMPLATE_PMML_SHEET_ID = "template_pmml_id";
 
     private static final String SPREADSHEETS_TO_GENERATE = "spreadsheets_to_generate";
     protected List<String> spreadsheetsToGenerateText;
@@ -105,6 +110,7 @@ public class DroolsReportProperties extends ReportProperties {
     protected String nextVersionBuildtimePath;
     protected String nextVersionRuntimePath;
     protected String nextVersionRuntimeMultithreadedPath;
+    protected String nextVersionPMMLPath;
     protected SourceFileLocation nextVersionSourceFileLocation;
     protected SourceFileExtension nextVersionSourceFileExtension;
 
@@ -118,6 +124,7 @@ public class DroolsReportProperties extends ReportProperties {
     protected String currentVersionBuildtimePath;
     protected String currentVersionRuntimePath;
     protected String currentVersionRuntimeMultithreadedPath;
+    protected String currentVersionPMMLPath;
     protected SourceFileLocation currentVersionSourceFileLocation;
     protected SourceFileExtension currentVersionSourceFileExtension;
 
@@ -131,6 +138,7 @@ public class DroolsReportProperties extends ReportProperties {
     protected String previousVersionBuildtimePath;
     protected String previousVersionRuntimePath;
     protected String previousVersionRuntimeMultithreadedPath;
+    protected String previousVersionPMMLPath;
     protected SourceFileLocation previousVersionSourceFileLocation;
     protected SourceFileExtension previousVersionSourceFileExtension;
 
@@ -144,6 +152,7 @@ public class DroolsReportProperties extends ReportProperties {
     protected String olderVersionBuildtimePath;
     protected String olderVersionRuntimePath;
     protected String olderVersionRuntimeMultithreadedPath;
+    protected String olderVersionPMMLPath;
     protected SourceFileLocation olderVersionSourceFileLocation;
     protected SourceFileExtension olderVersionSourceFileExtension;
 
@@ -162,6 +171,7 @@ public class DroolsReportProperties extends ReportProperties {
     private String templateBuildtimeID;
     private String templateRuntimeID;
     private String templateRuntimeMultithreadedID;
+    private String templatePMMLID;
 
     public DroolsReportProperties(String filename) throws IOException {
         super(filename);
@@ -211,6 +221,9 @@ public class DroolsReportProperties extends ReportProperties {
         if (this.properties.containsKey(NEXT_VERSION_RUNTIME_MULTITHREADED_PATH)) {
             this.nextVersionRuntimeMultithreadedPath = this.properties.getProperty(NEXT_VERSION_RUNTIME_MULTITHREADED_PATH);
         }
+        if (this.properties.containsKey(NEXT_VERSION_PMML_PATH)) {
+            this.nextVersionPMMLPath = this.properties.getProperty(NEXT_VERSION_PMML_PATH);
+        }
         if (this.properties.containsKey(NEXT_VERSION_FILE_LOCATION)) {
             this.nextVersionSourceFileLocation = SourceFileLocation.getLocation(this.properties.getProperty(NEXT_VERSION_FILE_LOCATION));
         }
@@ -251,6 +264,9 @@ public class DroolsReportProperties extends ReportProperties {
         }
         if (this.properties.containsKey(CURRENT_VERSION_RUNTIME_MULTITHREADED_PATH)) {
             this.currentVersionRuntimeMultithreadedPath = this.properties.getProperty(CURRENT_VERSION_RUNTIME_MULTITHREADED_PATH);
+        }
+        if (this.properties.containsKey(CURRENT_VERSION_PMML_PATH)) {
+            this.currentVersionPMMLPath = this.properties.getProperty(CURRENT_VERSION_PMML_PATH);
         }
         if (this.properties.containsKey(CURRENT_VERSION_FILE_LOCATION)) {
             this.currentVersionSourceFileLocation = SourceFileLocation.getLocation(this.properties.getProperty(CURRENT_VERSION_FILE_LOCATION));
@@ -293,6 +309,9 @@ public class DroolsReportProperties extends ReportProperties {
         if (this.properties.containsKey(PREVIOUS_VERSION_RUNTIME_MULTITHREADED_PATH)) {
             this.previousVersionRuntimeMultithreadedPath = this.properties.getProperty(PREVIOUS_VERSION_RUNTIME_MULTITHREADED_PATH);
         }
+        if (this.properties.containsKey(PREVIOUS_VERSION_PMML_PATH)) {
+            this.previousVersionPMMLPath = this.properties.getProperty(PREVIOUS_VERSION_PMML_PATH);
+        }
         if (this.properties.containsKey(PREVIOUS_VERSION_FILE_LOCATION)) {
             this.previousVersionSourceFileLocation = SourceFileLocation.getLocation(this.properties.getProperty(PREVIOUS_VERSION_FILE_LOCATION));
         }
@@ -333,6 +352,9 @@ public class DroolsReportProperties extends ReportProperties {
         }
         if (this.properties.containsKey(OLDER_VERSION_RUNTIME_MULTITHREADED_PATH)) {
             this.olderVersionRuntimeMultithreadedPath = this.properties.getProperty(OLDER_VERSION_RUNTIME_MULTITHREADED_PATH);
+        }
+        if (this.properties.containsKey(OLDER_VERSION_PMML_PATH)) {
+            this.olderVersionPMMLPath = this.properties.getProperty(OLDER_VERSION_PMML_PATH);
         }
         if (this.properties.containsKey(OLDER_VERSION_FILE_LOCATION)) {
             this.olderVersionSourceFileLocation = SourceFileLocation.getLocation(this.properties.getProperty(OLDER_VERSION_FILE_LOCATION));
@@ -383,6 +405,10 @@ public class DroolsReportProperties extends ReportProperties {
 
         if (this.properties.containsKey(TEMPLATE_RUNTIME_MULTITHREADED_SHEET_ID)) {
             this.templateRuntimeMultithreadedID = this.properties.getProperty(TEMPLATE_RUNTIME_MULTITHREADED_SHEET_ID);
+        }
+
+        if (this.properties.containsKey(TEMPLATE_PMML_SHEET_ID)) {
+            this.templatePMMLID = this.properties.getProperty(TEMPLATE_PMML_SHEET_ID);
         }
     }
 
@@ -805,6 +831,42 @@ public class DroolsReportProperties extends ReportProperties {
         return templateRuntimeMultithreadedID;
     }
 
+    public void setNextVersionPMMLPath(String nextVersionPMMLPath) {
+        this.nextVersionPMMLPath = nextVersionPMMLPath;
+    }
+
+    public String getNextVersionPMMLPath() {
+        return nextVersionPMMLPath;
+    }
+
+    public String getCurrentVersionPMMLPath() {
+        return currentVersionPMMLPath;
+    }
+
+    public String getPreviousVersionPMMLPath() {
+        return previousVersionPMMLPath;
+    }
+
+    public String getOlderVersionPMMLPath() {
+        return olderVersionPMMLPath;
+    }
+
+    public void setCurrentVersionPMMLPath(String currentVersionPMMLPath) {
+        this.currentVersionPMMLPath = currentVersionPMMLPath;
+    }
+
+    public void setPreviousVersionPMMLPath(String previousVersionPMMLPath) {
+        this.previousVersionPMMLPath = previousVersionPMMLPath;
+    }
+
+    public void setOlderVersionPMMLPath(String olderVersionPMMLPath) {
+        this.olderVersionPMMLPath = olderVersionPMMLPath;
+    }
+
+    public String getTemplatePMMLID() {
+        return templatePMMLID;
+    }
+
     public String getTemplateIdBySpreadsheetToGenerate(DroolsSpreadsheetsToGenerate droolsSpreadsheetsToGenerate){
         switch (droolsSpreadsheetsToGenerate)
         {
@@ -818,6 +880,7 @@ public class DroolsReportProperties extends ReportProperties {
             case BUILDTIME: return getTemplateBuildtimeID();
             case RUNTIME: return getTemplateRuntimeID();
             case RUNTIME_MULTITHREADED: return getTemplateRuntimeMultithreadedID();
+            case PMML: return getTemplatePMMLID();
             default: return null;
         }
     }

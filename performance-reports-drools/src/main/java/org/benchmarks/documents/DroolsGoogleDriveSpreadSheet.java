@@ -13,6 +13,7 @@ import org.benchmarks.data.cep.CEPReportData;
 import org.benchmarks.data.dmn.DMNReportData;
 import org.benchmarks.data.oopath.OopathReportData;
 import org.benchmarks.data.operators.OperatorsReportData;
+import org.benchmarks.data.pmml.PMMLReportData;
 import org.benchmarks.data.session.SessionReportData;
 import org.benchmarks.data.turtle.buildtime.BuildtimeReportData;
 import org.benchmarks.data.turtle.runtime.RuntimeReportData;
@@ -29,6 +30,7 @@ import org.benchmarks.definitions.cep.CEPSheetPositions;
 import org.benchmarks.definitions.dmn.DMNSheetPositions;
 import org.benchmarks.definitions.oopath.OopathSheetPositions;
 import org.benchmarks.definitions.operators.OperatorsSheetPositions;
+import org.benchmarks.definitions.pmml.PMMLSheetPositions;
 import org.benchmarks.definitions.session.SessionSheetPositions;
 import org.benchmarks.definitions.turtle.buildtime.BuildtimeSheetPositions;
 import org.benchmarks.definitions.turtle.runtime.RuntimeMultithreadedSheetPositions;
@@ -105,6 +107,10 @@ public class DroolsGoogleDriveSpreadSheet extends GoogleDriveSpreadSheet {
             }
             case RUNTIME_MULTITHREADED: {
                 body.setValues(getBodyValues(new RuntimeReportData(true), new RuntimeMultithreadedSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
+                break;
+            }
+            case PMML: {
+                body.setValues(getBodyValues(new PMMLReportData(), new PMMLSheetPositions(), sourceFileExtension, staticVersion, sourceFileLocation, droolsReportProperties));
                 break;
             }
         }
